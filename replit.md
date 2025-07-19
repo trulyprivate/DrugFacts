@@ -1,0 +1,93 @@
+# Drug Information Publishing Platform
+
+## Overview
+
+This is a full-stack web application for displaying comprehensive drug information from FDA labels. The platform is designed to provide healthcare professionals with detailed prescribing information, dosing guidelines, and clinical data in a user-friendly interface optimized for search engines and Core Web Vitals.
+
+## User Preferences
+
+Preferred communication style: Simple, everyday language.
+
+## System Architecture
+
+The application follows a modern full-stack architecture with clear separation between frontend and backend components:
+
+### Frontend Architecture
+- **Framework**: React 18 with TypeScript using Vite as the build tool
+- **Routing**: Wouter for client-side routing (lightweight alternative to React Router)
+- **UI Framework**: shadcn/ui components built on Radix UI primitives with Tailwind CSS
+- **State Management**: TanStack Query (React Query) for server state management
+- **Styling**: Tailwind CSS with custom medical-themed color palette and CSS variables
+
+### Backend Architecture
+- **Runtime**: Node.js with Express.js server
+- **Language**: TypeScript with ES modules
+- **Database ORM**: Drizzle ORM with PostgreSQL (configured for Neon Database)
+- **Session Management**: In-memory storage with planned PostgreSQL session store
+- **API Design**: RESTful API structure with `/api` prefix
+
+## Key Components
+
+### Frontend Components
+- **Layout Components**: Header with navigation and search, Footer with resource links
+- **Drug Display**: DrugHeader for basic info, CollapsibleSection for organized content display
+- **Search Functionality**: SearchBar component with real-time search capabilities
+- **UI Components**: Complete shadcn/ui component library for consistent design
+
+### Backend Components
+- **Storage Layer**: Abstracted storage interface with in-memory implementation (ready for database integration)
+- **Route Handler**: Express.js routes with error handling middleware
+- **Database Schema**: Drizzle schema for users and drugs with proper typing
+
+### Data Models
+- **Drug Schema**: Comprehensive drug information including FDA label data
+- **User Schema**: Basic user management structure
+- **Type Safety**: Full TypeScript coverage with Zod validation schemas
+
+## Data Flow
+
+1. **Static Data**: Drug information stored as JSON with plans for database integration
+2. **Search Flow**: Client-side search with future API endpoint integration
+3. **SEO Optimization**: Structured data generation and meta tag management
+4. **State Management**: React Query handles API calls and caching
+
+## External Dependencies
+
+### Core Dependencies
+- **@neondatabase/serverless**: Serverless PostgreSQL client for Neon
+- **drizzle-orm**: Type-safe ORM for database operations
+- **@tanstack/react-query**: Server state management and caching
+- **wouter**: Lightweight client-side routing
+- **@radix-ui/***: Accessible UI primitive components
+
+### Development Tools
+- **Vite**: Fast build tool with hot module replacement
+- **TypeScript**: Type safety across the entire application
+- **Tailwind CSS**: Utility-first CSS framework
+- **ESBuild**: Fast JavaScript bundler for production builds
+
+### Replit Integration
+- **@replit/vite-plugin-runtime-error-modal**: Development error handling
+- **@replit/vite-plugin-cartographer**: Replit-specific tooling
+
+## Deployment Strategy
+
+### Development Environment
+- **Hot Reload**: Vite dev server with React Fast Refresh
+- **TypeScript Compilation**: Real-time type checking during development
+- **Database**: Configured for PostgreSQL with Drizzle migrations
+
+### Production Build
+- **Frontend**: Vite builds static assets to `dist/public`
+- **Backend**: ESBuild bundles server code to `dist/index.js`
+- **Database**: Drizzle migrations with schema push capability
+- **Environment**: Node.js production server serving static files and API routes
+
+### Key Features
+- **SEO Optimized**: Structured data, meta tags, and Core Web Vitals optimization
+- **Responsive Design**: Mobile-first approach with Tailwind breakpoints
+- **Accessibility**: Radix UI primitives ensure WCAG compliance
+- **Performance**: Static generation approach for drug information pages
+- **Type Safety**: End-to-end TypeScript with shared types between client and server
+
+The application is architected to handle drug information display with plans for database-driven content, search functionality, and user management while maintaining excellent performance and SEO characteristics.
