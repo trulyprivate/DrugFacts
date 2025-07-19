@@ -76,12 +76,21 @@ The application follows a modern full-stack architecture with clear separation b
 - **Hot Reload**: Vite dev server with React Fast Refresh
 - **TypeScript Compilation**: Real-time type checking during development
 - **Database**: Configured for PostgreSQL with Drizzle migrations
+- **Docker Development**: `docker-compose.dev.yml` for containerized development
 
 ### Production Build
 - **Frontend**: Vite builds static assets to `dist/public`
 - **Backend**: ESBuild bundles server code to `dist/index.js`
 - **Database**: Drizzle migrations with schema push capability
 - **Environment**: Node.js production server serving static files and API routes
+
+### Docker Deployment
+- **Multi-stage Dockerfile**: Optimized production image with Node.js 20 Alpine
+- **Docker Compose**: Full-stack deployment with PostgreSQL, Redis, and Nginx
+- **Health Checks**: Built-in health monitoring for all services
+- **Security**: Non-root user, security headers, rate limiting
+- **SSL Ready**: Nginx configuration prepared for HTTPS with SSL certificates
+- **Scaling**: Ready for horizontal scaling with load balancing
 
 ### Key Features
 - **SEO Optimized**: Structured data, meta tags, and Core Web Vitals optimization
