@@ -1,0 +1,263 @@
+# Replit Prompt: Drug Information Publishing Platform
+
+## Project Overview
+
+Create a high-performance Next.js static site for drug information that processes FDA drug labels and follows Google’s SEO best practices including Core Web Vitals optimization.
+
+## Technical Stack Requirements
+
+- **Framework**: Next.js 14+ with TypeScript and App Router
+- **Styling**: Tailwind CSS with custom design system
+- **SEO**: Built-in Next.js SEO optimizations + structured data
+- **Performance**: Static Site Generation (SSG) for optimal Core Web Vitals
+- **Data Source**: Static JSON files processed at build time
+- **Data Processing**: Server-side data transformation
+
+## Data Schema Structure
+
+Use this YAML schema structure for drug information:
+
+```yaml
+type: array
+items:
+  type: object
+  required: [drugName, setId, slug, labeler, label]
+  properties:
+    drugName: string
+    setId: string 
+    slug: string
+    labeler: string
+    label:
+      properties:
+        genericName: string
+        labelerName: string
+        productType: string
+        effectiveTime: string
+        title: string
+        indicationsAndUsage: string
+        dosageAndAdministration: string
+        dosageFormsAndStrengths: string
+        warningsAndPrecautions: string
+        adverseReactions: string
+        clinicalPharmacology: string
+        clinicalStudies: string
+        howSupplied: string
+        useInSpecificPopulations: string
+        description: string
+        nonclinicalToxicology: string
+        instructionsForUse: string
+        mechanismOfAction: string
+        contraindications: string
+        highlights:
+          properties:
+            dosageAndAdministration: string
+```
+
+## Core Features to Implement
+
+### 1. Data Processing & Structure
+
+```typescript
+// Types based on schema
+interface DrugLabel {
+  drugName: string;
+  setId: string;
+  slug: string;
+  labeler: string;
+  label: {
+    genericName: string;
+    labelerName: string;
+    productType: string;
+    effectiveTime: string;
+    title: string;
+    indicationsAndUsage: string;
+    dosageAndAdministration: string;
+    dosageFormsAndStrengths: string;
+    warningsAndPrecautions: string;
+    adverseReactions: string;
+    clinicalPharmacology: string;
+    clinicalStudies: string;
+    howSupplied: string;
+    useInSpecificPopulations: string;
+    description: string;
+    nonclinicalToxicology: string;
+    instructionsForUse: string;
+    mechanismOfAction: string;
+    contraindications: string;
+    highlights: {
+      dosageAndAdministration: string;
+    };
+  };
+}
+```
+
+### 2. Content Optimization & Enhancement
+
+Implement content processing features:
+
+- **SEO-optimized meta titles and descriptions** generated from drug label data
+- **Structured content sections** with proper formatting and hierarchy
+- **Related drug suggestions** based on therapeutic classification patterns
+- **Searchable content indexing** for fast lookup and filtering
+- **Content summaries** extracted from existing label information
+- **Cross-referenced drug information** linking related medications
+
+### 3. Page Structure & Routing
+
+```
+/drugs/[slug] - Individual drug pages
+/search - Drug search and filtering
+/therapeutic-classes/[class] - Grouped by therapeutic area
+/manufacturers/[labeler] - Grouped by manufacturer
+/ - Homepage with featured drugs and search
+```
+
+### 4. SEO Optimization Requirements
+
+#### Meta Tags Implementation
+
+```typescript
+// For each drug page
+export async function generateMetadata({ params }): Promise<Metadata> {
+  return {
+    title: `${drug.label.genericName} (${drug.drugName}) - Complete Prescribing Information`,
+    description: `Comprehensive prescribing information for ${drug.label.genericName}. Indications, dosing, warnings, and clinical data for healthcare professionals.`,
+    keywords: [drug.label.genericName, drug.drugName, 'prescribing information', 'medication guide'],
+    openGraph: {
+      title: `${drug.label.genericName} - Prescribing Information`,
+      description: `Complete clinical information for ${drug.label.genericName}`,
+      type: 'article',
+      url: `https://yoursite.com/drugs/${drug.slug}`,
+    },
+    structured data: // JSON-LD for MedicalIndication, Drug, etc.
+  }
+}
+```
+
+#### Structured Data (JSON-LD)
+
+Implement schema.org markup for:
+
+- **Drug** schema with activeIngredient, indication, contraindication
+- **MedicalIndication** for therapeutic uses
+- **Organization** for manufacturers
+- **WebPage** and **BreadcrumbList** for navigation
+
+#### Core Web Vitals Optimization
+
+- **LCP**: Optimize hero images and above-the-fold content
+- **FID**: Minimize JavaScript bundle size, use dynamic imports
+- **CLS**: Reserve space for all content, avoid layout shifts
+- **INP**: Optimize interaction responsiveness
+
+### 5. Modern UI/UX Design
+
+#### Design System
+
+- **Typography**: Medical-grade readability with clear hierarchy
+- **Color Scheme**: Professional healthcare palette with accessibility compliance
+- **Components**: Reusable cards, tabs, accordions for drug information sections
+- **Layout**: Clean, scannable layout for busy healthcare professionals
+
+#### Key Components
+
+```typescript
+// Drug information card with collapsible sections
+<DrugInformationCard>
+  <DrugHeader />
+  <TabNavigation sections={['Overview', 'Dosing', 'Warnings', 'Studies']} />
+  <CollapsibleSection title="Indications and Usage" content={label.indicationsAndUsage} />
+  <CollapsibleSection title="Dosage and Administration" content={label.dosageAndAdministration} />
+  <CollapsibleSection title="Warnings and Precautions" content={label.warningsAndPrecautions} />
+  <ContentSummary highlights={label.highlights} />
+  <RelatedDrugs therapeutic_class={drug.therapeuticClass} />
+</DrugInformationCard>
+```
+
+### 6. Search & Navigation Features
+
+- **Fuzzy search** across drug names, generic names, and indications
+- **Advanced filtering** by therapeutic class, manufacturer, approval date
+- **Autocomplete** with drug suggestions
+- **Comparison tool** for similar medications
+- **Bookmark/favorites** functionality
+
+### 7. Performance Optimizations
+
+- **Static Generation**: Pre-render all drug pages at build time
+- **Image Optimization**: Use Next.js Image component with proper sizing
+- **Code Splitting**: Dynamic imports for heavy components
+- **Caching Strategy**: Implement proper cache headers and CDN optimization
+- **Bundle Analysis**: Monitor and optimize JavaScript bundle sizes
+
+### 8. Accessibility Standards
+
+- **WCAG 2.1 AA compliance**
+- **Keyboard navigation** for all interactive elements
+- **Screen reader compatibility** with proper ARIA labels
+- **High contrast ratios** for medical content readability
+- **Text scaling** support up to 200%
+
+## Implementation Checklist
+
+### Phase 1: Core Setup
+
+- [ ] Initialize Next.js 14 project with TypeScript
+- [ ] Configure Tailwind CSS with custom design tokens
+- [ ] Set up data processing pipeline for drug schema
+- [ ] Implement basic routing structure
+
+### Phase 2: Content & Processing
+
+- [ ] Create data transformation utilities
+- [ ] Build content optimization functions for SEO
+- [ ] Build reusable UI components
+- [ ] Implement search functionality
+
+### Phase 3: SEO & Performance
+
+- [ ] Add comprehensive meta tags and structured data
+- [ ] Optimize Core Web Vitals metrics
+- [ ] Implement caching strategies
+- [ ] Add sitemap and robots.txt generation
+
+### Phase 4: Enhancement
+
+- [ ] Add advanced filtering and comparison features
+- [ ] Implement content-based related drug suggestions
+- [ ] Add analytics and performance monitoring
+- [ ] Optimize for mobile and tablet devices
+
+## Sample File Structure
+
+```
+src/
+├── app/
+│   ├── drugs/[slug]/page.tsx
+│   ├── search/page.tsx
+│   ├── therapeutic-classes/[class]/page.tsx
+│   └── layout.tsx
+├── components/
+│   ├── DrugCard.tsx
+│   ├── SearchBar.tsx
+│   ├── FilterPanel.tsx
+│   └── ui/
+├── lib/
+│   ├── drugData.ts
+│   ├── contentProcessing.ts
+│   ├── seo.ts
+│   └── utils.ts
+├── types/
+│   └── drug.ts
+└── data/
+    └── processed-drugs.json
+```
+
+## Environment Variables
+
+```
+NEXT_PUBLIC_SITE_URL=https://yoursite.com
+NODE_ENV=production
+```
+
+This prompt will generate a production-ready, SEO-optimized drug information platform that processes static content efficiently while maintaining medical accuracy and optimal performance.
