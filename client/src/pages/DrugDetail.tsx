@@ -172,7 +172,7 @@ export default function DrugDetail() {
 
             {/* Content Sections */}
             <div className="space-y-8">
-              <CollapsibleSection id="indications" title="1. Indications and Usage">
+              <CollapsibleSection id="indications" title="Indications and Usage">
                 <div className="prose prose-sm max-w-none text-medical-gray-700 leading-relaxed">
                   <p className="font-medium text-medical-gray-800 mb-3">
                     MOUNJARO® is indicated as an adjunct to diet and exercise to improve glycemic control in adults with type 2 diabetes mellitus.
@@ -190,7 +190,7 @@ export default function DrugDetail() {
                 </div>
               </CollapsibleSection>
 
-              <CollapsibleSection id="dosage" title="2. Dosage and Administration">
+              <CollapsibleSection id="dosage" title="Dosage and Administration">
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
                     <h3 className="text-lg font-semibold text-medical-gray-800 mb-3">Dosage Schedule</h3>
@@ -224,7 +224,7 @@ export default function DrugDetail() {
                 </div>
               </CollapsibleSection>
 
-              <CollapsibleSection id="warnings" title="5. Warnings and Precautions">
+              <CollapsibleSection id="warnings" title="Warnings and Precautions">
                 <div className="grid gap-4">
                   <Alert className="border-red-400 bg-red-50">
                     <AlertTriangle className="h-4 w-4 text-red-500" />
@@ -256,7 +256,7 @@ export default function DrugDetail() {
                 </div>
               </CollapsibleSection>
 
-              <CollapsibleSection id="contraindications" title="4. Contraindications">
+              <CollapsibleSection id="contraindications" title="Contraindications">
                 <div className="bg-red-50 border border-red-200 rounded-lg p-4">
                   <h3 className="text-lg font-semibold text-red-800 mb-3">
                     MOUNJARO is contraindicated in patients with:
@@ -278,7 +278,7 @@ export default function DrugDetail() {
                 </div>
               </CollapsibleSection>
 
-              <CollapsibleSection id="adverse-reactions" title="6. Adverse Reactions">
+              <CollapsibleSection id="adverse-reactions" title="Adverse Reactions">
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
                     <h3 className="text-lg font-semibold text-medical-gray-800 mb-3">Most Common (≥5%)</h3>
@@ -305,10 +305,10 @@ export default function DrugDetail() {
                 </div>
               </CollapsibleSection>
 
-              <CollapsibleSection id="clinical-pharmacology" title="12. Clinical Pharmacology">
+              <CollapsibleSection id="clinical-pharmacology" title="Clinical Pharmacology">
                 <div className="space-y-6">
                   <div>
-                    <h3 className="text-lg font-semibold text-medical-gray-800 mb-3">12.1 Mechanism of Action</h3>
+                    <h3 className="text-lg font-semibold text-medical-gray-800 mb-3">Mechanism of Action</h3>
                     <p className="text-medical-gray-700 mb-4">
                       Tirzepatide is a dual GIP receptor and GLP-1 receptor agonist. It selectively binds to and activates both the GIP and GLP-1 receptors, the targets for native GIP and GLP-1.
                     </p>
@@ -338,7 +338,7 @@ export default function DrugDetail() {
                 </div>
               </CollapsibleSection>
 
-              <CollapsibleSection id="clinical-studies" title="14. Clinical Studies">
+              <CollapsibleSection id="clinical-studies" title="Clinical Studies">
                 <div className="medical-content" dangerouslySetInnerHTML={{ __html: drug.label.clinicalStudies }} />
                 <div className="bg-medical-gray-50 rounded-lg p-4 mt-6">
                   <h4 className="font-semibold text-medical-gray-800 mb-4">Key Efficacy Results</h4>
@@ -355,13 +355,13 @@ export default function DrugDetail() {
                 </div>
               </CollapsibleSection>
 
-              <CollapsibleSection id="dosage-forms" title="3. Dosage Forms and Strengths">
+              <CollapsibleSection id="dosage-forms" title="Dosage Forms and Strengths">
                 <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
                   <p className="text-medical-gray-700">{drug.label.dosageFormsAndStrengths}</p>
                 </div>
               </CollapsibleSection>
 
-              <CollapsibleSection id="how-supplied" title="16. How Supplied/Storage and Handling">
+              <CollapsibleSection id="how-supplied" title="How Supplied/Storage and Handling">
                 <div className="space-y-4">
                   <p className="text-medical-gray-700">{drug.label.howSupplied}</p>
                   <div className="bg-amber-50 border border-amber-200 rounded-lg p-4">
@@ -371,11 +371,11 @@ export default function DrugDetail() {
                 </div>
               </CollapsibleSection>
 
-              <CollapsibleSection id="description" title="11. Description">
+              <CollapsibleSection id="description" title="Description">
                 <div className="medical-content" dangerouslySetInnerHTML={{ __html: drug.label.description }} />
               </CollapsibleSection>
 
-              <CollapsibleSection id="specific-populations" title="8. Use in Specific Populations">
+              <CollapsibleSection id="specific-populations" title="Use in Specific Populations">
                 <div className="space-y-4">
                   <p className="text-medical-gray-700">{drug.label.useInSpecificPopulations}</p>
                   <div className="grid md:grid-cols-2 gap-4">
@@ -395,14 +395,14 @@ export default function DrugDetail() {
                 </div>
               </CollapsibleSection>
 
-              <CollapsibleSection id="nonclinical-toxicology" title="13. Nonclinical Toxicology">
+              <CollapsibleSection id="nonclinical-toxicology" title="Nonclinical Toxicology">
                 <div className="bg-red-50 border border-red-200 rounded-lg p-4">
                   <h4 className="font-semibold text-red-800 mb-2">Animal Studies</h4>
                   <p className="text-red-700">{drug.label.nonclinicalToxicology}</p>
                 </div>
               </CollapsibleSection>
 
-              <CollapsibleSection id="instructions-for-use" title="17. Patient Counseling Information">
+              <CollapsibleSection id="instructions-for-use" title="Patient Counseling Information">
                 <div className="space-y-4">
                   <p className="text-medical-gray-700">{drug.label.instructionsForUse}</p>
                   <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">

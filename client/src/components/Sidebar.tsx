@@ -9,19 +9,19 @@ interface SidebarProps {
 export default function Sidebar({ className = "" }: SidebarProps) {
   const tableOfContents = [
     { id: "overview", label: "Drug Overview" },
-    { id: "indications", label: "1. Indications & Usage" },
-    { id: "dosage", label: "2. Dosage & Administration" },
-    { id: "dosage-forms", label: "3. Dosage Forms & Strengths" },
-    { id: "contraindications", label: "4. Contraindications" },
-    { id: "warnings", label: "5. Warnings & Precautions" },
-    { id: "adverse-reactions", label: "6. Adverse Reactions" },
-    { id: "specific-populations", label: "8. Use in Specific Populations" },
-    { id: "description", label: "11. Description" },
-    { id: "clinical-pharmacology", label: "12. Clinical Pharmacology" },
-    { id: "nonclinical-toxicology", label: "13. Nonclinical Toxicology" },
-    { id: "clinical-studies", label: "14. Clinical Studies" },
-    { id: "how-supplied", label: "16. How Supplied/Storage" },
-    { id: "instructions-for-use", label: "17. Patient Counseling" },
+    { id: "indications", label: "Indications & Usage" },
+    { id: "dosage", label: "Dosage & Administration" },
+    { id: "dosage-forms", label: "Dosage Forms & Strengths" },
+    { id: "contraindications", label: "Contraindications" },
+    { id: "warnings", label: "Warnings & Precautions" },
+    { id: "adverse-reactions", label: "Adverse Reactions" },
+    { id: "specific-populations", label: "Use in Specific Populations" },
+    { id: "description", label: "Description" },
+    { id: "clinical-pharmacology", label: "Clinical Pharmacology" },
+    { id: "nonclinical-toxicology", label: "Nonclinical Toxicology" },
+    { id: "clinical-studies", label: "Clinical Studies" },
+    { id: "how-supplied", label: "How Supplied/Storage" },
+    { id: "instructions-for-use", label: "Patient Counseling" },
   ];
 
   const scrollToSection = (id: string) => {
