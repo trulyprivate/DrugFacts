@@ -25,10 +25,10 @@ export default function Home() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
             <div className="text-center">
               <h1 className="text-4xl font-bold text-medical-gray-800 mb-4">
-                MedInfo Platform
+                drugfacts.wiki
               </h1>
               <p className="text-xl text-medical-gray-600 mb-8 max-w-3xl mx-auto">
-                Comprehensive drug information for healthcare professionals. Access 
+                Comprehensive FDA drug information for healthcare professionals. Access 
                 complete prescribing information, dosing guidelines, and clinical data.
               </p>
               <div className="max-w-2xl mx-auto">

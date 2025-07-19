@@ -8,7 +8,7 @@ export interface SEOMetadata {
 }
 
 export function generateDrugSEO(drug: DrugLabel): SEOMetadata {
-  const title = `${drug.label.genericName} (${drug.drugName}) - Complete Prescribing Information | MedInfo Platform`;
+  const title = `${drug.label.genericName} (${drug.drugName}) - Complete Prescribing Information | drugfacts.wiki`;
   const description = `Comprehensive prescribing information for ${drug.label.genericName}. Indications, dosing, warnings, and clinical data for healthcare professionals.`;
   const keywords = [
     drug.label.genericName,

@@ -1,8 +1,8 @@
-# Drug Information Publishing Platform
+# drugfacts.wiki - Drug Information Publishing Platform
 
 ## Overview
 
-This is a full-stack web application for displaying comprehensive drug information from FDA labels. The platform is designed to provide healthcare professionals with detailed prescribing information, dosing guidelines, and clinical data in a user-friendly interface optimized for search engines and Core Web Vitals.
+This is a full-stack web application called "drugfacts.wiki" for displaying comprehensive drug information from FDA labels. The platform is designed to provide healthcare professionals with detailed prescribing information, dosing guidelines, and clinical data in a user-friendly interface optimized for search engines and Core Web Vitals.
 
 ## User Preferences
 

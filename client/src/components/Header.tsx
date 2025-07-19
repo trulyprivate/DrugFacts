@@ -30,7 +30,7 @@ export default function Header() {
             <div className="flex-shrink-0">
               <Link href="/">
                 <h1 className="text-xl font-bold text-medical-blue cursor-pointer">
-                  MedInfo Platform
+                  drugfacts.wiki
                 </h1>
               </Link>
             </div>
