@@ -28,7 +28,7 @@ export default function DrugHeader({ drug }: DrugHeaderProps) {
               ({drug.label.genericName}) injection
             </h2>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
               <div>
                 <p className="text-sm font-medium text-medical-gray-500">Manufacturer</p>
                 <p className="text-medical-gray-800">{drug.labeler}</p>
@@ -38,10 +38,26 @@ export default function DrugHeader({ drug }: DrugHeaderProps) {
                 <p className="text-medical-gray-800">{drug.label.genericName}</p>
               </div>
               <div>
+                <p className="text-sm font-medium text-medical-gray-500">Product Type</p>
+                <p className="text-medical-gray-800">{drug.label.productType}</p>
+              </div>
+              <div>
                 <p className="text-sm font-medium text-medical-gray-500">Effective Date</p>
                 <p className="text-medical-gray-800">
                   {formatEffectiveDate(drug.label.effectiveTime)}
                 </p>
+              </div>
+            </div>
+
+            {/* Additional metadata */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6 bg-medical-gray-50 p-4 rounded-lg">
+              <div>
+                <p className="text-sm font-medium text-medical-gray-500">FDA Set ID</p>
+                <p className="text-xs text-medical-gray-600 font-mono">{drug.setId}</p>
+              </div>
+              <div>
+                <p className="text-sm font-medium text-medical-gray-500">Official Title</p>
+                <p className="text-medical-gray-800">{drug.label.title}</p>
               </div>
             </div>
 

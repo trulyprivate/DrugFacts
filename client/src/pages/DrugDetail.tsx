@@ -339,10 +339,8 @@ export default function DrugDetail() {
               </CollapsibleSection>
 
               <CollapsibleSection id="clinical-studies" title="14. Clinical Studies">
-                <p className="text-medical-gray-700 mb-4">
-                  The effectiveness of MOUNJARO as an adjunct to diet and exercise to improve glycemic control in adults with type 2 diabetes mellitus was established in five pivotal trials.
-                </p>
-                <div className="bg-medical-gray-50 rounded-lg p-4">
+                <div className="medical-content" dangerouslySetInnerHTML={{ __html: drug.label.clinicalStudies }} />
+                <div className="bg-medical-gray-50 rounded-lg p-4 mt-6">
                   <h4 className="font-semibold text-medical-gray-800 mb-4">Key Efficacy Results</h4>
                   <div className="grid md:grid-cols-3 gap-4 text-center">
                     {clinicalResults.map((result, index) => (
@@ -353,6 +351,68 @@ export default function DrugDetail() {
                         </CardContent>
                       </Card>
                     ))}
+                  </div>
+                </div>
+              </CollapsibleSection>
+
+              <CollapsibleSection id="dosage-forms" title="3. Dosage Forms and Strengths">
+                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                  <p className="text-medical-gray-700">{drug.label.dosageFormsAndStrengths}</p>
+                </div>
+              </CollapsibleSection>
+
+              <CollapsibleSection id="how-supplied" title="16. How Supplied/Storage and Handling">
+                <div className="space-y-4">
+                  <p className="text-medical-gray-700">{drug.label.howSupplied}</p>
+                  <div className="bg-amber-50 border border-amber-200 rounded-lg p-4">
+                    <h4 className="font-semibold text-amber-800 mb-2">Storage Requirements</h4>
+                    <p className="text-amber-700 text-sm">Store in refrigerator at 36°F to 46°F (2°C to 8°C). Do not freeze. Protect from light.</p>
+                  </div>
+                </div>
+              </CollapsibleSection>
+
+              <CollapsibleSection id="description" title="11. Description">
+                <div className="medical-content" dangerouslySetInnerHTML={{ __html: drug.label.description }} />
+              </CollapsibleSection>
+
+              <CollapsibleSection id="specific-populations" title="8. Use in Specific Populations">
+                <div className="space-y-4">
+                  <p className="text-medical-gray-700">{drug.label.useInSpecificPopulations}</p>
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <Card className="border-orange-200 bg-orange-50">
+                      <CardContent className="p-4">
+                        <h4 className="font-semibold text-orange-800 mb-2">Pregnancy</h4>
+                        <p className="text-orange-700 text-sm">Limited human data. Use only if potential benefit justifies potential risk to fetus.</p>
+                      </CardContent>
+                    </Card>
+                    <Card className="border-purple-200 bg-purple-50">
+                      <CardContent className="p-4">
+                        <h4 className="font-semibold text-purple-800 mb-2">Pediatric Use</h4>
+                        <p className="text-purple-700 text-sm">Safety and effectiveness not established in pediatric patients.</p>
+                      </CardContent>
+                    </Card>
+                  </div>
+                </div>
+              </CollapsibleSection>
+
+              <CollapsibleSection id="nonclinical-toxicology" title="13. Nonclinical Toxicology">
+                <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+                  <h4 className="font-semibold text-red-800 mb-2">Animal Studies</h4>
+                  <p className="text-red-700">{drug.label.nonclinicalToxicology}</p>
+                </div>
+              </CollapsibleSection>
+
+              <CollapsibleSection id="instructions-for-use" title="17. Patient Counseling Information">
+                <div className="space-y-4">
+                  <p className="text-medical-gray-700">{drug.label.instructionsForUse}</p>
+                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                    <h4 className="font-semibold text-blue-800 mb-2">Key Patient Instructions</h4>
+                    <ul className="text-blue-700 text-sm space-y-1">
+                      <li>• Rotate injection sites to reduce risk of lipodystrophy</li>
+                      <li>• Do not share pen devices between patients</li>
+                      <li>• Dispose of needles properly in sharps container</li>
+                      <li>• Store in refrigerator, do not freeze</li>
+                    </ul>
                   </div>
                 </div>
               </CollapsibleSection>
