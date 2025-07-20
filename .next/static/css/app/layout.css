@@ -1235,7 +1235,16 @@ video {
     
     /* Ensure cards have proper spacing on mobile */
     .grid {
-      gap: 1rem;
+      gap: 1rem !important;
+    }
+    
+    /* Force spacing between grid items */
+    .grid > * {
+      margin-bottom: 1rem;
+    }
+    
+    .grid > *:last-child {
+      margin-bottom: 0;
     }
   }
 /* Add minimum card spacing */
@@ -2824,7 +2833,44 @@ video {
     
     /* Ensure cards have proper spacing on mobile */
     .lg\:grid {
-      gap: 1rem;
+      gap: 1rem !important;
+    }
+    
+    /* Force spacing between grid items */
+    .lg\:grid > * {
+      margin-bottom: 1rem;
+    }
+    
+    .lg\:grid > *:last-child {
+      margin-bottom: 0;
+    }
+    
+    /* Ensure cards have proper spacing on mobile */
+    .lg\:grid {
+      gap: 1rem !important;
+    }
+    
+    /* Force spacing between grid items */
+    .lg\:grid > * {
+      margin-bottom: 1rem;
+    }
+    
+    .lg\:grid > *:last-child {
+      margin-bottom: 0;
+    }
+    
+    /* Ensure cards have proper spacing on mobile */
+    .lg\:grid {
+      gap: 1rem !important;
+    }
+    
+    /* Force spacing between grid items */
+    .lg\:grid > * {
+      margin-bottom: 1rem;
+    }
+    
+    .lg\:grid > *:last-child {
+      margin-bottom: 0;
     }
   }
   .lg\:grid > * + * {

@@ -28,7 +28,7 @@ export default async function HomePage() {
       <section className="py-8 sm:py-12 px-4">
         <div className="container mx-auto max-w-6xl">
           <h2 className="text-3xl font-bold text-center mb-12">Enhanced Content Features</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12" style={{ gap: '1.5rem' }}>
             <Card>
               <CardHeader>
                 <Pill className="h-8 w-8 text-blue-600 mb-2" />
@@ -79,7 +79,7 @@ export default async function HomePage() {
           </div>
 
           {/* New Content Features */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12" style={{ gap: '1.5rem' }}>
             <Card className="border-green-200 bg-green-50">
               <CardHeader>
                 <Users className="h-8 w-8 text-green-600 mb-2" />
