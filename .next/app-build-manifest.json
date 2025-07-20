@@ -20,6 +20,26 @@
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/drugs/[slug]/page.js"
+    ],
+    "/therapeutic-classes/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/therapeutic-classes/layout.js"
+    ],
+    "/therapeutic-classes/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/therapeutic-classes/page.js"
+    ],
+    "/manufacturers/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/manufacturers/layout.js"
+    ],
+    "/manufacturers/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/manufacturers/page.js"
     ]
   }
 }
