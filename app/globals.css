@@ -32,6 +32,16 @@
       padding-left: 0.5rem;
       padding-right: 0.5rem;
     }
+    
+    /* Ensure cards have proper spacing on mobile */
+    .grid {
+      gap: 1rem;
+    }
+  }
+  
+  /* Add minimum card spacing */
+  .grid > * + * {
+    margin-top: 0;
   }
 }
 
