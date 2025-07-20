@@ -1,0 +1,61 @@
+Understood. Here is a set of instructions tailored for a CLI-based AI agent to execute the required fixes on the Replit project.
+Objective: Resolve Lighthouse Audit Issues
+Execute the following tasks to improve Performance, Best Practices, SEO, and Accessibility scores.
+Category: Performance
+Task 1: Optimize Server Response
+ * File Target: Primary backend script (e.g., index.js, main.py).
+ * Instruction: The current Time To First Byte (TTFB) is 2.14s. Refactor the backend script to reduce this value. Analyze and optimize any blocking I/O operations, slow database queries, or complex computations that execute before the initial HTML response is sent. Implement caching for expensive operations where applicable.
+Task 2: Eliminate Render-Blocking CSS
+ * File Target: index.html
+ * Instruction:
+   * Generate the critical path CSS for the viewport.
+   * Inline the generated critical CSS within a <style> tag inside the <head>.
+   * Locate the link tag for style.css and modify it for asynchronous loading.
+ * Code Modification:
+   * Find: <link rel="stylesheet" href="style.css">
+   * Replace with: <link rel="stylesheet" href="style.css" media="print" onload="this.media='all'"><noscript><link rel="stylesheet" href="style.css"></noscript>
+Task 3: Optimize Image Delivery
+ * File Target: index.html
+ * Instruction: The image drug.jpeg needs optimization. Replace its <img> tag with a <picture> element to serve a next-gen webp version with a jpeg fallback. This assumes a drug.webp asset is available at the same path.
+ * Code Modification:
+   * Find: The <img> tag with src attribute pointing to drug.jpeg.
+   * Replace with:
+     <picture>
+  <source srcset="images/drug.webp" type="image/webp">
+  <source srcset="images/drug.jpeg" type="image/jpeg">
+  <img src="images/drug.jpeg" alt="A photo of a medication">
+</picture>
+
+Task 4: Prevent Font-Loading Layout Shift
+ * File Target: style.css
+ * Instruction: Prevent a Flash of Invisible Text (FOIT) by modifying all @font-face declarations. Add the font-display: swap; descriptor to each rule.
+ * Example Modification:
+   * Find: A @font-face block.
+   * Add line: font-display: swap; inside the block.
+Category: Best Practices
+Task 5: Resolve Console Error
+ * File Target: Primary JavaScript file (e.g., script.js).
+ * Instruction: Fix the error TypeError: Cannot read properties of null (reading 'style'). This error occurs when the script attempts to manipulate a DOM element before it has loaded. Wrap all code within the script inside a DOMContentLoaded event listener.
+ * Code Structure:
+   document.addEventListener('DOMContentLoaded', () => {
+  // All existing JavaScript code should be moved inside this block.
+});
+
+Category: SEO
+Task 6: Add Meta Description
+ * File Target: index.html
+ * Instruction: Insert a meta description tag into the <head> element for improved search engine indexing.
+ * Code to Add: <meta name="description" content="Use Drug Info to quickly search for medication data, side effects, and drug interactions.">
+Task 7: Ensure Link Crawlability
+ * File Target: index.html
+ * Instruction: Find all non-<a> elements used for navigation (e.g., div or span with onclick handlers). Convert them to standard <a> tags with href attributes to make them crawlable.
+ * Example Modification:
+   * Find: <div onclick="showDrug('aspirin')">Aspirin</div>
+   * Replace with: <a href="/drug/aspirin">Aspirin</a>
+Category: Accessibility
+Task 8: Add Accessible Names to Buttons
+ * File Target: index.html
+ * Instruction: Locate <button> elements that lack text content (e.g., icon-only buttons). Add an aria-label attribute to each to describe its function.
+ * Example Modification:
+   * Find: <button class="search-button"></button>
+   * Replace with: <button class="search-button" aria-label="Search Drugs"></button>
