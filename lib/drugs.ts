@@ -8,9 +8,29 @@ export async function getAllDrugs(): Promise<DrugLabel[]> {
   try {
     const indexPath = path.join(DRUGS_DIR, 'index.json')
     const data = await fs.readFile(indexPath, 'utf-8')
-    return JSON.parse(data)
+    
+    // Add debugging to see the data being parsed
+    if (!data || data.trim().length === 0) {
+      console.error('Empty data read from index.json')
+      return []
+    }
+    
+    // Check if data looks like valid JSON
+    if (!data.trim().startsWith('[') && !data.trim().startsWith('{')) {
+      console.error('Data does not appear to be valid JSON:', data.substring(0, 100))
+      return []
+    }
+    
+    const result = JSON.parse(data)
+    console.log('Successfully parsed drugs data:', result.length, 'drugs')
+    return result
   } catch (error) {
     console.error('Error reading drugs index:', error)
+    console.error('Error details:', {
+      name: error.name,
+      message: error.message,
+      stack: error.stack
+    })
     return []
   }
 }
