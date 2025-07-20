@@ -1,1 +1,11 @@
-{"version":4,"routes":{"/drugs/mounjaro-d2d7da5":{}},"dynamicRoutes":{"/drugs/[slug]":{"fallback":null}},"notFoundRoutes":[],"preview":{"previewModeId":"0757ed4a84e39a2fd43cef01458338e9","previewModeSigningKey":"f0930ab7c7960cd35c6e742e81707139e01b0c67061841cde7d1a31074d3c8ce","previewModeEncryptionKey":"000175c404e525d2501309d18a52acccc4ff8e6168d17e08280a0f89f2bd5869"}}
+{
+  "version": 4,
+  "routes": {},
+  "dynamicRoutes": {},
+  "notFoundRoutes": [],
+  "preview": {
+    "previewModeId": "f36274d79935d7b3e6886819cdbb07b5",
+    "previewModeSigningKey": "4df57e88b072db4ca07878147686ca96fe38565d775c72102a84f49731418b0e",
+    "previewModeEncryptionKey": "94ab66fa62544abfaa7ba3b5f467bc20eb7d3c53d6916809453a394135d10d6b"
+  }
+}

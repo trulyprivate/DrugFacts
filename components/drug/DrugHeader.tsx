@@ -1,9 +1,12 @@
+"use client"
+
 import { DrugLabel } from "@/types/drug";
 import { extractKeyHighlights } from "@/lib/drug-utils";
 import { Bookmark, Share } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
+import { useToast } from "@/hooks/use-toast";
 
 interface DrugHeaderProps {
   drug: DrugLabel;
@@ -11,6 +14,89 @@ interface DrugHeaderProps {
 
 export default function DrugHeader({ drug }: DrugHeaderProps) {
   const highlights = extractKeyHighlights(drug);
+  const { toast } = useToast();
+
+  const handleSaveToFavorites = async () => {
+    try {
+      // Use browser's bookmark API if available
+      if ('bookmark' in navigator || (navigator as any).addToHomeScreen) {
+        // For mobile devices with Add to Home Screen
+        const title = `${drug.drugName} - Drug Information | drugfacts.wiki`;
+        const url = window.location.href;
+        
+        // Try to use the Bookmark API (limited browser support)
+        try {
+          await (navigator as any).bookmark?.add?.({
+            title: title,
+            url: url
+          });
+          toast({
+            title: "Bookmark Added",
+            description: "This drug has been added to your bookmarks.",
+          });
+        } catch (bookmarkError) {
+          // Fallback: Instruct user to bookmark manually
+          toast({
+            title: "Add to Bookmarks",
+            description: "Press Ctrl+D (or Cmd+D on Mac) to bookmark this page.",
+          });
+        }
+      } else {
+        // Fallback: Instruct user to bookmark manually
+        toast({
+          title: "Add to Bookmarks",
+          description: "Press Ctrl+D (or Cmd+D on Mac) to bookmark this page.",
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Unable to Bookmark",
+        description: "Please manually bookmark this page using your browser's bookmark feature.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleShare = async () => {
+    const shareData = {
+      title: `${drug.drugName} - Drug Information`,
+      text: `Get complete prescribing information for ${drug.drugName} including dosing, warnings, and patient-friendly explanations.`,
+      url: window.location.href,
+    };
+
+    try {
+      // Use native Web Share API if available
+      if (navigator.share) {
+        await navigator.share(shareData);
+        toast({
+          title: "Shared Successfully",
+          description: "Drug information has been shared.",
+        });
+      } else {
+        // Fallback: Copy to clipboard
+        await navigator.clipboard.writeText(window.location.href);
+        toast({
+          title: "Link Copied",
+          description: "The link has been copied to your clipboard.",
+        });
+      }
+    } catch (error) {
+      // If share was cancelled or failed, try clipboard as fallback
+      try {
+        await navigator.clipboard.writeText(window.location.href);
+        toast({
+          title: "Link Copied",
+          description: "The link has been copied to your clipboard.",
+        });
+      } catch (clipboardError) {
+        toast({
+          title: "Unable to Share",
+          description: "Please copy the URL from your address bar to share.",
+          variant: "destructive",
+        });
+      }
+    }
+  };
 
   return (
     <Card className="mb-4 sm:mb-8">
@@ -75,12 +161,18 @@ export default function DrugHeader({ drug }: DrugHeaderProps) {
           </div>
 
           <div className="mt-6 lg:mt-0 lg:ml-8 flex-shrink-0">
-            <div className="flex space-x-3">
-              <Button className="bg-medical-blue hover:bg-blue-700">
+            <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3">
+              <Button 
+                className="bg-medical-blue hover:bg-blue-700"
+                onClick={handleSaveToFavorites}
+              >
                 <Bookmark className="mr-2 h-4 w-4" />
                 Save to Favorites
               </Button>
-              <Button variant="outline">
+              <Button 
+                variant="outline"
+                onClick={handleShare}
+              >
                 <Share className="mr-2 h-4 w-4" />
                 Share
               </Button>

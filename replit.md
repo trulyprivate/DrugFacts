@@ -10,6 +10,16 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
 
+### January 21, 2025
+- Implemented native browser functionality for drug page actions:
+  - "Save to Favorites" button now uses browser bookmark APIs with fallbacks to manual bookmark instructions
+  - "Share" button utilizes Web Share API for native sharing, with clipboard fallback for unsupported browsers
+  - Added toast notifications for user feedback on bookmark and share actions
+  - Enhanced mobile responsive design for action buttons with vertical stacking on small screens
+- Fixed card spacing issues on home page with forced gap rules and inline styles
+- Enhanced drug card clickability with improved hover effects, animations, and visual feedback
+- Resolved mobile UI overflow issues across all components with comprehensive responsive design improvements
+
 ### January 20, 2025
 - Fixed Next.js application startup by installing Next.js dependency
 - Updated drug page to display all schema fields according to provided YAML specification
