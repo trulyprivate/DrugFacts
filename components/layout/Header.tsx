@@ -63,21 +63,12 @@ export default function Header() {
           <div className="flex items-center space-x-4">
             <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
               <SheetTrigger asChild>
-                <Button 
-                  variant="ghost" 
-                  size="sm" 
-                  className="md:hidden" 
-                  onClick={handleMobileMenuToggle}
-                  aria-label="Open navigation menu"
-                  aria-expanded={isMobileMenuOpen}
-                  aria-controls="mobile-navigation"
-                >
-                  <Menu className="h-4 w-4" aria-hidden="true" />
-                  <span className="sr-only">Menu</span>
+                <Button variant="ghost" size="sm" className="md:hidden" onClick={handleMobileMenuToggle}>
+                  <Menu className="h-4 w-4" />
                 </Button>
               </SheetTrigger>
               <SheetContent>
-                <nav className="flex flex-col space-y-4 mt-8" id="mobile-navigation" role="navigation" aria-label="Mobile navigation">
+                <nav className="flex flex-col space-y-4 mt-8">
                   {navigation.map((item) => (
                     <Link
                       key={item.name}

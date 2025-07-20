@@ -1,80 +1,137 @@
-import { Metadata } from 'next'
-import { getAllDrugs } from '@/lib/drugs'
+'use client'
+
+import { useState, useEffect, Suspense } from 'react'
+import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import SearchBar from '@/components/drug/SearchBar'
-import { Search as SearchIcon, Pill } from 'lucide-react'
+import { searchDrugsClient } from '@/lib/drugs-client'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Loader2 } from 'lucide-react'
+import { DrugLabel } from '@/types/drug'
+import { generateProviderFriendlyContent } from '@/lib/content-generation'
 
-export const metadata: Metadata = {
-  title: 'Search Drug Information | drugfacts.wiki',
-  description: 'Search comprehensive drug information including FDA labels, prescribing information, dosing guidelines, and clinical data for healthcare professionals.',
-  keywords: 'drug search, medication search, FDA labels, prescribing information, drug database, pharmaceutical information',
-  openGraph: {
-    title: 'Search Drug Information | drugfacts.wiki',
-    description: 'Search comprehensive drug information including FDA labels, prescribing information, dosing guidelines, and clinical data for healthcare professionals.',
-    type: 'website',
-  },
-  robots: {
-    index: true,
-    follow: true,
-  },
-}
-
-export default async function SearchPage() {
-  const drugs = await getAllDrugs()
-
+function SearchContent() {
+  const searchParams = useSearchParams()
+  const query = searchParams.get('q') || ''
+  const [results, setResults] = useState<DrugLabel[]>([])
+  const [isLoading, setIsLoading] = useState(false)
+  
+  useEffect(() => {
+    const searchDrugs = async () => {
+      if (query) {
+        setIsLoading(true)
+        try {
+          const drugs = await searchDrugsClient(query)
+          setResults(drugs)
+        } catch (error) {
+          console.error('Search error:', error)
+          setResults([])
+        } finally {
+          setIsLoading(false)
+        }
+      } else {
+        setResults([])
+      }
+    }
+    
+    searchDrugs()
+  }, [query])
+  
   return (
-    <div className="container mx-auto px-4 py-8 max-w-6xl">
-      <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold text-gray-900 mb-4">
-          Search Drug Information
-        </h1>
-        <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-          Find comprehensive prescribing information, FDA labels, dosing guidelines, and clinical data
-        </p>
-        <div className="max-w-2xl mx-auto mb-8">
-          <SearchBar />
+    <div className="container mx-auto px-4 py-8">
+      <div className="max-w-4xl mx-auto">
+        <h1 className="text-3xl font-bold mb-6">Search Drugs</h1>
+        <div className="mb-8">
+          <SearchBar defaultValue={query} />
         </div>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {drugs.map((drug) => (
-          <Card key={drug.slug} className="hover:shadow-md transition-shadow">
-            <CardHeader>
-              <div className="flex items-center space-x-2 mb-2">
-                <Pill className="h-5 w-5 text-blue-600" aria-hidden="true" />
-                <CardTitle className="text-lg">{drug.drugName}</CardTitle>
-              </div>
-              {drug.genericName && (
-                <CardDescription className="text-sm text-gray-600">
-                  Generic: {drug.genericName}
-                </CardDescription>
-              )}
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-2">
-                {drug.therapeuticClass && (
-                  <p className="text-sm text-gray-600">
-                    <span className="font-medium">Class:</span> {drug.therapeuticClass}
-                  </p>
-                )}
-                {drug.labeler && (
-                  <p className="text-sm text-gray-600">
-                    <span className="font-medium">Manufacturer:</span> {drug.labeler}
-                  </p>
-                )}
+        
+        {isLoading ? (
+          <div className="flex justify-center items-center py-12">
+            <Loader2 className="h-8 w-8 animate-spin text-blue-600" />
+          </div>
+        ) : query ? (
+          <>
+            <p className="text-gray-600 mb-6">
+              Found {results.length} result{results.length !== 1 ? 's' : ''} for "{query}"
+            </p>
+            
+            <div className="space-y-4">
+              {results.map((drug) => (
                 <Link
+                  key={drug.slug}
                   href={`/drugs/${drug.slug}`}
-                  className="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium"
+                  className="block group"
                 >
-                  View Details
-                  <SearchIcon className="ml-1 h-4 w-4" aria-hidden="true" />
+                  <Card className="transition-shadow hover:shadow-lg">
+                    <CardHeader>
+                      <CardTitle className="group-hover:text-blue-600 transition-colors">
+                        {drug.drugName}
+                      </CardTitle>
+                      {drug.genericName && (
+                        <CardDescription>{drug.genericName}</CardDescription>
+                      )}
+                    </CardHeader>
+                    <CardContent>
+                      <div className="flex flex-wrap gap-2">
+                        {drug.therapeuticClass && (
+                          <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">
+                            {drug.therapeuticClass}
+                          </span>
+                        )}
+                        {drug.manufacturer && (
+                          <span className="text-xs bg-gray-100 text-gray-800 px-2 py-1 rounded">
+                            {drug.manufacturer}
+                          </span>
+                        )}
+                        {drug.activeIngredient && (
+                          <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded">
+                            {drug.activeIngredient}
+                          </span>
+                        )}
+                      </div>
+                      {drug.indicationsAndUsage && (
+                        <div className="mt-3 space-y-2">
+                          <p className="text-sm text-gray-600 line-clamp-2">
+                            {drug.indicationsAndUsage.replace(/<[^>]*>/g, '').slice(0, 200)}...
+                          </p>
+                          <div className="text-xs text-blue-600 bg-blue-50 px-2 py-1 rounded">
+                            Patient-friendly: {generateProviderFriendlyContent(drug).whatItTreats.slice(0, 120)}...
+                          </div>
+                        </div>
+                      )}
+                    </CardContent>
+                  </Card>
                 </Link>
-              </div>
+              ))}
+              
+              {results.length === 0 && (
+                <Card>
+                  <CardContent className="py-12 text-center">
+                    <p className="text-gray-600">No drugs found matching your search.</p>
+                    <p className="text-sm text-gray-500 mt-2">
+                      Try searching by drug name, generic name, or therapeutic class.
+                    </p>
+                  </CardContent>
+                </Card>
+              )}
+            </div>
+          </>
+        ) : (
+          <Card>
+            <CardContent className="py-12 text-center">
+              <p className="text-gray-600">Enter a search term to find drugs.</p>
             </CardContent>
           </Card>
-        ))}
+        )}
       </div>
     </div>
+  )
+}
+
+export default function SearchPage() {
+  return (
+    <Suspense fallback={<div className="flex justify-center items-center py-12"><Loader2 className="h-8 w-8 animate-spin text-blue-600" /></div>}>
+      <SearchContent />
+    </Suspense>
   )
 }

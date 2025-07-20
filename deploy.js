@@ -21,25 +21,12 @@ if (!fs.existsSync(outDir)) {
 console.log('🚀 Starting static server for DrugFacts Wiki...');
 console.log(`📁 Serving from: ${outDir}`);
 
-// Serve static files from the 'out' directory with security headers
+// Serve static files from the 'out' directory
 app.use(express.static(outDir, {
   setHeaders: (res, path) => {
-    // Security headers
-    res.setHeader('X-Frame-Options', 'DENY');
-    res.setHeader('X-Content-Type-Options', 'nosniff');
-    res.setHeader('Referrer-Policy', 'origin-when-cross-origin');
-    res.setHeader('X-XSS-Protection', '1; mode=block');
-    
     // Cache static assets for better performance
     if (path.endsWith('.js') || path.endsWith('.css') || path.endsWith('.png') || path.endsWith('.jpg') || path.endsWith('.ico')) {
       res.setHeader('Cache-Control', 'public, max-age=31536000');
-    } else {
-      res.setHeader('Cache-Control', 'public, max-age=0, must-revalidate');
-    }
-    
-    // Enable compression for text files
-    if (path.endsWith('.html') || path.endsWith('.js') || path.endsWith('.css') || path.endsWith('.xml') || path.endsWith('.txt')) {
-      res.setHeader('Content-Encoding', 'gzip');
     }
   }
 }));
