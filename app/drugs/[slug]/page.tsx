@@ -89,16 +89,34 @@ export default async function DrugDetailPage({ params }: { params: Promise<{ slu
           <DrugHeader drug={drug} />
           
           <Tabs defaultValue="professional" className="mt-4 sm:mt-6">
-            <TabsList className="grid w-full grid-cols-3 h-auto p-1">
-              <TabsTrigger value="professional" className="text-xs sm:text-sm px-1 sm:px-3 py-2 text-center">
+            <TabsList className="grid w-full grid-cols-3 h-auto p-1 bg-gray-100 rounded-lg border border-gray-200">
+              <TabsTrigger 
+                value="professional" 
+                className="text-xs sm:text-sm px-1 sm:px-3 py-3 text-center font-medium transition-all duration-200 
+                          data-[state=active]:bg-medical-blue data-[state=active]:text-white data-[state=active]:shadow-sm
+                          data-[state=inactive]:bg-transparent data-[state=inactive]:text-gray-600 data-[state=inactive]:hover:bg-gray-50
+                          rounded-md border-0"
+              >
                 <span className="block sm:hidden">Professional</span>
                 <span className="hidden sm:block">Professional Info</span>
               </TabsTrigger>
-              <TabsTrigger value="patient" className="text-xs sm:text-sm px-1 sm:px-3 py-2 text-center">
+              <TabsTrigger 
+                value="patient" 
+                className="text-xs sm:text-sm px-1 sm:px-3 py-3 text-center font-medium transition-all duration-200
+                          data-[state=active]:bg-medical-blue data-[state=active]:text-white data-[state=active]:shadow-sm
+                          data-[state=inactive]:bg-transparent data-[state=inactive]:text-gray-600 data-[state=inactive]:hover:bg-gray-50
+                          rounded-md border-0"
+              >
                 <span className="block sm:hidden">Patient</span>
                 <span className="hidden sm:block">Patient-Friendly</span>
               </TabsTrigger>
-              <TabsTrigger value="faq" className="text-xs sm:text-sm px-1 sm:px-3 py-2 text-center">
+              <TabsTrigger 
+                value="faq" 
+                className="text-xs sm:text-sm px-1 sm:px-3 py-3 text-center font-medium transition-all duration-200
+                          data-[state=active]:bg-medical-blue data-[state=active]:text-white data-[state=active]:shadow-sm
+                          data-[state=inactive]:bg-transparent data-[state=inactive]:text-gray-600 data-[state=inactive]:hover:bg-gray-50
+                          rounded-md border-0"
+              >
                 <span className="block sm:hidden">FAQ</span>
                 <span className="hidden sm:block">FAQ & Related</span>
               </TabsTrigger>
