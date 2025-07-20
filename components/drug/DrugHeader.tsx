@@ -2,6 +2,8 @@
 
 import { DrugLabel } from "@/types/drug";
 import { extractKeyHighlights } from "@/lib/drug-utils";
+import { Share } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 
@@ -11,6 +13,32 @@ interface DrugHeaderProps {
 
 export default function DrugHeader({ drug }: DrugHeaderProps) {
   const highlights = extractKeyHighlights(drug);
+
+  const handleShare = async () => {
+    const shareData = {
+      title: `${drug.drugName} - Drug Information`,
+      text: `Get complete prescribing information for ${drug.drugName} including dosing, warnings, and patient-friendly explanations.`,
+      url: window.location.href,
+    };
+
+    try {
+      // Use native Web Share API if available
+      if (navigator.share) {
+        await navigator.share(shareData);
+      } else {
+        // Fallback: Copy to clipboard
+        await navigator.clipboard.writeText(window.location.href);
+      }
+    } catch (error) {
+      // If share was cancelled or failed, try clipboard as fallback
+      try {
+        await navigator.clipboard.writeText(window.location.href);
+      } catch (clipboardError) {
+        // Silent fail - no toast alerts
+        console.log('Share not available');
+      }
+    }
+  };
 
   return (
     <Card className="mb-4 sm:mb-8">
@@ -72,6 +100,16 @@ export default function DrugHeader({ drug }: DrugHeaderProps) {
                 ))}
               </ul>
             </div>
+          </div>
+
+          <div className="mt-6 lg:mt-0 lg:ml-8 flex-shrink-0">
+            <Button 
+              variant="outline"
+              onClick={handleShare}
+            >
+              <Share className="mr-2 h-4 w-4" />
+              Share
+            </Button>
           </div>
         </div>
       </CardContent>
