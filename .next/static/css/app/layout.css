@@ -1242,6 +1242,7 @@ video {
 .grid > * + * {
     margin-top: 0;
   }
+/* Add subtle click feedback */
 .sr-only {
   position: absolute;
   width: 1px;
@@ -2748,6 +2749,8 @@ video {
 /* Enhanced mobile responsiveness for cards and text */
 
 /* Fix mobile tab overflow */
+
+/* Drug card enhancements */
 
 :root {
   --background: hsl(0, 0%, 100%);

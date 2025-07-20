@@ -127,26 +127,26 @@ export default async function HomePage() {
                 <Link
                   key={drug.slug}
                   href={`/drugs/${drug.slug}`}
-                  className="block group"
+                  className="block group h-full"
                 >
-                  <Card className="h-full transition-shadow hover:shadow-lg">
-                    <CardHeader>
-                      <CardTitle className="group-hover:text-blue-600 transition-colors">
+                  <Card className="h-full transition-all duration-200 hover:shadow-lg hover:shadow-blue-100 hover:border-blue-200 cursor-pointer transform hover:-translate-y-1">
+                    <CardHeader className="pb-3">
+                      <CardTitle className="group-hover:text-blue-600 transition-colors text-lg font-semibold">
                         {drug.drugName}
                       </CardTitle>
                       {drug.genericName && (
-                        <CardDescription>{drug.genericName}</CardDescription>
+                        <CardDescription className="text-gray-600">{drug.genericName}</CardDescription>
                       )}
                     </CardHeader>
-                    <CardContent>
+                    <CardContent className="pt-0">
                       <div className="flex flex-wrap gap-2">
                         {drug.therapeuticClass && (
-                          <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">
+                          <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full font-medium">
                             {drug.therapeuticClass}
                           </span>
                         )}
                         {drug.manufacturer && (
-                          <span className="text-xs bg-gray-100 text-gray-800 px-2 py-1 rounded">
+                          <span className="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded-full">
                             {drug.manufacturer}
                           </span>
                         )}
