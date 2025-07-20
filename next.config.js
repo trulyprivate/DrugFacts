@@ -18,9 +18,18 @@ const nextConfig = {
     optimizeCss: true,
     optimizePackageImports: ['lucide-react', '@radix-ui/react-icons'],
   },
-  // Performance optimizations
+  // Modern browser optimizations
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
+    styledComponents: false,
+    reactRemoveProperties: process.env.NODE_ENV === 'production',
+  },
+  // Modern JavaScript optimizations (SWC minifier is enabled by default in Next.js 15+)
+  modularizeImports: {
+    'lucide-react': {
+      transform: 'lucide-react/dist/esm/icons/{{member}}',
+      preventFullImport: true,
+    },
   },
   // Headers are not supported with output: 'export' - removing for static deployment
 }

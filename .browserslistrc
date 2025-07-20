@@ -1,0 +1,9 @@
+# Modern browsers only - removes legacy support for better performance
+> 1%
+last 2 versions
+not dead
+not ie 11
+not chrome < 88
+not firefox < 85
+not safari < 14
+not edge < 88

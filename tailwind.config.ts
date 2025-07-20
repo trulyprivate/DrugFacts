@@ -2,6 +2,11 @@ import type { Config } from "tailwindcss";
 
 export default {
   darkMode: ["class"],
+  // Optimize for modern browsers
+  future: {
+    hoverOnlyWhenSupported: true,
+    respectDefaultRingColorOpacity: true,
+  },
   content: [
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
     "./pages/**/*.{js,ts,jsx,tsx,mdx}", 
