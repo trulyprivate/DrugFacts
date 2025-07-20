@@ -1,15 +1,10 @@
-"use client";
-
 import Link from "next/link";
-import { useState } from "react";
 import { Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import SearchForm from "./SearchForm";
 
 export default function Header() {
-  const [isSearchFocused, setIsSearchFocused] = useState(false);
-  
   const navigation = [
     { name: "Home", href: "/" },
     { name: "Search Drugs", href: "/search" },
@@ -20,14 +15,11 @@ export default function Header() {
   return (
     <header className="bg-white shadow-sm border-b border-medical-gray-200 sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center h-16 relative">
-          {/* Logo and Navigation - Hidden when search is focused */}
-          <div className={`flex items-center space-x-4 transition-all duration-300 ease-in-out absolute left-0 ${
-            isSearchFocused ? 'opacity-0 pointer-events-none transform -translate-x-4' : 'opacity-100 pointer-events-auto transform translate-x-0'
-          }`}>
+        <div className="flex justify-between items-center h-16">
+          <div className="flex items-center space-x-4">
             <div className="flex-shrink-0">
               <Link href="/" className="block">
-                <h1 className="text-xl font-bold text-medical-blue cursor-pointer whitespace-nowrap">
+                <h1 className="text-xl font-bold text-medical-blue cursor-pointer">
                   drugfacts.wiki
                 </h1>
               </Link>
@@ -37,7 +29,7 @@ export default function Header() {
                 <Link
                   key={item.name}
                   href={item.href}
-                  className="text-medical-gray-600 hover:text-medical-blue transition-colors whitespace-nowrap"
+                  className="text-medical-gray-600 hover:text-medical-blue transition-colors"
                 >
                   {item.name}
                 </Link>
@@ -45,19 +37,12 @@ export default function Header() {
             </nav>
           </div>
 
-          {/* Search Bar - Expands to full width when focused */}
-          <div className={`transition-all duration-300 ease-in-out ${
-            isSearchFocused 
-              ? 'absolute left-0 right-16 mx-4' 
-              : 'flex-1 max-w-lg mx-auto'
-          }`}>
-            <SearchForm onFocusChange={setIsSearchFocused} />
+          {/* Search Bar - Client Component */}
+          <div className="flex-1 max-w-lg mx-8">
+            <SearchForm />
           </div>
 
-          {/* Mobile Menu - Hidden when search is focused */}
-          <div className={`transition-all duration-300 ease-in-out absolute right-0 ${
-            isSearchFocused ? 'opacity-0 pointer-events-none' : 'opacity-100 pointer-events-auto'
-          }`}>
+          <div className="flex items-center space-x-4">
             <Sheet>
               <SheetTrigger asChild>
                 <Button variant="ghost" size="sm" className="md:hidden">
