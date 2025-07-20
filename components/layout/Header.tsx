@@ -1,15 +1,10 @@
-"use client";
-
 import Link from "next/link";
-import { useState } from "react";
-import { Search, Bookmark, Menu } from "lucide-react";
+import { Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import SearchForm from "./SearchForm";
 
 export default function Header() {
-  const [isSearchFocused, setIsSearchFocused] = useState(false);
-  
   const navigation = [
     { name: "Home", href: "/" },
     { name: "Search Drugs", href: "/search" },
@@ -43,18 +38,11 @@ export default function Header() {
           </div>
 
           {/* Search Bar - Client Component */}
-          <div className={`transition-all duration-300 ease-in-out mx-8 ${
-            isSearchFocused ? 'flex-1 max-w-2xl' : 'flex-1 max-w-lg'
-          }`}>
-            <SearchForm onFocusChange={setIsSearchFocused} />
+          <div className="flex-1 max-w-lg mx-8">
+            <SearchForm />
           </div>
 
-          <div className={`flex items-center space-x-4 transition-all duration-300 ease-in-out ${
-            isSearchFocused ? 'opacity-0 w-0 overflow-hidden' : 'opacity-100'
-          }`}>
-            <Button variant="ghost" size="sm">
-              <Bookmark className="h-4 w-4" />
-            </Button>
+          <div className="flex items-center space-x-4">
             <Sheet>
               <SheetTrigger asChild>
                 <Button variant="ghost" size="sm" className="md:hidden">
