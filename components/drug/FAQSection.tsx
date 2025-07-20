@@ -11,7 +11,7 @@ interface FAQSectionProps {
 }
 
 const categoryColors: Record<FAQ['category'], string> = {
-  'dosing': 'bg-blue-100 text-blue-800 border-blue-200',
+  'dosing': 'bg-gray-100 text-gray-800 border-gray-200',
   'safety': 'bg-red-100 text-red-800 border-red-200',
   'usage': 'bg-green-100 text-green-800 border-green-200',
   'side-effects': 'bg-orange-100 text-orange-800 border-orange-200',
