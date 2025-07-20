@@ -89,6 +89,7 @@ export default function RootLayout({
             button{font-family:inherit;background-color:transparent;color:inherit;border:none;border-radius:0.375rem;padding:0.5rem 1rem;cursor:pointer}
             *:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
             @media(max-width:640px){.container{padding:0.5rem}.grid{grid-template-columns:1fr;gap:1rem}h1{font-size:1.875rem}}
+            @media(min-width:768px){.md\\:text-5xl{line-height:1.5 !important}}
           `
         }} />
         {/* Critical resource optimization for LCP */}
