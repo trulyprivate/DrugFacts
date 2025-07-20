@@ -2729,6 +2729,8 @@ video {
 .border-medical-gray-300 { border-color: var(--medical-gray-300); }
 .border-medical-gray-700 { border-color: var(--medical-gray-700); }
 
+/* Enhanced mobile responsiveness for cards and text */
+
 :root {
   --background: hsl(0, 0%, 100%);
   --foreground: hsl(20, 14.3%, 4.1%);

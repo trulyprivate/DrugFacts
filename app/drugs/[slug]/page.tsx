@@ -82,20 +82,26 @@ export default async function DrugDetailPage({ params }: { params: Promise<{ slu
   const relatedContent = generateRelatedContent(drug, allDrugs)
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+    <div className="container mx-auto px-2 sm:px-4 py-4 sm:py-8">
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 lg:gap-8">
         {/* Main Content */}
         <div className="lg:col-span-3">
           <DrugHeader drug={drug} />
           
-          <Tabs defaultValue="professional" className="mt-6">
-            <TabsList className="grid w-full grid-cols-3">
-              <TabsTrigger value="professional">Professional Info</TabsTrigger>
-              <TabsTrigger value="patient">Patient-Friendly</TabsTrigger>
-              <TabsTrigger value="faq">FAQ & Related</TabsTrigger>
+          <Tabs defaultValue="professional" className="mt-4 sm:mt-6">
+            <TabsList className="grid w-full grid-cols-3 h-auto">
+              <TabsTrigger value="professional" className="text-xs sm:text-sm p-2 sm:p-3">
+                Professional Info
+              </TabsTrigger>
+              <TabsTrigger value="patient" className="text-xs sm:text-sm p-2 sm:p-3">
+                Patient-Friendly
+              </TabsTrigger>
+              <TabsTrigger value="faq" className="text-xs sm:text-sm p-2 sm:p-3">
+                FAQ & Related
+              </TabsTrigger>
             </TabsList>
 
-            <TabsContent value="professional" className="space-y-6 mt-6">
+            <TabsContent value="professional" className="space-y-4 sm:space-y-6 mt-4 sm:mt-6">
             {/* Highlights section from schema */}
             {(drug.label?.highlights?.dosageAndAdministration || drug.dosageAndAdministration) && (
               <div className="bg-blue-50 border border-blue-200 rounded-lg p-1">
@@ -289,11 +295,11 @@ export default async function DrugDetailPage({ params }: { params: Promise<{ slu
             )}
             </TabsContent>
 
-            <TabsContent value="patient" className="space-y-6 mt-6">
+            <TabsContent value="patient" className="space-y-4 sm:space-y-6 mt-4 sm:mt-6">
               <ProviderFriendlySection content={providerFriendlyContent} />
             </TabsContent>
 
-            <TabsContent value="faq" className="space-y-6 mt-6">
+            <TabsContent value="faq" className="space-y-4 sm:space-y-6 mt-4 sm:mt-6">
               <FAQSection faqs={faqSections} drugName={drug.drugName} />
               <RelatedContentSection content={relatedContent} />
             </TabsContent>
@@ -302,7 +308,7 @@ export default async function DrugDetailPage({ params }: { params: Promise<{ slu
 
         {/* Sidebar */}
         <div className="lg:col-span-1">
-          <Card className="p-6 sticky top-8">
+          <Card className="p-4 sm:p-6 sticky top-4 sm:top-8">
             <h3 className="font-semibold mb-4">Drug Information</h3>
             <dl className="space-y-3 text-sm">
               {/* Drug Name (schema required) */}

@@ -2,6 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Enhanced mobile responsiveness for cards and text */
+@layer utilities {
+  .card-title-responsive {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+    line-height: 1.3;
+  }
+  
+  .text-break-mobile {
+    word-break: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+  }
+}
+
 :root {
   --background: hsl(0, 0%, 100%);
   --foreground: hsl(20, 14.3%, 4.1%);

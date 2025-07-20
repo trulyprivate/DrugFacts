@@ -13,22 +13,22 @@ export default function DrugHeader({ drug }: DrugHeaderProps) {
   const highlights = extractKeyHighlights(drug);
 
   return (
-    <Card className="mb-8">
-      <CardContent className="p-8">
+    <Card className="mb-4 sm:mb-8">
+      <CardContent className="p-4 sm:p-6 lg:p-8">
         <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between">
           <div className="flex-1">
-            <div className="flex items-center space-x-3 mb-2">
-              <h1 className="text-3xl font-bold text-medical-gray-800">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-3 mb-2 space-y-2 sm:space-y-0">
+              <h1 className="text-2xl sm:text-3xl font-bold text-medical-gray-800 break-words">
                 {drug.drugName}
                 <sup>®</sup>
               </h1>
-              <Badge className="bg-medical-blue text-white">Prescription Only</Badge>
+              <Badge className="bg-medical-blue text-white self-start">Prescription Only</Badge>
             </div>
             <h2 className="text-xl text-medical-gray-600 mb-4">
               {drug.genericName && `(${drug.genericName})`}
             </h2>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
               <div>
                 <p className="text-sm font-medium text-medical-gray-500">Manufacturer</p>
                 <p className="text-medical-gray-800">{drug.manufacturer || 'N/A'}</p>
@@ -50,7 +50,7 @@ export default function DrugHeader({ drug }: DrugHeaderProps) {
             </div>
 
             {/* Additional metadata */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6 bg-medical-gray-50 p-4 rounded-lg">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6 bg-medical-gray-50 p-3 sm:p-4 rounded-lg">
               <div>
                 <p className="text-sm font-medium text-medical-gray-500">FDA Set ID</p>
                 <p className="text-xs text-medical-gray-600 font-mono">{drug.setId}</p>
