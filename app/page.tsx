@@ -30,7 +30,7 @@ export default async function HomePage() {
       <section className="bg-gradient-to-b from-blue-50 to-white dark:from-gray-900 dark:to-gray-800 py-16 px-4">
         <div className="container mx-auto max-w-4xl text-center">
           {/* LCP Element - Prioritized rendering */}
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6 md:mb-8" style={{ contain: 'layout style paint' }}>
+          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-8 md:mb-12" style={{ contain: 'layout style paint' }}>
             Professional Drug Information Platform
           </h1>
           <p className="text-xl text-gray-600 dark:text-gray-300 mb-8">

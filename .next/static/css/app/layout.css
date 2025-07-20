@@ -3180,8 +3180,8 @@ video {
   .md\:absolute {
     position: absolute;
   }
-  .md\:mb-8 {
-    margin-bottom: 2rem;
+  .md\:mb-12 {
+    margin-bottom: 3rem;
   }
   .md\:block {
     display: block;
