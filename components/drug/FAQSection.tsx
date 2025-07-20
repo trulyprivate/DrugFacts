@@ -32,8 +32,8 @@ export default function FAQSection({ faqs, drugName }: FAQSectionProps) {
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-2 mb-4">
-        <HelpCircle className="h-5 w-5 text-blue-600" />
-        <h3 className="text-lg font-semibold">Frequently Asked Questions</h3>
+        <HelpCircle className="h-4 w-4 sm:h-5 sm:w-5 text-blue-600 flex-shrink-0" />
+        <h3 className="text-base sm:text-lg font-semibold card-title-responsive">Frequently Asked Questions</h3>
       </div>
       
       <Accordion type="single" collapsible className="space-y-2">
@@ -41,20 +41,20 @@ export default function FAQSection({ faqs, drugName }: FAQSectionProps) {
           <AccordionItem 
             key={index} 
             value={`faq-${index}`}
-            className="border border-gray-200 rounded-lg px-4"
+            className="border border-gray-200 rounded-lg px-3 sm:px-4"
           >
-            <AccordionTrigger className="text-left hover:no-underline">
-              <div className="flex items-start gap-3 w-full">
+            <AccordionTrigger className="text-left hover:no-underline py-3 sm:py-4">
+              <div className="flex items-start gap-2 sm:gap-3 w-full">
                 <Badge 
                   variant="outline" 
                   className={`${categoryColors[faq.category]} text-xs flex-shrink-0 mt-1`}
                 >
                   {categoryLabels[faq.category]}
                 </Badge>
-                <span className="font-medium">{faq.question}</span>
+                <span className="font-medium text-sm sm:text-base card-title-responsive">{faq.question}</span>
               </div>
             </AccordionTrigger>
-            <AccordionContent className="text-gray-700 pt-2 pl-16">
+            <AccordionContent className="text-gray-700 pt-2 pl-12 sm:pl-16 text-sm sm:text-base">
               {faq.answer}
             </AccordionContent>
           </AccordionItem>

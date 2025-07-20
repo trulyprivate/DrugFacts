@@ -14,13 +14,13 @@ export default function ProviderFriendlySection({ content }: ProviderFriendlySec
   return (
     <div className="space-y-4">
       <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Info className="h-5 w-5 text-blue-600" />
-            Patient-Friendly Information
+        <CardHeader className="pb-4">
+          <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
+            <Info className="h-4 w-4 sm:h-5 sm:w-5 text-blue-600 flex-shrink-0" />
+            <span className="card-title-responsive">Patient-Friendly Information</span>
           </CardTitle>
         </CardHeader>
-        <CardContent className="space-y-4">
+        <CardContent className="space-y-4 px-4 sm:px-6">
           {/* What it treats */}
           <div>
             <h4 className="font-semibold text-gray-900 mb-2">What this medication treats:</h4>

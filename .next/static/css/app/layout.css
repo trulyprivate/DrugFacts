@@ -1226,6 +1226,13 @@ video {
 .prose-sm :where(.prose-sm > :last-child):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
   margin-bottom: 0;
 }
+/* Ensure proper mobile viewport handling */
+@media (max-width: 640px) {
+    .container {
+      padding-left: 0.5rem;
+      padding-right: 0.5rem;
+    }
+  }
 .sr-only {
   position: absolute;
   width: 1px;
@@ -2730,6 +2737,8 @@ video {
 .border-medical-gray-700 { border-color: var(--medical-gray-700); }
 
 /* Enhanced mobile responsiveness for cards and text */
+
+/* Fix mobile tab overflow */
 
 :root {
   --background: hsl(0, 0%, 100%);

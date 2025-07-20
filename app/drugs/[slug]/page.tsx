@@ -89,15 +89,18 @@ export default async function DrugDetailPage({ params }: { params: Promise<{ slu
           <DrugHeader drug={drug} />
           
           <Tabs defaultValue="professional" className="mt-4 sm:mt-6">
-            <TabsList className="grid w-full grid-cols-3 h-auto">
-              <TabsTrigger value="professional" className="text-xs sm:text-sm p-2 sm:p-3">
-                Professional Info
+            <TabsList className="grid w-full grid-cols-3 h-auto p-1">
+              <TabsTrigger value="professional" className="text-xs sm:text-sm px-1 sm:px-3 py-2 text-center">
+                <span className="block sm:hidden">Professional</span>
+                <span className="hidden sm:block">Professional Info</span>
               </TabsTrigger>
-              <TabsTrigger value="patient" className="text-xs sm:text-sm p-2 sm:p-3">
-                Patient-Friendly
+              <TabsTrigger value="patient" className="text-xs sm:text-sm px-1 sm:px-3 py-2 text-center">
+                <span className="block sm:hidden">Patient</span>
+                <span className="hidden sm:block">Patient-Friendly</span>
               </TabsTrigger>
-              <TabsTrigger value="faq" className="text-xs sm:text-sm p-2 sm:p-3">
-                FAQ & Related
+              <TabsTrigger value="faq" className="text-xs sm:text-sm px-1 sm:px-3 py-2 text-center">
+                <span className="block sm:hidden">FAQ</span>
+                <span className="hidden sm:block">FAQ & Related</span>
               </TabsTrigger>
             </TabsList>
 
