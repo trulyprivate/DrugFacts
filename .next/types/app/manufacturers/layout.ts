@@ -1,4 +1,4 @@
-// File: /home/runner/workspace/app/manufacturers/layout.tsx
+// File: /root/repo/app/manufacturers/layout.tsx
 import * as entry from '../../../../app/manufacturers/layout.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

@@ -1,4 +1,4 @@
-// File: /home/runner/workspace/app/therapeutic-classes/page.tsx
+// File: /root/repo/app/therapeutic-classes/page.tsx
 import * as entry from '../../../../app/therapeutic-classes/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

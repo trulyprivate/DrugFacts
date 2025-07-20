@@ -1,45 +1,124 @@
 {
   "pages": {
-    "/layout": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/layout.css",
-      "static/chunks/app/layout.js"
+    "/robots.txt/route": [
+      "static/chunks/webpack-5a982143734d26ed.js",
+      "static/chunks/4bd1b696-cf72ae8a39fa05aa.js",
+      "static/chunks/964-f2e15e2b8d5ff4ec.js",
+      "static/chunks/main-app-94d81f415fab8553.js",
+      "static/chunks/app/robots.txt/route-96ee2ef876e16201.js"
+    ],
+    "/sitemap.xml/route": [
+      "static/chunks/webpack-5a982143734d26ed.js",
+      "static/chunks/4bd1b696-cf72ae8a39fa05aa.js",
+      "static/chunks/964-f2e15e2b8d5ff4ec.js",
+      "static/chunks/main-app-94d81f415fab8553.js",
+      "static/chunks/app/sitemap.xml/route-96ee2ef876e16201.js"
     ],
     "/not-found": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/not-found.js"
+      "static/chunks/webpack-5a982143734d26ed.js",
+      "static/chunks/4bd1b696-cf72ae8a39fa05aa.js",
+      "static/chunks/964-f2e15e2b8d5ff4ec.js",
+      "static/chunks/main-app-94d81f415fab8553.js",
+      "static/chunks/874-437a265a67d6cfee.js",
+      "static/chunks/app/not-found-d29c869cc4861e11.js"
+    ],
+    "/_not-found/page": [
+      "static/chunks/webpack-5a982143734d26ed.js",
+      "static/chunks/4bd1b696-cf72ae8a39fa05aa.js",
+      "static/chunks/964-f2e15e2b8d5ff4ec.js",
+      "static/chunks/main-app-94d81f415fab8553.js",
+      "static/chunks/app/_not-found/page-96ee2ef876e16201.js"
+    ],
+    "/layout": [
+      "static/chunks/webpack-5a982143734d26ed.js",
+      "static/chunks/4bd1b696-cf72ae8a39fa05aa.js",
+      "static/chunks/964-f2e15e2b8d5ff4ec.js",
+      "static/chunks/main-app-94d81f415fab8553.js",
+      "static/css/f2608cea745d52e2.css",
+      "static/css/2202c9793d39a345.css",
+      "static/chunks/874-437a265a67d6cfee.js",
+      "static/chunks/455-28b7fbb360ee31f4.js",
+      "static/chunks/880-153740899fc9cb55.js",
+      "static/chunks/app/layout-d55f97503e415292.js"
     ],
     "/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/page.js"
+      "static/chunks/webpack-5a982143734d26ed.js",
+      "static/chunks/4bd1b696-cf72ae8a39fa05aa.js",
+      "static/chunks/964-f2e15e2b8d5ff4ec.js",
+      "static/chunks/main-app-94d81f415fab8553.js",
+      "static/chunks/874-437a265a67d6cfee.js",
+      "static/chunks/455-28b7fbb360ee31f4.js",
+      "static/chunks/app/page-696694bf2c7aafae.js"
     ],
     "/drugs/[slug]/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/drugs/[slug]/page.js"
+      "static/chunks/webpack-5a982143734d26ed.js",
+      "static/chunks/4bd1b696-cf72ae8a39fa05aa.js",
+      "static/chunks/964-f2e15e2b8d5ff4ec.js",
+      "static/chunks/main-app-94d81f415fab8553.js",
+      "static/chunks/874-437a265a67d6cfee.js",
+      "static/chunks/455-28b7fbb360ee31f4.js",
+      "static/chunks/236-017c518d3b70c433.js",
+      "static/chunks/app/drugs/[slug]/page-944357e00dad01c3.js"
     ],
-    "/therapeutic-classes/layout": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/therapeutic-classes/layout.js"
+    "/performance/layout": [
+      "static/chunks/webpack-5a982143734d26ed.js",
+      "static/chunks/4bd1b696-cf72ae8a39fa05aa.js",
+      "static/chunks/964-f2e15e2b8d5ff4ec.js",
+      "static/chunks/main-app-94d81f415fab8553.js",
+      "static/chunks/app/performance/layout-96ee2ef876e16201.js"
     ],
-    "/therapeutic-classes/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/therapeutic-classes/page.js"
+    "/performance/page": [
+      "static/chunks/webpack-5a982143734d26ed.js",
+      "static/chunks/4bd1b696-cf72ae8a39fa05aa.js",
+      "static/chunks/964-f2e15e2b8d5ff4ec.js",
+      "static/chunks/main-app-94d81f415fab8553.js",
+      "static/chunks/app/performance/page-96ee2ef876e16201.js"
+    ],
+    "/search/layout": [
+      "static/chunks/webpack-5a982143734d26ed.js",
+      "static/chunks/4bd1b696-cf72ae8a39fa05aa.js",
+      "static/chunks/964-f2e15e2b8d5ff4ec.js",
+      "static/chunks/main-app-94d81f415fab8553.js",
+      "static/chunks/app/search/layout-96ee2ef876e16201.js"
+    ],
+    "/search/page": [
+      "static/chunks/webpack-5a982143734d26ed.js",
+      "static/chunks/4bd1b696-cf72ae8a39fa05aa.js",
+      "static/chunks/964-f2e15e2b8d5ff4ec.js",
+      "static/chunks/main-app-94d81f415fab8553.js",
+      "static/chunks/874-437a265a67d6cfee.js",
+      "static/chunks/455-28b7fbb360ee31f4.js",
+      "static/chunks/app/search/page-761ca43ce2b2f521.js"
     ],
     "/manufacturers/layout": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/manufacturers/layout.js"
+      "static/chunks/webpack-5a982143734d26ed.js",
+      "static/chunks/4bd1b696-cf72ae8a39fa05aa.js",
+      "static/chunks/964-f2e15e2b8d5ff4ec.js",
+      "static/chunks/main-app-94d81f415fab8553.js",
+      "static/chunks/app/manufacturers/layout-96ee2ef876e16201.js"
     ],
     "/manufacturers/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/manufacturers/page.js"
+      "static/chunks/webpack-5a982143734d26ed.js",
+      "static/chunks/4bd1b696-cf72ae8a39fa05aa.js",
+      "static/chunks/964-f2e15e2b8d5ff4ec.js",
+      "static/chunks/main-app-94d81f415fab8553.js",
+      "static/chunks/874-437a265a67d6cfee.js",
+      "static/chunks/app/manufacturers/page-d29c869cc4861e11.js"
+    ],
+    "/therapeutic-classes/layout": [
+      "static/chunks/webpack-5a982143734d26ed.js",
+      "static/chunks/4bd1b696-cf72ae8a39fa05aa.js",
+      "static/chunks/964-f2e15e2b8d5ff4ec.js",
+      "static/chunks/main-app-94d81f415fab8553.js",
+      "static/chunks/app/therapeutic-classes/layout-96ee2ef876e16201.js"
+    ],
+    "/therapeutic-classes/page": [
+      "static/chunks/webpack-5a982143734d26ed.js",
+      "static/chunks/4bd1b696-cf72ae8a39fa05aa.js",
+      "static/chunks/964-f2e15e2b8d5ff4ec.js",
+      "static/chunks/main-app-94d81f415fab8553.js",
+      "static/chunks/874-437a265a67d6cfee.js",
+      "static/chunks/app/therapeutic-classes/page-d29c869cc4861e11.js"
     ]
   }
 }
