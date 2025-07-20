@@ -20,9 +20,10 @@ export default function Header() {
   return (
     <header className="bg-white shadow-sm border-b border-medical-gray-200 sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          <div className={`flex items-center space-x-4 transition-all duration-300 ease-in-out ${
-            isSearchFocused ? 'opacity-0 w-0 overflow-hidden' : 'opacity-100'
+        <div className="flex items-center h-16 relative">
+          {/* Logo and Navigation - Hidden when search is focused */}
+          <div className={`flex items-center space-x-4 transition-all duration-300 ease-in-out absolute left-0 ${
+            isSearchFocused ? 'opacity-0 pointer-events-none transform -translate-x-4' : 'opacity-100 pointer-events-auto transform translate-x-0'
           }`}>
             <div className="flex-shrink-0">
               <Link href="/" className="block">
@@ -44,15 +45,18 @@ export default function Header() {
             </nav>
           </div>
 
-          {/* Search Bar - Client Component */}
-          <div className={`transition-all duration-300 ease-in-out mx-8 ${
-            isSearchFocused ? 'flex-1 max-w-none' : 'flex-1 max-w-lg'
+          {/* Search Bar - Expands to full width when focused */}
+          <div className={`transition-all duration-300 ease-in-out ${
+            isSearchFocused 
+              ? 'absolute left-0 right-16 mx-4' 
+              : 'flex-1 max-w-lg mx-auto'
           }`}>
             <SearchForm onFocusChange={setIsSearchFocused} />
           </div>
 
-          <div className={`flex items-center space-x-4 transition-all duration-300 ease-in-out ${
-            isSearchFocused ? 'opacity-0 w-0 overflow-hidden' : 'opacity-100'
+          {/* Mobile Menu - Hidden when search is focused */}
+          <div className={`transition-all duration-300 ease-in-out absolute right-0 ${
+            isSearchFocused ? 'opacity-0 pointer-events-none' : 'opacity-100 pointer-events-auto'
           }`}>
             <Sheet>
               <SheetTrigger asChild>
