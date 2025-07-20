@@ -1,30 +1,6 @@
 {
   "version": 4,
   "routes": {
-    "/drugs/mounjaro-d2d7da5": {
-      "experimentalBypassFor": [
-        {
-          "type": "header",
-          "key": "Next-Action"
-        },
-        {
-          "type": "header",
-          "key": "content-type",
-          "value": "multipart/form-data;.*"
-        }
-      ],
-      "initialRevalidateSeconds": false,
-      "srcRoute": "/drugs/[slug]",
-      "dataRoute": "/drugs/mounjaro-d2d7da5.rsc",
-      "allowHeader": [
-        "host",
-        "x-matched-path",
-        "x-prerender-revalidate",
-        "x-prerender-revalidate-if-generated",
-        "x-next-revalidated-tags",
-        "x-next-revalidate-tag-token"
-      ]
-    },
     "/": {
       "experimentalBypassFor": [
         {
@@ -49,7 +25,7 @@
         "x-next-revalidate-tag-token"
       ]
     },
-    "/search": {
+    "/drugs/mounjaro-d2d7da5": {
       "experimentalBypassFor": [
         {
           "type": "header",
@@ -62,8 +38,8 @@
         }
       ],
       "initialRevalidateSeconds": false,
-      "srcRoute": "/search",
-      "dataRoute": "/search.rsc",
+      "srcRoute": "/drugs/[slug]",
+      "dataRoute": "/drugs/mounjaro-d2d7da5.rsc",
       "allowHeader": [
         "host",
         "x-matched-path",
@@ -97,7 +73,7 @@
         "x-next-revalidate-tag-token"
       ]
     },
-    "/therapeutic-classes": {
+    "/search": {
       "experimentalBypassFor": [
         {
           "type": "header",
@@ -110,8 +86,8 @@
         }
       ],
       "initialRevalidateSeconds": false,
-      "srcRoute": "/therapeutic-classes",
-      "dataRoute": "/therapeutic-classes.rsc",
+      "srcRoute": "/search",
+      "dataRoute": "/search.rsc",
       "allowHeader": [
         "host",
         "x-matched-path",
@@ -136,6 +112,30 @@
       "initialRevalidateSeconds": false,
       "srcRoute": "/manufacturers",
       "dataRoute": "/manufacturers.rsc",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
+    },
+    "/therapeutic-classes": {
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "Next-Action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/therapeutic-classes",
+      "dataRoute": "/therapeutic-classes.rsc",
       "allowHeader": [
         "host",
         "x-matched-path",
@@ -233,8 +233,8 @@
   },
   "notFoundRoutes": [],
   "preview": {
-    "previewModeId": "6e7955b8b3ac7e92669779e8f5d47a90",
-    "previewModeSigningKey": "0d1d4345fbed74678dfede9540afcda501316c1b43a0c7c6a259999e42677492",
-    "previewModeEncryptionKey": "bd6c4f5b5f5ff7276aae69fdf839e7de1da090774e9b1cac9e8c121eaf2b2ec2"
+    "previewModeId": "967b379a562c4bd08ade5922b6338f44",
+    "previewModeSigningKey": "a5c44b33197c7d277e5f92309d3f9628250ab60ad3682d8e9baf6b7d6ab0a945",
+    "previewModeEncryptionKey": "7861b62e15a934a8f2347530ae2ff6ab5921b4ebf662e5f6dcb06cd34ba1998b"
   }
 }

@@ -6,6 +6,6 @@
   "/drugs/[slug]/page": "/drugs/[slug]",
   "/performance/page": "/performance",
   "/search/page": "/search",
-  "/manufacturers/page": "/manufacturers",
-  "/therapeutic-classes/page": "/therapeutic-classes"
+  "/therapeutic-classes/page": "/therapeutic-classes",
+  "/manufacturers/page": "/manufacturers"
 }

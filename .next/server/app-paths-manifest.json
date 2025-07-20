@@ -6,6 +6,6 @@
   "/drugs/[slug]/page": "app/drugs/[slug]/page.js",
   "/performance/page": "app/performance/page.js",
   "/search/page": "app/search/page.js",
-  "/manufacturers/page": "app/manufacturers/page.js",
-  "/therapeutic-classes/page": "app/therapeutic-classes/page.js"
+  "/therapeutic-classes/page": "app/therapeutic-classes/page.js",
+  "/manufacturers/page": "app/manufacturers/page.js"
 }

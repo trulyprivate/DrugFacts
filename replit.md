@@ -22,7 +22,14 @@ Preferred communication style: Simple, everyday language.
 - **Performance Impact**: Significantly reduced bundle size for faster loading and better Core Web Vitals scores
 - **Clean Architecture**: Simplified dependency tree makes the project more maintainable and reduces security vulnerabilities
 
-### January 21, 2025 - Deployment Issues Fixed
+### January 21, 2025 - Critical Deployment Fixes Applied
+- **Path-to-RegExp Library Error Resolved**: Fixed crash-looping deployment issues caused by malformed URL patterns:
+  - **Root Cause**: Express wildcard route `app.get('*', ...)` causing path-to-regexp parsing errors with "Missing parameter name at position 1"
+  - **Fix Applied**: Replaced wildcard routing with middleware-based routing to avoid path-to-regexp conflicts
+  - **Enhanced Error Handling**: Added comprehensive error handling to prevent crash loops in static servers
+  - **Server Stability**: Both `deploy.js` and `serve-static.js` now start successfully without path-to-regexp errors
+  - **Graceful Shutdown**: Implemented proper process termination handling with SIGTERM and SIGINT
+  - **Build Verification**: Added checks to ensure build output exists before starting server
 - **Next.js Static Export Configuration**: Applied all deployment fixes to resolve build failures:
   - **Robots.txt Route Fix**: Added `export const dynamic = "force-static"` to `app/robots.ts` to fix Next.js static export compatibility
   - **Headers Configuration Removed**: Removed headers configuration from `next.config.js` as headers are not supported with `output: 'export'`
