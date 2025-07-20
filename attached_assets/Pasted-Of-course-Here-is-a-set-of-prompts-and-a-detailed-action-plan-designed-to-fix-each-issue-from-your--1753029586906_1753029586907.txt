@@ -1,0 +1,104 @@
+Of course. Here is a set of prompts and a detailed action plan designed to fix each issue from your Lighthouse report. This plan focuses on using your browser's "Inspect Element" tool to locate the exact code that needs to be changed.
+Getting Started: Using the Inspector
+To follow this plan, you will need to use your browser's Developer Tools.
+ * How to Open: Right-click on any element on your webpage and select "Inspect", or press F12 (or Cmd+Opt+I on Mac).
+ * Key Tabs: We will primarily use the Elements tab (to see and edit the HTML/CSS), the Lighthouse tab (to re-run the audit), and the Network tab (to check loading times and resources).
+Plan 1: Fix Performance Issues
+Issue: Reduce initial server response time (TTFB)
+ * Prompt: "Analyze the drug-info.replit.app backend code to identify and optimize any processes that are delaying the server's initial response. Reduce the Time to First Byte (TTFB)."
+ * Action Plan:
+   * Open Developer Tools and go to the Network tab.
+   * Check the "Disable cache" box.
+   * Reload your page (Ctrl+R or Cmd+R).
+   * Click on the very first request in the list (it should be drug-info.replit.app).
+   * In the Timing sub-tab, look for a long bar labeled Waiting (TTFB). This is your server delay.
+   * To Fix: This is a server-side issue. Open your backend code files on Replit (e.g., your index.js, server.py, etc.). Look for slow database queries, complex calculations, or heavy operations that run before the page is sent. Optimize this code to make it faster.
+Issue: Eliminate render-blocking resources
+ * Prompt: "Refactor the HTML to defer or asynchronously load all non-critical CSS and JavaScript files identified as render-blocking by the Lighthouse report."
+ * Action Plan:
+   * Run a Lighthouse audit. In the report, expand the "Eliminate render-blocking resources" section to see a list of problematic files (e.g., style.css, main.js).
+   * Switch to the Elements tab. Press Ctrl+F (or Cmd+F) and search for the filename (e.g., main.js).
+   * To Fix (JavaScript): If you find a <script src="main.js"> in the <head>, move it to the very end of the <body> tag, just before </body>. Better yet, add the defer attribute to it:
+     <script src="main.js"></script>
+
+<script src="main.js" defer></script>
+
+   * To Fix (CSS): This is more advanced. For a simple fix, ensure your <link rel="stylesheet"> tags are in the <head> but consider tools that can generate "critical CSS" to inline for the fastest perceived load time.
+Issue: Properly size images
+ * Prompt: "For each image listed in the Lighthouse report, resize it to its displayed dimensions and implement the srcset attribute to serve responsive versions."
+ * Action Plan:
+   * On your website, right-click the image that needs fixing and choose Inspect. The Elements panel will jump directly to its <img> tag.
+   * The Lighthouse report will tell you the potential savings. Note the size the image is being displayed at.
+   * To Fix: Resize the image to the required dimensions. Then, update the HTML to use srcset for different resolutions.
+     <img src="images/large-drug-photo.jpg" alt="A photo of a pill">
+
+<img src="images/drug-photo-800w.jpg"
+     srcset="images/drug-photo-400w.jpg 400w, images/drug-photo-800w.jpg 800w"
+     sizes="(max-width: 600px) 400px, 800px"
+     alt="A photo of a pill">
+
+Plan 2: Fix Accessibility Issues
+Issue: Buttons do not have an accessible name
+ * Prompt: "Add an accessible name to the button element that currently lacks one, using either inner text or an aria-label."
+ * Action Plan:
+   * Run the Lighthouse audit and expand the accessibility report to find the problematic button.
+   * In the Elements tab, the report will often let you click an icon to jump directly to the element.
+   * To Fix: If the button has no text (e.g., it's just an icon), add an aria-label to describe its function.
+     <button class="search-btn"><i class="icon-search"></i></button>
+
+<button class="search-btn" aria-label="Search"><i class="icon-search"></i></button>
+
+Issue: Image elements do not have [alt] attributes
+ * Prompt: "Add a descriptive alt attribute to the <img> element identified as missing one."
+ * Action Plan:
+   * Right-click the image on your site that is missing the alt text and select Inspect.
+   * The <img> tag will be highlighted in the Elements panel.
+   * To Fix: Add the alt attribute describing the image.
+     <img src="logo.png">
+
+<img src="logo.png" alt="Drug Info website logo">
+
+Issue: Form elements do not have labels
+ * Prompt: "Connect a <label> to the form input element that is currently unlabeled, using the for and id attributes."
+ * Action Plan:
+   * Right-click the input box (e.g., a search bar or text field) on your site and select Inspect.
+   * The <input> tag will be highlighted.
+   * To Fix: Give the <input> a unique id. Then, add a <label> element just before it with a for attribute that matches the input's id.
+     Search for a drug: <input type="text">
+
+<label for="drug-search">Search for a drug:</label>
+<input type="text" id="drug-search">
+
+Plan 3: Fix Best Practices
+Issue: Browser errors were logged to the console
+ * Prompt: "Identify and fix the JavaScript error being reported in the browser's developer console."
+ * Action Plan:
+   * Open Developer Tools and switch to the Console tab.
+   * Any errors will be shown in red. The error message will often tell you which file and line number is causing the problem (e.g., main.js:25).
+   * To Fix: Go to that file and line number in your code editor (on Replit) and fix the bug. The error message will give you a clue as to what's wrong (e.g., "TypeError: cannot read properties of null").
+Issue: Does not use HTTPS / Has mixed content
+ * Prompt: "Configure the website to serve exclusively over HTTPS and update all resource links from http:// to https:// to resolve mixed content warnings."
+ * Action Plan:
+   * HTTPS: First, ensure your Replit project is configured to use an https:// URL. This is usually the default.
+   * Mixed Content: Open the Network tab in Developer Tools. Reload the page. Look for any requests where the "Scheme" is http.
+   * Switch to the Elements tab. Press Ctrl+F (or Cmd+F) and search for "http://".
+   * To Fix: For every resource you find (like an image or script), change its src or href from http://... to https://....
+Plan 4: Fix SEO Issues
+Issue: Document does not have a meta description
+ * Prompt: "Add a concise and relevant meta description to the <head> of the HTML document."
+ * Action Plan:
+   * Go to the Elements tab in Developer Tools.
+   * Find the <head> section at the top of the HTML and expand it.
+   * To Fix: Add a new <meta> tag inside the <head>.
+     <meta name="description" content="Quickly search for drug information, interactions, and side effects. Your reliable source for medical data.">
+
+Issue: Links are not crawlable
+ * Prompt: "Convert any non-crawlable links (e.g., div with an onclick event) into standard <a> tags with valid href attributes."
+ * Action Plan:
+   * Find the link on your page that is not working for crawlers. Right-click it and select Inspect.
+   * You will likely see something other than an <a> tag, or an <a> tag without an href attribute.
+   * To Fix: Rewrite the element as a proper anchor tag.
+     <div onclick="goToAboutPage()">About Us</div>
+
+<a href="/about.html">About Us</a>
+
