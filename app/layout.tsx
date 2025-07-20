@@ -60,7 +60,7 @@ export default function RootLayout({
         {/* Critical CSS inline for fastest rendering */}
         <style dangerouslySetInnerHTML={{
           __html: `
-            :root{--font-inter:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;--background:hsl(0,0%,100%);--foreground:hsl(20,14.3%,4.1%);--primary:hsl(207,90%,54%);--border:hsl(20,5.9%,90%)}
+            :root{--font-inter:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;--background:hsl(0,0%,100%);--foreground:hsl(20,14.3%,4.1%);--primary:hsl(0,0%,40%);--border:hsl(20,5.9%,90%)}
             html{font-family:var(--font-inter);scroll-behavior:smooth}
             body{margin:0;padding:0;font-family:var(--font-inter);background-color:var(--background);color:var(--foreground);line-height:1.6;-webkit-font-smoothing:antialiased}
             header{background-color:var(--background);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50}
