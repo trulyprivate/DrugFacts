@@ -8,6 +8,7 @@ export interface DrugLabel {
   slug: string;
   labeler?: string;
   label?: {
+    boxedWarning?: string;
     genericName?: string;
     labelerName?: string;
     productType?: string;
