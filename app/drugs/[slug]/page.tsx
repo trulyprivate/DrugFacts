@@ -96,7 +96,6 @@ export default async function DrugDetailPage({ params }: { params: Promise<{ slu
                           data-[state=active]:!bg-blue-600 data-[state=active]:!text-white data-[state=active]:!border-blue-600 data-[state=active]:shadow-md
                           data-[state=inactive]:bg-transparent data-[state=inactive]:text-gray-600 data-[state=inactive]:hover:text-blue-600 data-[state=inactive]:hover:bg-blue-50
                           rounded-lg border border-transparent flex-1 relative"
-                style={{ backgroundColor: 'var(--tab-bg, transparent)' }}
               >
                 <span className="block sm:hidden">Professional</span>
                 <span className="hidden sm:block">Professional Info</span>
@@ -107,7 +106,6 @@ export default async function DrugDetailPage({ params }: { params: Promise<{ slu
                           data-[state=active]:!bg-blue-600 data-[state=active]:!text-white data-[state=active]:!border-blue-600 data-[state=active]:shadow-md
                           data-[state=inactive]:bg-transparent data-[state=inactive]:text-gray-600 data-[state=inactive]:hover:text-blue-600 data-[state=inactive]:hover:bg-blue-50
                           rounded-lg border border-transparent flex-1 relative"
-                style={{ backgroundColor: 'var(--tab-bg, transparent)' }}
               >
                 <span className="block sm:hidden">Patient</span>
                 <span className="hidden sm:block">Patient-Friendly</span>
@@ -118,7 +116,6 @@ export default async function DrugDetailPage({ params }: { params: Promise<{ slu
                           data-[state=active]:!bg-blue-600 data-[state=active]:!text-white data-[state=active]:!border-blue-600 data-[state=active]:shadow-md
                           data-[state=inactive]:bg-transparent data-[state=inactive]:text-gray-600 data-[state=inactive]:hover:text-blue-600 data-[state=inactive]:hover:bg-blue-50
                           rounded-lg border border-transparent flex-1 relative"
-                style={{ backgroundColor: 'var(--tab-bg, transparent)' }}
               >
                 <span className="block sm:hidden">FAQ</span>
                 <span className="hidden sm:block">FAQ & Related</span>

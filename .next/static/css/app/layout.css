@@ -1262,12 +1262,17 @@ video {
     margin-top: 0;
   }
 /* Add subtle click feedback */
-/* Tab styling enhancements */
-[data-state="active"] {
+/* Tab styling enhancements - only target tab triggers */
+[role="tab"][data-state="active"] {
     --tab-bg: #2563eb !important;
     background-color: #2563eb !important;
     color: white !important;
     border-color: #2563eb !important;
+  }
+/* Ensure tab content areas stay normal */
+[role="tabpanel"] {
+    background-color: transparent !important;
+    color: inherit !important;
   }
 .sr-only {
   position: absolute;
