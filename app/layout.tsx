@@ -77,27 +77,52 @@ export default function RootLayout({
             @media(max-width:640px){.container{padding:0.5rem}.grid{grid-template-columns:1fr;gap:1rem}h1{font-size:1.875rem}}
           `
         }} />
+        {/* Critical resource optimization for LCP */}
         <link rel="dns-prefetch" href="//fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.googleapis.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        
+        {/* Preload critical resources for faster LCP */}
         <link rel="preload" href="/og-image.png" as="image" />
-        {/* Non-critical CSS and JS deferred for performance optimization */}
+        <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" />
+        
+        {/* Font optimization for LCP - deferred loading */}
+        <script dangerouslySetInnerHTML={{
+          __html: `
+            const fontLink = document.createElement('link');
+            fontLink.href = 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap';
+            fontLink.rel = 'stylesheet';
+            fontLink.media = 'print';
+            fontLink.onload = function() { this.media = 'all'; };
+            document.head.appendChild(fontLink);
+          `
+        }} />
+        {/* LCP Optimization: Prioritize above-the-fold content */}
         <script dangerouslySetInnerHTML={{
           __html: `
             (function(){
-              // Defer CSS loading
-              var link = document.createElement('link');
-              link.rel = 'stylesheet';
-              link.href = '/_next/static/css/app/layout.css';
-              link.media = 'print';
-              link.onload = function() { this.media = 'all'; };
-              document.head.appendChild(link);
+              // Mark LCP element for performance tracking
+              const observer = new PerformanceObserver((list) => {
+                for (const entry of list.getEntries()) {
+                  if (entry.entryType === 'largest-contentful-paint') {
+                    console.log('LCP time:', entry.startTime);
+                  }
+                }
+              });
+              if (typeof PerformanceObserver !== 'undefined') {
+                observer.observe({type: 'largest-contentful-paint', buffered: true});
+              }
               
-              // Defer non-critical JS until after page load
+              // Defer non-critical resources until after LCP
               window.addEventListener('load', function() {
-                // Use requestIdleCallback for truly non-essential scripts
                 if ('requestIdleCallback' in window) {
                   window.requestIdleCallback(function() {
-                    // Load analytics or other non-critical scripts here when needed
+                    // Load non-critical CSS after LCP
+                    var link = document.createElement('link');
+                    link.rel = 'stylesheet';
+                    link.href = '/_next/static/css/app/layout.css';
+                    link.media = 'all';
+                    document.head.appendChild(link);
                   });
                 }
               });

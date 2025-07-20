@@ -51,7 +51,7 @@ export default function DrugHeader({ drug }: DrugHeaderProps) {
         <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between">
           <div className="flex-1">
             <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-3 mb-2 space-y-2 sm:space-y-0">
-              <h1 className="text-2xl sm:text-3xl font-bold text-medical-gray-800 break-words">
+              <h1 className="text-2xl sm:text-3xl font-bold text-medical-gray-800 break-words drug-header drug-title" style={{fontDisplay: 'swap', contain: 'layout style'}}>
                 {drug.drugName}
                 <sup>®</sup>
               </h1>
