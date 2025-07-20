@@ -17,34 +17,36 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# Build the static application
+# Build the Next.js application
 RUN npm run build
 
-# Production image, copy all the files and run the static server
+# Production image, copy all the files and run Next.js server
 FROM base AS runner
 WORKDIR /app
 
 ENV NODE_ENV=production
-ENV PORT=5000
+ENV PORT=3000
+ENV HOSTNAME=0.0.0.0
 
 # Create a non-root user to run the application
 RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 drugfacts
+RUN adduser --system --uid 1001 nextjs
 
-# Copy the built static files and deployment script
-COPY --from=builder /app/out ./out
-COPY --from=builder /app/deploy.js ./deploy.js
+# Copy the built application and necessary files
+COPY --from=builder /app/.next ./.next
+COPY --from=builder /app/public ./public
 COPY --from=builder /app/package.json ./package.json
+COPY --from=builder /app/next.config.js ./next.config.js
 COPY --from=deps /app/node_modules ./node_modules
 
 # Set the correct permissions
-RUN chown -R drugfacts:nodejs /app
-USER drugfacts
+RUN chown -R nextjs:nodejs /app
+USER nextjs
 
-EXPOSE 5000
+EXPOSE 3000
 
-# Health check for static server
+# Health check for Next.js server
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-  CMD node -e "require('http').get('http://localhost:5000', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })"
+  CMD node -e "require('http').get('http://localhost:3000', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })"
 
-CMD ["node", "deploy.js"]
+CMD ["npx", "next", "start"]
