@@ -1,8 +1,20 @@
+import { Metadata } from 'next'
 import Link from 'next/link'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import SearchBar from '@/components/drug/SearchBar'
 import { getAllDrugs } from '@/lib/drugs'
 import { Pill, FileText, Search, Shield, Users, BookOpen, Stethoscope, HelpCircle } from 'lucide-react'
+import StructuredData from '@/components/seo/StructuredData'
+
+export const metadata: Metadata = {
+  title: 'Professional Drug Information Platform | drugfacts.wiki',
+  description: 'Access comprehensive FDA-approved drug information, prescribing guidelines, and clinical data. Professional pharmaceutical resource for healthcare providers with patient-friendly explanations.',
+  openGraph: {
+    title: 'Professional Drug Information Platform | drugfacts.wiki',
+    description: 'Access comprehensive FDA-approved drug information, prescribing guidelines, and clinical data.',
+    type: 'website',
+  },
+}
 
 export default async function HomePage() {
   const drugs = await getAllDrugs()

@@ -1,6 +1,7 @@
-User-Agent: *
+User-agent: *
 Allow: /
 Disallow: /api/
 Disallow: /admin/
 
-Sitemap: https://drugfacts.wiki/sitemap.xml
+Sitemap: https://drug-info.replit.app/sitemap.xml
+Host: https://drug-info.replit.app

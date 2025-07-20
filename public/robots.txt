@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+
+Sitemap: https://drug-info.replit.app/sitemap.xml
+Host: https://drug-info.replit.app
