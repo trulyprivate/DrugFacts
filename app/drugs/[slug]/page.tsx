@@ -19,14 +19,16 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const drug = await getDrugBySlug(slug)
   if (!drug) return {}
 
-  const description = drug.indicationsAndUsage 
-    ? drug.indicationsAndUsage.slice(0, 160) + '...'
+  const genericName = drug.label?.genericName || drug.genericName;
+  const indicationsText = drug.label?.indicationsAndUsage || drug.indicationsAndUsage;
+  const description = indicationsText 
+    ? indicationsText.replace(/<[^>]*>/g, '').slice(0, 160) + '...'
     : `Professional drug information for ${drug.drugName}`
 
   return {
-    title: `${drug.drugName} (${drug.genericName || 'Drug Information'}) | drugfacts.wiki`,
+    title: `${drug.drugName} (${genericName || 'Drug Information'}) | drugfacts.wiki`,
     description,
-    keywords: `${drug.drugName}, ${drug.genericName}, ${drug.therapeuticClass}, drug information, prescribing information`,
+    keywords: `${drug.drugName}, ${genericName}, ${drug.therapeuticClass}, drug information, prescribing information`,
     openGraph: {
       title: `${drug.drugName} - Drug Information`,
       description,
@@ -57,6 +59,25 @@ export default async function DrugDetailPage({ params }: { params: Promise<{ slu
           <DrugHeader drug={drug} />
           
           <div className="space-y-6 mt-6">
+            {/* Highlights section from schema */}
+            {(drug.label?.highlights?.dosageAndAdministration || drug.dosageAndAdministration) && (
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-1">
+                <CollapsibleSection 
+                  id="highlights"
+                  title="HIGHLIGHTS" 
+                  defaultExpanded={true}
+                >
+                  <div className="prose max-w-none">
+                    <h4 className="text-sm font-medium text-blue-900 mb-2">Dosage and Administration Highlights</h4>
+                    <div dangerouslySetInnerHTML={{ 
+                      __html: drug.label?.highlights?.dosageAndAdministration || drug.dosageAndAdministration || '' 
+                    }} />
+                  </div>
+                </CollapsibleSection>
+              </div>
+            )}
+
+            {/* Boxed Warning */}
             {drug.boxedWarning && (
               <div className="border-2 border-red-500 bg-red-50 rounded-lg p-1">
                 <CollapsibleSection 
@@ -69,63 +90,164 @@ export default async function DrugDetailPage({ params }: { params: Promise<{ slu
               </div>
             )}
 
-            {drug.indicationsAndUsage && (
+            {/* Title (from schema) */}
+            {drug.label?.title && (
+              <CollapsibleSection id="title" title="FULL PRESCRIBING INFORMATION">
+                <div className="prose max-w-none" dangerouslySetInnerHTML={{ __html: drug.label.title }} />
+              </CollapsibleSection>
+            )}
+
+            {/* Indications and Usage */}
+            {(drug.label?.indicationsAndUsage || drug.indicationsAndUsage) && (
               <CollapsibleSection id="indications" title="INDICATIONS AND USAGE" defaultExpanded={true}>
-                <div className="prose max-w-none" dangerouslySetInnerHTML={{ __html: drug.indicationsAndUsage }} />
+                <div className="prose max-w-none" dangerouslySetInnerHTML={{ 
+                  __html: drug.label?.indicationsAndUsage || drug.indicationsAndUsage || '' 
+                }} />
               </CollapsibleSection>
             )}
 
-            {drug.dosageAndAdministration && (
+            {/* Dosage and Administration */}
+            {(drug.label?.dosageAndAdministration || drug.dosageAndAdministration) && (
               <CollapsibleSection id="dosage" title="DOSAGE AND ADMINISTRATION">
-                <div className="prose max-w-none" dangerouslySetInnerHTML={{ __html: drug.dosageAndAdministration }} />
+                <div className="prose max-w-none" dangerouslySetInnerHTML={{ 
+                  __html: drug.label?.dosageAndAdministration || drug.dosageAndAdministration || '' 
+                }} />
               </CollapsibleSection>
             )}
 
-            {drug.contraindications && (
+            {/* Dosage Forms and Strengths (from schema) */}
+            {(drug.label?.dosageFormsAndStrengths || drug.dosageFormsAndStrengths) && (
+              <CollapsibleSection id="dosage-forms" title="DOSAGE FORMS AND STRENGTHS">
+                <div className="prose max-w-none" dangerouslySetInnerHTML={{ 
+                  __html: drug.label?.dosageFormsAndStrengths || drug.dosageFormsAndStrengths || '' 
+                }} />
+              </CollapsibleSection>
+            )}
+
+            {/* Contraindications */}
+            {(drug.label?.contraindications || drug.contraindications) && (
               <CollapsibleSection id="contraindications" title="CONTRAINDICATIONS">
-                <div className="prose max-w-none" dangerouslySetInnerHTML={{ __html: drug.contraindications }} />
+                <div className="prose max-w-none" dangerouslySetInnerHTML={{ 
+                  __html: drug.label?.contraindications || drug.contraindications || '' 
+                }} />
               </CollapsibleSection>
             )}
 
-            {drug.warnings && (
+            {/* Warnings and Precautions */}
+            {(drug.label?.warningsAndPrecautions || drug.warnings || drug.warningsAndPrecautions) && (
               <CollapsibleSection id="warnings" title="WARNINGS AND PRECAUTIONS">
-                <div className="prose max-w-none" dangerouslySetInnerHTML={{ __html: drug.warnings }} />
+                <div className="prose max-w-none" dangerouslySetInnerHTML={{ 
+                  __html: drug.label?.warningsAndPrecautions || drug.warnings || drug.warningsAndPrecautions || '' 
+                }} />
               </CollapsibleSection>
             )}
 
-            {drug.adverseReactions && (
+            {/* Adverse Reactions */}
+            {(drug.label?.adverseReactions || drug.adverseReactions) && (
               <CollapsibleSection id="adverse-reactions" title="ADVERSE REACTIONS">
-                <div className="prose max-w-none" dangerouslySetInnerHTML={{ __html: drug.adverseReactions }} />
+                <div className="prose max-w-none" dangerouslySetInnerHTML={{ 
+                  __html: drug.label?.adverseReactions || drug.adverseReactions || '' 
+                }} />
               </CollapsibleSection>
             )}
 
+            {/* Drug Interactions */}
             {drug.drugInteractions && (
               <CollapsibleSection id="drug-interactions" title="DRUG INTERACTIONS">
                 <div className="prose max-w-none" dangerouslySetInnerHTML={{ __html: drug.drugInteractions }} />
               </CollapsibleSection>
             )}
 
-            {drug.clinicalPharmacology && (
+            {/* Use in Specific Populations (from schema) */}
+            {(drug.label?.useInSpecificPopulations || drug.useInSpecificPopulations) && (
+              <CollapsibleSection id="specific-populations" title="USE IN SPECIFIC POPULATIONS">
+                <div className="prose max-w-none" dangerouslySetInnerHTML={{ 
+                  __html: drug.label?.useInSpecificPopulations || drug.useInSpecificPopulations || '' 
+                }} />
+              </CollapsibleSection>
+            )}
+
+            {/* Clinical Pharmacology */}
+            {(drug.label?.clinicalPharmacology || drug.clinicalPharmacology) && (
               <CollapsibleSection id="clinical-pharmacology" title="CLINICAL PHARMACOLOGY">
-                <div className="prose max-w-none" dangerouslySetInnerHTML={{ __html: drug.clinicalPharmacology }} />
+                <div className="prose max-w-none" dangerouslySetInnerHTML={{ 
+                  __html: drug.label?.clinicalPharmacology || drug.clinicalPharmacology || '' 
+                }} />
               </CollapsibleSection>
             )}
 
-            {drug.clinicalStudies && (
+            {/* Mechanism of Action (from schema) */}
+            {(drug.label?.mechanismOfAction || drug.mechanismOfAction) && (
+              <CollapsibleSection id="mechanism-of-action" title="MECHANISM OF ACTION">
+                <div className="prose max-w-none" dangerouslySetInnerHTML={{ 
+                  __html: drug.label?.mechanismOfAction || drug.mechanismOfAction || '' 
+                }} />
+              </CollapsibleSection>
+            )}
+
+            {/* Nonclinical Toxicology (from schema) */}
+            {(drug.label?.nonclinicalToxicology || drug.nonClinicalToxicology || drug.nonclinicalToxicology) && (
+              <CollapsibleSection id="nonclinical-toxicology" title="NONCLINICAL TOXICOLOGY">
+                <div className="prose max-w-none" dangerouslySetInnerHTML={{ 
+                  __html: drug.label?.nonclinicalToxicology || drug.nonClinicalToxicology || drug.nonclinicalToxicology || '' 
+                }} />
+              </CollapsibleSection>
+            )}
+
+            {/* Clinical Studies */}
+            {(drug.label?.clinicalStudies || drug.clinicalStudies) && (
               <CollapsibleSection id="clinical-studies" title="CLINICAL STUDIES">
-                <div className="prose max-w-none" dangerouslySetInnerHTML={{ __html: drug.clinicalStudies }} />
+                <div className="prose max-w-none" dangerouslySetInnerHTML={{ 
+                  __html: drug.label?.clinicalStudies || drug.clinicalStudies || '' 
+                }} />
               </CollapsibleSection>
             )}
 
-            {drug.howSupplied && (
-              <CollapsibleSection id="how-supplied" title="HOW SUPPLIED">
-                <div className="prose max-w-none" dangerouslySetInnerHTML={{ __html: drug.howSupplied }} />
+            {/* Description */}
+            {(drug.label?.description || drug.description) && (
+              <CollapsibleSection id="description" title="DESCRIPTION">
+                <div className="prose max-w-none" dangerouslySetInnerHTML={{ 
+                  __html: drug.label?.description || drug.description || '' 
+                }} />
               </CollapsibleSection>
             )}
 
+            {/* How Supplied */}
+            {(drug.label?.howSupplied || drug.howSupplied) && (
+              <CollapsibleSection id="how-supplied" title="HOW SUPPLIED/STORAGE AND HANDLING">
+                <div className="prose max-w-none" dangerouslySetInnerHTML={{ 
+                  __html: drug.label?.howSupplied || drug.howSupplied || '' 
+                }} />
+              </CollapsibleSection>
+            )}
+
+            {/* Instructions for Use (from schema) */}
+            {(drug.label?.instructionsForUse || drug.instructionsForUse) && (
+              <CollapsibleSection id="instructions-for-use" title="INSTRUCTIONS FOR USE">
+                <div className="prose max-w-none" dangerouslySetInnerHTML={{ 
+                  __html: drug.label?.instructionsForUse || drug.instructionsForUse || '' 
+                }} />
+              </CollapsibleSection>
+            )}
+
+            {/* Patient Counseling Information */}
             {drug.patientCounseling && (
               <CollapsibleSection id="patient-counseling" title="PATIENT COUNSELING INFORMATION">
                 <div className="prose max-w-none" dangerouslySetInnerHTML={{ __html: drug.patientCounseling }} />
+              </CollapsibleSection>
+            )}
+
+            {/* Overdosage */}
+            {drug.overdosage && (
+              <CollapsibleSection id="overdosage" title="OVERDOSAGE">
+                <div className="prose max-w-none" dangerouslySetInnerHTML={{ __html: drug.overdosage }} />
+              </CollapsibleSection>
+            )}
+
+            {/* Principal Display Panel */}
+            {drug.principalDisplayPanel && (
+              <CollapsibleSection id="principal-display-panel" title="PRINCIPAL DISPLAY PANEL">
+                <div className="prose max-w-none" dangerouslySetInnerHTML={{ __html: drug.principalDisplayPanel }} />
               </CollapsibleSection>
             )}
           </div>
@@ -136,30 +258,81 @@ export default async function DrugDetailPage({ params }: { params: Promise<{ slu
           <Card className="p-6 sticky top-8">
             <h3 className="font-semibold mb-4">Drug Information</h3>
             <dl className="space-y-3 text-sm">
-              {drug.genericName && (
+              {/* Drug Name (schema required) */}
+              <dt className="text-gray-600">Drug Name</dt>
+              <dd className="font-medium">{drug.drugName}</dd>
+
+              {/* Generic Name (schema field) */}
+              {(drug.label?.genericName || drug.genericName) && (
                 <>
-                  <dt className="text-gray-600">Generic Name</dt>
-                  <dd className="font-medium">{drug.genericName}</dd>
+                  <dt className="text-gray-600 mt-3">Generic Name</dt>
+                  <dd className="font-medium">{drug.label?.genericName || drug.genericName}</dd>
                 </>
               )}
+
+              {/* Set ID (schema required) */}
+              <dt className="text-gray-600 mt-3">Set ID</dt>
+              <dd className="font-medium font-mono text-xs">{drug.setId}</dd>
+
+              {/* Labeler (schema field) */}
+              {(drug.labeler || drug.label?.labelerName || drug.manufacturer) && (
+                <>
+                  <dt className="text-gray-600 mt-3">Labeler</dt>
+                  <dd className="font-medium">{drug.labeler || drug.label?.labelerName || drug.manufacturer}</dd>
+                </>
+              )}
+
+              {/* Product Type (schema field) */}
+              {drug.label?.productType && (
+                <>
+                  <dt className="text-gray-600 mt-3">Product Type</dt>
+                  <dd className="font-medium">{drug.label.productType}</dd>
+                </>
+              )}
+
+              {/* Effective Time (schema field) */}
+              {drug.label?.effectiveTime && (
+                <>
+                  <dt className="text-gray-600 mt-3">Effective Time</dt>
+                  <dd className="font-medium">{new Date(drug.label.effectiveTime).toLocaleDateString()}</dd>
+                </>
+              )}
+
+              {/* Therapeutic Class */}
               {drug.therapeuticClass && (
                 <>
                   <dt className="text-gray-600 mt-3">Therapeutic Class</dt>
                   <dd className="font-medium">{drug.therapeuticClass}</dd>
                 </>
               )}
+
+              {/* Active Ingredient */}
+              {drug.activeIngredient && (
+                <>
+                  <dt className="text-gray-600 mt-3">Active Ingredient</dt>
+                  <dd className="font-medium">{drug.activeIngredient}</dd>
+                </>
+              )}
+
+              {/* Manufacturer/Labeler Name */}
               {drug.manufacturer && (
                 <>
                   <dt className="text-gray-600 mt-3">Manufacturer</dt>
                   <dd className="font-medium">{drug.manufacturer}</dd>
                 </>
               )}
+
+              {/* DEA Schedule */}
               {drug.dea && (
                 <>
                   <dt className="text-gray-600 mt-3">DEA Schedule</dt>
                   <dd className="font-medium">{drug.dea}</dd>
                 </>
               )}
+
+              {/* Slug (internal identifier) */}
+              <dt className="text-gray-600 mt-3">Slug</dt>
+              <dd className="font-medium text-xs text-gray-500">{drug.slug}</dd>
             </dl>
 
             {relatedDrugs.length > 0 && (

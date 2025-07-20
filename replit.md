@@ -8,6 +8,18 @@ This is a full-stack web application called "drugfacts.wiki" for displaying comp
 
 Preferred communication style: Simple, everyday language.
 
+## Recent Changes
+
+### January 20, 2025
+- Fixed Next.js application startup by installing Next.js dependency
+- Updated drug page to display all schema fields according to provided YAML specification
+- Enhanced drug detail page with comprehensive sections including:
+  - Highlights section with dosage administration
+  - All schema-required fields: drugName, setId, slug, labeler, label properties
+  - Full prescribing information sections: title, indicationsAndUsage, dosageAndAdministration, dosageFormsAndStrengths, warningsAndPrecautions, adverseReactions, clinicalPharmacology, clinicalStudies, howSupplied, useInSpecificPopulations, description, nonclinicalToxicology, instructionsForUse, mechanismOfAction, contraindications
+  - Updated sidebar with complete drug information display including Set ID, labeler details, product type, and effective time
+- Updated TypeScript interfaces to support both new schema structure and legacy field compatibility
+
 ## System Architecture
 
 The application follows a modern full-stack architecture with clear separation between frontend and backend components:

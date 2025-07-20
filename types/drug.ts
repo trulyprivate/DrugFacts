@@ -1,5 +1,35 @@
+export interface DrugHighlights {
+  dosageAndAdministration?: string;
+}
+
 export interface DrugLabel {
   drugName: string;
+  setId: string;
+  slug: string;
+  labeler?: string;
+  label?: {
+    genericName?: string;
+    labelerName?: string;
+    productType?: string;
+    effectiveTime?: string;
+    title?: string;
+    indicationsAndUsage?: string;
+    dosageAndAdministration?: string;
+    dosageFormsAndStrengths?: string;
+    warningsAndPrecautions?: string;
+    adverseReactions?: string;
+    clinicalPharmacology?: string;
+    clinicalStudies?: string;
+    howSupplied?: string;
+    useInSpecificPopulations?: string;
+    description?: string;
+    nonclinicalToxicology?: string;
+    instructionsForUse?: string;
+    mechanismOfAction?: string;
+    contraindications?: string;
+    highlights?: DrugHighlights;
+  };
+  // Legacy fields for backwards compatibility
   genericName?: string;
   activeIngredient?: string;
   boxedWarning?: string;
@@ -19,11 +49,14 @@ export interface DrugLabel {
   patientCounseling?: string;
   principalDisplayPanel?: string;
   spl?: string;
-  setId: string;
   therapeuticClass?: string;
   dea?: string;
   manufacturer?: string;
-  slug: string;
+  dosageFormsAndStrengths?: string;
+  warningsAndPrecautions?: string;
+  useInSpecificPopulations?: string;
+  instructionsForUse?: string;
+  mechanismOfAction?: string;
 }
 
 export interface RelatedDrug {
