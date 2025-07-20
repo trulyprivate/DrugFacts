@@ -80,16 +80,27 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="//fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.googleapis.com" crossOrigin="anonymous" />
         <link rel="preload" href="/og-image.png" as="image" />
-        {/* Non-critical CSS deferred for performance optimization */}
+        {/* Non-critical CSS and JS deferred for performance optimization */}
         <script dangerouslySetInnerHTML={{
           __html: `
             (function(){
+              // Defer CSS loading
               var link = document.createElement('link');
               link.rel = 'stylesheet';
               link.href = '/_next/static/css/app/layout.css';
               link.media = 'print';
               link.onload = function() { this.media = 'all'; };
               document.head.appendChild(link);
+              
+              // Defer non-critical JS until after page load
+              window.addEventListener('load', function() {
+                // Use requestIdleCallback for truly non-essential scripts
+                if ('requestIdleCallback' in window) {
+                  window.requestIdleCallback(function() {
+                    // Load analytics or other non-critical scripts here when needed
+                  });
+                }
+              });
             })();
           `
         }} />

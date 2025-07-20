@@ -16,7 +16,7 @@ const nextConfig = {
   generateEtags: false,
   experimental: {
     optimizeCss: true,
-    optimizePackageImports: ['lucide-react', '@radix-ui/react-icons'],
+    optimizePackageImports: ['lucide-react', '@radix-ui/react-icons', '@radix-ui/react-accordion', '@radix-ui/react-tabs'],
   },
   // Modern browser optimizations
   compiler: {
@@ -30,6 +30,46 @@ const nextConfig = {
       transform: 'lucide-react/dist/esm/icons/{{member}}',
       preventFullImport: true,
     },
+  },
+  // Advanced bundling optimizations
+  webpack: (config, { dev, isServer }) => {
+    // Optimize bundle splitting for better performance
+    if (!dev && !isServer) {
+      config.optimization.splitChunks = {
+        chunks: 'all',
+        maxInitialRequests: 25,
+        maxAsyncRequests: 25,
+        cacheGroups: {
+          react: {
+            test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
+            name: 'react',
+            priority: 20,
+            chunks: 'all',
+          },
+          radix: {
+            test: /[\\/]node_modules[\\/]@radix-ui[\\/]/,
+            name: 'radix',
+            priority: 15,
+            chunks: 'all',
+          },
+          lucide: {
+            test: /[\\/]node_modules[\\/]lucide-react[\\/]/,
+            name: 'lucide',
+            priority: 15,
+            chunks: 'all',
+          },
+          vendor: {
+            test: /[\\/]node_modules[\\/]/,
+            name: 'vendor',
+            priority: 10,
+            chunks: 'all',
+            minSize: 20000,
+            maxSize: 100000,
+          },
+        },
+      };
+    }
+    return config;
   },
   // Headers are not supported with output: 'export' - removing for static deployment
 }

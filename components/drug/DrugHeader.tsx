@@ -2,10 +2,15 @@
 
 import { DrugLabel } from "@/types/drug";
 import { extractKeyHighlights } from "@/lib/drug-utils";
-import { Share } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
+import dynamic from 'next/dynamic';
+
+// Dynamically import Share icon only when component loads
+const ShareIcon = dynamic(() => import('lucide-react').then(mod => ({ default: mod.Share })), {
+  loading: () => <div className="w-4 h-4" />, // Placeholder while loading
+});
 
 interface DrugHeaderProps {
   drug: DrugLabel;
@@ -107,7 +112,7 @@ export default function DrugHeader({ drug }: DrugHeaderProps) {
               variant="outline"
               onClick={handleShare}
             >
-              <Share className="mr-2 h-4 w-4" />
+              <ShareIcon className="mr-2 h-4 w-4" />
               Share
             </Button>
           </div>
