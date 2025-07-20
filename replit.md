@@ -11,6 +11,12 @@ Preferred communication style: Simple, everyday language.
 ## Recent Changes
 
 ### January 21, 2025
+- **Static Deployment Configuration**: Updated deployment to use static file serving for Next.js export:
+  - Updated `serve-static.js` to use ES modules and proper port configuration (5000)
+  - Created `deploy.js` as an enhanced static server with caching headers and better error handling
+  - **For Replit Deployment**: Use `node deploy.js` as the run command instead of `npm run start`
+  - **Manual Deployment**: First run `npm run build` to generate static files, then `node deploy.js` to serve
+  - Application configured for static export with `output: 'export'` in `next.config.js`
 - **Deployment Configuration Fixed**: Resolved Next.js static export deployment issues by:
   - Confirmed `npm run build` works correctly and generates static files in `out/` directory
   - Created `serve-static.js` for Express-based static file serving when needed

@@ -1,20 +1,89 @@
 {
   "pages": {
-    "/layout": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/css/app/layout.css",
-      "static/chunks/app/layout.js"
+    "/sitemap.xml/route": [
+      "static/chunks/webpack-86b9a0a63f5f9169.js",
+      "static/chunks/4bd1b696-cf72ae8a39fa05aa.js",
+      "static/chunks/964-69097a61540f27b4.js",
+      "static/chunks/main-app-51e1b6f5714d9477.js",
+      "static/chunks/app/sitemap.xml/route-ea43c4446f7fa602.js"
+    ],
+    "/robots.txt/route": [
+      "static/chunks/webpack-86b9a0a63f5f9169.js",
+      "static/chunks/4bd1b696-cf72ae8a39fa05aa.js",
+      "static/chunks/964-69097a61540f27b4.js",
+      "static/chunks/main-app-51e1b6f5714d9477.js",
+      "static/chunks/app/robots.txt/route-ea43c4446f7fa602.js"
     ],
     "/not-found": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/not-found.js"
+      "static/chunks/webpack-86b9a0a63f5f9169.js",
+      "static/chunks/4bd1b696-cf72ae8a39fa05aa.js",
+      "static/chunks/964-69097a61540f27b4.js",
+      "static/chunks/main-app-51e1b6f5714d9477.js",
+      "static/chunks/874-437a265a67d6cfee.js",
+      "static/chunks/app/not-found-671ee5685095bd75.js"
+    ],
+    "/_not-found/page": [
+      "static/chunks/webpack-86b9a0a63f5f9169.js",
+      "static/chunks/4bd1b696-cf72ae8a39fa05aa.js",
+      "static/chunks/964-69097a61540f27b4.js",
+      "static/chunks/main-app-51e1b6f5714d9477.js",
+      "static/chunks/app/_not-found/page-ea43c4446f7fa602.js"
+    ],
+    "/layout": [
+      "static/chunks/webpack-86b9a0a63f5f9169.js",
+      "static/chunks/4bd1b696-cf72ae8a39fa05aa.js",
+      "static/chunks/964-69097a61540f27b4.js",
+      "static/chunks/main-app-51e1b6f5714d9477.js",
+      "static/css/08afa30d4bc66dbb.css",
+      "static/css/931b179cff3131dc.css",
+      "static/chunks/874-437a265a67d6cfee.js",
+      "static/chunks/455-28b7fbb360ee31f4.js",
+      "static/chunks/187-9968f21ecf164052.js",
+      "static/chunks/app/layout-c0b6f77ee3b35596.js"
+    ],
+    "/search/page": [
+      "static/chunks/webpack-86b9a0a63f5f9169.js",
+      "static/chunks/4bd1b696-cf72ae8a39fa05aa.js",
+      "static/chunks/964-69097a61540f27b4.js",
+      "static/chunks/main-app-51e1b6f5714d9477.js",
+      "static/chunks/874-437a265a67d6cfee.js",
+      "static/chunks/455-28b7fbb360ee31f4.js",
+      "static/chunks/app/search/page-b57f5946c3bc34ef.js"
     ],
     "/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/page.js"
+      "static/chunks/webpack-86b9a0a63f5f9169.js",
+      "static/chunks/4bd1b696-cf72ae8a39fa05aa.js",
+      "static/chunks/964-69097a61540f27b4.js",
+      "static/chunks/main-app-51e1b6f5714d9477.js",
+      "static/chunks/874-437a265a67d6cfee.js",
+      "static/chunks/455-28b7fbb360ee31f4.js",
+      "static/chunks/app/page-641d159ac6a938ea.js"
+    ],
+    "/therapeutic-classes/page": [
+      "static/chunks/webpack-86b9a0a63f5f9169.js",
+      "static/chunks/4bd1b696-cf72ae8a39fa05aa.js",
+      "static/chunks/964-69097a61540f27b4.js",
+      "static/chunks/main-app-51e1b6f5714d9477.js",
+      "static/chunks/874-437a265a67d6cfee.js",
+      "static/chunks/app/therapeutic-classes/page-671ee5685095bd75.js"
+    ],
+    "/drugs/[slug]/page": [
+      "static/chunks/webpack-86b9a0a63f5f9169.js",
+      "static/chunks/4bd1b696-cf72ae8a39fa05aa.js",
+      "static/chunks/964-69097a61540f27b4.js",
+      "static/chunks/main-app-51e1b6f5714d9477.js",
+      "static/chunks/874-437a265a67d6cfee.js",
+      "static/chunks/455-28b7fbb360ee31f4.js",
+      "static/chunks/879-b3aa5836a0941f49.js",
+      "static/chunks/app/drugs/[slug]/page-a980b6334a703008.js"
+    ],
+    "/manufacturers/page": [
+      "static/chunks/webpack-86b9a0a63f5f9169.js",
+      "static/chunks/4bd1b696-cf72ae8a39fa05aa.js",
+      "static/chunks/964-69097a61540f27b4.js",
+      "static/chunks/main-app-51e1b6f5714d9477.js",
+      "static/chunks/874-437a265a67d6cfee.js",
+      "static/chunks/app/manufacturers/page-671ee5685095bd75.js"
     ]
   }
 }
