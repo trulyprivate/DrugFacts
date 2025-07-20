@@ -40,7 +40,7 @@ export default function Header() {
                   alt="DrugFacts Wiki Logo" 
                   className="h-8 w-8 object-contain"
                 />
-                <h1 className="text-xl font-bold text-medical-blue cursor-pointer leading-relaxed">
+                <h1 className="text-xl font-bold text-medical-blue cursor-pointer leading-relaxed mb-0">
                   drugfacts.wiki
                 </h1>
               </Link>
