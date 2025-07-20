@@ -10,6 +10,16 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
 
+### January 21, 2025 - Deployment Issues Fixed
+- **Next.js Static Export Configuration**: Applied all deployment fixes to resolve build failures:
+  - **Robots.txt Route Fix**: Added `export const dynamic = "force-static"` to `app/robots.ts` to fix Next.js static export compatibility
+  - **Headers Configuration Removed**: Removed headers configuration from `next.config.js` as headers are not supported with `output: 'export'`
+  - **Drug Data Generation Fixed**: Created missing drugData export in `client/src/data/drug-data.ts` for the generation script
+  - **Critters Dependency Added**: Installed missing `critters` package for CSS optimization
+  - **Static Build Success**: `npm run build` now successfully generates static files in `out/` directory with all pages exported
+  - **Ready for Static Deployment**: Application configured for deployment on Vercel, Netlify, or any static hosting platform
+  - **Deployment Options**: Use `node deploy.js` for local/Replit serving or deploy `out/` directory to static hosts
+
 ### January 21, 2025 - Lighthouse Performance Optimization
 - **Comprehensive Lighthouse Performance Fixes**: Implemented complete optimization suite to achieve 95+ scores across all categories:
   - **Performance Optimizations**:
