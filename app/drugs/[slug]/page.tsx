@@ -89,33 +89,33 @@ export default async function DrugDetailPage({ params }: { params: Promise<{ slu
           <DrugHeader drug={drug} />
           
           <Tabs defaultValue="professional" className="mt-4 sm:mt-6">
-            <TabsList className="grid w-full grid-cols-3 h-auto p-1 bg-gray-100 rounded-lg border border-gray-200">
+            <TabsList className="flex w-full h-auto p-0 bg-transparent border-b border-gray-200 rounded-none">
               <TabsTrigger 
                 value="professional" 
-                className="text-xs sm:text-sm px-1 sm:px-3 py-3 text-center font-medium transition-all duration-200 
-                          data-[state=active]:bg-medical-blue data-[state=active]:text-white data-[state=active]:shadow-sm
-                          data-[state=inactive]:bg-transparent data-[state=inactive]:text-gray-600 data-[state=inactive]:hover:bg-gray-50
-                          rounded-md border-0"
+                className="text-xs sm:text-sm px-4 sm:px-6 py-3 text-center font-medium transition-all duration-200 
+                          data-[state=active]:bg-white data-[state=active]:text-medical-blue data-[state=active]:border-b-2 data-[state=active]:border-medical-blue
+                          data-[state=inactive]:bg-transparent data-[state=inactive]:text-gray-600 data-[state=inactive]:hover:text-medical-blue data-[state=inactive]:border-b-2 data-[state=inactive]:border-transparent
+                          rounded-none flex-1"
               >
                 <span className="block sm:hidden">Professional</span>
                 <span className="hidden sm:block">Professional Info</span>
               </TabsTrigger>
               <TabsTrigger 
                 value="patient" 
-                className="text-xs sm:text-sm px-1 sm:px-3 py-3 text-center font-medium transition-all duration-200
-                          data-[state=active]:bg-medical-blue data-[state=active]:text-white data-[state=active]:shadow-sm
-                          data-[state=inactive]:bg-transparent data-[state=inactive]:text-gray-600 data-[state=inactive]:hover:bg-gray-50
-                          rounded-md border-0"
+                className="text-xs sm:text-sm px-4 sm:px-6 py-3 text-center font-medium transition-all duration-200
+                          data-[state=active]:bg-white data-[state=active]:text-medical-blue data-[state=active]:border-b-2 data-[state=active]:border-medical-blue
+                          data-[state=inactive]:bg-transparent data-[state=inactive]:text-gray-600 data-[state=inactive]:hover:text-medical-blue data-[state=inactive]:border-b-2 data-[state=inactive]:border-transparent
+                          rounded-none flex-1"
               >
                 <span className="block sm:hidden">Patient</span>
                 <span className="hidden sm:block">Patient-Friendly</span>
               </TabsTrigger>
               <TabsTrigger 
                 value="faq" 
-                className="text-xs sm:text-sm px-1 sm:px-3 py-3 text-center font-medium transition-all duration-200
-                          data-[state=active]:bg-medical-blue data-[state=active]:text-white data-[state=active]:shadow-sm
-                          data-[state=inactive]:bg-transparent data-[state=inactive]:text-gray-600 data-[state=inactive]:hover:bg-gray-50
-                          rounded-md border-0"
+                className="text-xs sm:text-sm px-4 sm:px-6 py-3 text-center font-medium transition-all duration-200
+                          data-[state=active]:bg-white data-[state=active]:text-medical-blue data-[state=active]:border-b-2 data-[state=active]:border-medical-blue
+                          data-[state=inactive]:bg-transparent data-[state=inactive]:text-gray-600 data-[state=inactive]:hover:text-medical-blue data-[state=inactive]:border-b-2 data-[state=inactive]:border-transparent
+                          rounded-none flex-1"
               >
                 <span className="block sm:hidden">FAQ</span>
                 <span className="hidden sm:block">FAQ & Related</span>
