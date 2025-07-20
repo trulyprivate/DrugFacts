@@ -27,6 +27,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "critters": "^0.0.23",
+    "express": "^5.1.0",
     "lucide-react": "^0.453.0",
     "next": "^15.4.2",
     "next-sitemap": "^4.2.3",

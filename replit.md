@@ -16,8 +16,9 @@ Preferred communication style: Simple, everyday language.
   - **Removed Backend Dependencies**: Eliminated Express.js stack (express, express-session, passport, connect-pg-simple, memorystore, ws), Drizzle ORM, and database-related packages since app uses static generation
   - **Removed Unused UI Libraries**: Removed framer-motion, embla-carousel-react, react-resizable-panels, recharts, vaul, cmdk, input-otp, react-day-picker, react-icons, next-themes
   - **Removed Development Tools**: Eliminated @tanstack/react-query, wouter, date-fns, zod-validation-error, tw-animate-css, openai
-  - **Bundle Size Reduction**: Reduced from 521 packages to ~340 packages (35% reduction)
-  - **Core Dependencies Retained**: Kept only essential packages: Next.js, React, critical Radix UI components (collapsible, dialog, dropdown-menu, label, separator, slot, tabs, toast), Tailwind utilities, and Lucide icons
+  - **Bundle Size Reduction**: Reduced from 521 packages to 97 packages (81% reduction)
+  - **Core Dependencies Retained**: Kept only essential packages: Next.js, React, critical Radix UI components (accordion, collapsible, dialog, dropdown-menu, label, separator, slot, tabs, toast), Tailwind utilities, Lucide icons, and Express for static deployment serving
+  - **Express Reinstated**: Added Express back for deploy.js static file serving functionality
 - **Performance Impact**: Significantly reduced bundle size for faster loading and better Core Web Vitals scores
 - **Clean Architecture**: Simplified dependency tree makes the project more maintainable and reduces security vulnerabilities
 
