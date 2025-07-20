@@ -15,7 +15,15 @@ Preferred communication style: Simple, everyday language.
   - **Removed @radix-ui/react-collapsible**: Unused in codebase, CollapsibleSection component uses custom implementation
   - **Removed @radix-ui/react-dropdown-menu**: No dropdown functionality used in current design  
   - **Removed zod**: Validation library not used in static site architecture
-  - **Deleted UI Component Files**: Removed unused collapsible.tsx and dropdown-menu.tsx from components/ui
+  - **Removed bufferutil**: Optional dependency not needed for current implementation
+  - **Removed @tailwindcss/vite**: Not needed since using Next.js instead of Vite
+  - **Removed next-sitemap**: Using Next.js native sitemap generation instead
+  - **Removed react-hook-form**: Not used in current static site codebase
+  - **Removed @replit/vite-plugin-cartographer**: Legacy from old Vite setup
+  - **Removed @replit/vite-plugin-runtime-error-modal**: Legacy from old Vite setup
+  - **Removed esbuild**: Only used in deprecated build scripts
+  - **Deleted UI Component Files**: Removed unused collapsible.tsx, dropdown-menu.tsx, and form.tsx from components/ui
+  - **Deleted Configuration Files**: Removed next-sitemap.config.js since using native Next.js sitemap
 - **Bundle Impact**: Further reduced dependency count and improved build performance
 - **Clean Architecture**: Maintained only actively used dependencies for better maintainability
 
