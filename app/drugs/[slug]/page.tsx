@@ -93,9 +93,9 @@ export default async function DrugDetailPage({ params }: { params: Promise<{ slu
               <TabsTrigger 
                 value="professional" 
                 className="text-xs sm:text-sm px-4 sm:px-6 py-3 text-center font-medium transition-all duration-200 
-                          data-[state=active]:bg-white data-[state=active]:text-medical-blue data-[state=active]:border-b-2 data-[state=active]:border-medical-blue
-                          data-[state=inactive]:bg-transparent data-[state=inactive]:text-gray-600 data-[state=inactive]:hover:text-medical-blue data-[state=inactive]:border-b-2 data-[state=inactive]:border-transparent
-                          rounded-none flex-1"
+                          data-[state=active]:bg-medical-blue data-[state=active]:text-white data-[state=active]:border data-[state=active]:border-medical-blue data-[state=active]:shadow-sm
+                          data-[state=inactive]:bg-transparent data-[state=inactive]:text-gray-600 data-[state=inactive]:hover:text-medical-blue data-[state=inactive]:hover:bg-blue-50
+                          rounded-t-lg border border-transparent flex-1"
               >
                 <span className="block sm:hidden">Professional</span>
                 <span className="hidden sm:block">Professional Info</span>
@@ -103,9 +103,9 @@ export default async function DrugDetailPage({ params }: { params: Promise<{ slu
               <TabsTrigger 
                 value="patient" 
                 className="text-xs sm:text-sm px-4 sm:px-6 py-3 text-center font-medium transition-all duration-200
-                          data-[state=active]:bg-white data-[state=active]:text-medical-blue data-[state=active]:border-b-2 data-[state=active]:border-medical-blue
-                          data-[state=inactive]:bg-transparent data-[state=inactive]:text-gray-600 data-[state=inactive]:hover:text-medical-blue data-[state=inactive]:border-b-2 data-[state=inactive]:border-transparent
-                          rounded-none flex-1"
+                          data-[state=active]:bg-medical-blue data-[state=active]:text-white data-[state=active]:border data-[state=active]:border-medical-blue data-[state=active]:shadow-sm
+                          data-[state=inactive]:bg-transparent data-[state=inactive]:text-gray-600 data-[state=inactive]:hover:text-medical-blue data-[state=inactive]:hover:bg-blue-50
+                          rounded-t-lg border border-transparent flex-1"
               >
                 <span className="block sm:hidden">Patient</span>
                 <span className="hidden sm:block">Patient-Friendly</span>
@@ -113,9 +113,9 @@ export default async function DrugDetailPage({ params }: { params: Promise<{ slu
               <TabsTrigger 
                 value="faq" 
                 className="text-xs sm:text-sm px-4 sm:px-6 py-3 text-center font-medium transition-all duration-200
-                          data-[state=active]:bg-white data-[state=active]:text-medical-blue data-[state=active]:border-b-2 data-[state=active]:border-medical-blue
-                          data-[state=inactive]:bg-transparent data-[state=inactive]:text-gray-600 data-[state=inactive]:hover:text-medical-blue data-[state=inactive]:border-b-2 data-[state=inactive]:border-transparent
-                          rounded-none flex-1"
+                          data-[state=active]:bg-medical-blue data-[state=active]:text-white data-[state=active]:border data-[state=active]:border-medical-blue data-[state=active]:shadow-sm
+                          data-[state=inactive]:bg-transparent data-[state=inactive]:text-gray-600 data-[state=inactive]:hover:text-medical-blue data-[state=inactive]:hover:bg-blue-50
+                          rounded-t-lg border border-transparent flex-1"
               >
                 <span className="block sm:hidden">FAQ</span>
                 <span className="hidden sm:block">FAQ & Related</span>
