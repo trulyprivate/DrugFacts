@@ -8,6 +8,7 @@ import { searchDrugsClient } from '@/lib/drugs-client'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Loader2 } from 'lucide-react'
 import { DrugLabel } from '@/types/drug'
+import { generateProviderFriendlyContent } from '@/lib/content-generation'
 
 function SearchContent() {
   const searchParams = useSearchParams()
@@ -89,9 +90,14 @@ function SearchContent() {
                         )}
                       </div>
                       {drug.indicationsAndUsage && (
-                        <p className="mt-3 text-sm text-gray-600 line-clamp-2">
-                          {drug.indicationsAndUsage.replace(/<[^>]*>/g, '').slice(0, 200)}...
-                        </p>
+                        <div className="mt-3 space-y-2">
+                          <p className="text-sm text-gray-600 line-clamp-2">
+                            {drug.indicationsAndUsage.replace(/<[^>]*>/g, '').slice(0, 200)}...
+                          </p>
+                          <div className="text-xs text-blue-600 bg-blue-50 px-2 py-1 rounded">
+                            Patient-friendly: {generateProviderFriendlyContent(drug).whatItTreats.slice(0, 120)}...
+                          </div>
+                        </div>
                       )}
                     </CardContent>
                   </Card>

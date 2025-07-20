@@ -3,9 +3,19 @@ import { notFound } from 'next/navigation'
 import { getDrugBySlug, getAllDrugs } from '@/lib/drugs'
 import DrugHeader from '@/components/drug/DrugHeader'
 import CollapsibleSection from '@/components/drug/CollapsibleSection'
+import ProviderFriendlySection from '@/components/drug/ProviderFriendlySection'
+import FAQSection from '@/components/drug/FAQSection'
+import RelatedContentSection from '@/components/drug/RelatedContentSection'
 import { Badge } from '@/components/ui/badge'
 import { Card } from '@/components/ui/card'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import Link from 'next/link'
+import { 
+  generateSEOContent, 
+  generateProviderFriendlyContent, 
+  generateFAQSections, 
+  generateRelatedContent 
+} from '@/lib/content-generation'
 
 export async function generateStaticParams() {
   const drugs = await getAllDrugs()
@@ -19,20 +29,35 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const drug = await getDrugBySlug(slug)
   if (!drug) return {}
 
-  const genericName = drug.label?.genericName || drug.genericName;
-  const indicationsText = drug.label?.indicationsAndUsage || drug.indicationsAndUsage;
-  const description = indicationsText 
-    ? indicationsText.replace(/<[^>]*>/g, '').slice(0, 160) + '...'
-    : `Professional drug information for ${drug.drugName}`
+  // Generate enhanced SEO content
+  const seoContent = generateSEOContent(drug)
 
   return {
-    title: `${drug.drugName} (${genericName || 'Drug Information'}) | drugfacts.wiki`,
-    description,
-    keywords: `${drug.drugName}, ${genericName}, ${drug.therapeuticClass}, drug information, prescribing information`,
+    title: seoContent.title,
+    description: seoContent.metaDescription,
+    keywords: seoContent.keywords.join(', '),
+    authors: [{ name: 'drugfacts.wiki' }],
     openGraph: {
-      title: `${drug.drugName} - Drug Information`,
-      description,
+      title: seoContent.openGraphTitle,
+      description: seoContent.openGraphDescription,
       type: 'article',
+      siteName: 'drugfacts.wiki',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: seoContent.openGraphTitle,
+      description: seoContent.openGraphDescription,
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        'max-video-preview': -1,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+      },
     },
   }
 }
@@ -45,11 +70,16 @@ export default async function DrugDetailPage({ params }: { params: Promise<{ slu
     notFound()
   }
 
-  // Get related drugs for sidebar
+  // Get all drugs for related content generation
   const allDrugs = await getAllDrugs()
   const relatedDrugs = allDrugs
     .filter(d => d.slug !== drug.slug && d.therapeuticClass === drug.therapeuticClass)
     .slice(0, 5)
+
+  // Generate enhanced content
+  const providerFriendlyContent = generateProviderFriendlyContent(drug)
+  const faqSections = generateFAQSections(drug)
+  const relatedContent = generateRelatedContent(drug, allDrugs)
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -58,7 +88,14 @@ export default async function DrugDetailPage({ params }: { params: Promise<{ slu
         <div className="lg:col-span-3">
           <DrugHeader drug={drug} />
           
-          <div className="space-y-6 mt-6">
+          <Tabs defaultValue="professional" className="mt-6">
+            <TabsList className="grid w-full grid-cols-3">
+              <TabsTrigger value="professional">Professional Info</TabsTrigger>
+              <TabsTrigger value="patient">Patient-Friendly</TabsTrigger>
+              <TabsTrigger value="faq">FAQ & Related</TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="professional" className="space-y-6 mt-6">
             {/* Highlights section from schema */}
             {(drug.label?.highlights?.dosageAndAdministration || drug.dosageAndAdministration) && (
               <div className="bg-blue-50 border border-blue-200 rounded-lg p-1">
@@ -250,7 +287,17 @@ export default async function DrugDetailPage({ params }: { params: Promise<{ slu
                 <div className="prose max-w-none" dangerouslySetInnerHTML={{ __html: drug.principalDisplayPanel }} />
               </CollapsibleSection>
             )}
-          </div>
+            </TabsContent>
+
+            <TabsContent value="patient" className="space-y-6 mt-6">
+              <ProviderFriendlySection content={providerFriendlyContent} />
+            </TabsContent>
+
+            <TabsContent value="faq" className="space-y-6 mt-6">
+              <FAQSection faqs={faqSections} drugName={drug.drugName} />
+              <RelatedContentSection content={relatedContent} />
+            </TabsContent>
+          </Tabs>
         </div>
 
         {/* Sidebar */}
