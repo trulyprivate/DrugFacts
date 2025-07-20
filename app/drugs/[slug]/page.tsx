@@ -250,10 +250,10 @@ export default async function DrugDetailPage({ params }: { params: Promise<{ slu
             )}
 
             {/* Nonclinical Toxicology (from schema) */}
-            {(drug.label?.nonclinicalToxicology || drug.nonClinicalToxicology || drug.nonclinicalToxicology) && (
+            {(drug.label?.nonClinicalToxicology || drug.nonClinicalToxicology) && (
               <CollapsibleSection id="nonclinical-toxicology" title="NONCLINICAL TOXICOLOGY">
                 <div className="prose max-w-none" dangerouslySetInnerHTML={{ 
-                  __html: drug.label?.nonclinicalToxicology || drug.nonClinicalToxicology || drug.nonclinicalToxicology || '' 
+                  __html: drug.label?.nonClinicalToxicology || drug.nonClinicalToxicology || '' 
                 }} />
               </CollapsibleSection>
             )}

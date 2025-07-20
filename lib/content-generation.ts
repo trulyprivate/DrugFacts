@@ -1,4 +1,4 @@
-import { Drug } from '@/types/drug'
+import { DrugLabel } from '@/types/drug'
 
 export interface SEOContent {
   title: string
@@ -37,7 +37,7 @@ export interface RelatedContent {
 /**
  * Generate SEO-optimized title and meta description based on drug information
  */
-export function generateSEOContent(drug: Drug): SEOContent {
+export function generateSEOContent(drug: DrugLabel): SEOContent {
   const genericName = drug.label?.genericName || drug.genericName || ''
   const therapeuticClass = drug.therapeuticClass || ''
   const indications = extractPlainText(drug.label?.indicationsAndUsage || drug.indicationsAndUsage || '')
@@ -71,7 +71,7 @@ export function generateSEOContent(drug: Drug): SEOContent {
 /**
  * Create provider-friendly explanations for patients and caregivers
  */
-export function generateProviderFriendlyContent(drug: Drug): ProviderFriendlyContent {
+export function generateProviderFriendlyContent(drug: DrugLabel): ProviderFriendlyContent {
   const genericName = drug.label?.genericName || drug.genericName || ''
   const indications = extractPlainText(drug.label?.indicationsAndUsage || drug.indicationsAndUsage || '')
   const adverseReactions = extractPlainText(drug.label?.adverseReactions || drug.adverseReactions || '')
@@ -91,7 +91,7 @@ export function generateProviderFriendlyContent(drug: Drug): ProviderFriendlyCon
 /**
  * Generate FAQ sections from drug label information
  */
-export function generateFAQSections(drug: Drug): FAQSection[] {
+export function generateFAQSections(drug: DrugLabel): FAQSection[] {
   const faqs: FAQSection[] = []
   
   // Dosing FAQs
@@ -150,7 +150,7 @@ export function generateFAQSections(drug: Drug): FAQSection[] {
 /**
  * Generate related content suggestions
  */
-export function generateRelatedContent(drug: Drug, allDrugs: Drug[]): RelatedContent {
+export function generateRelatedContent(drug: DrugLabel, allDrugs: DrugLabel[]): RelatedContent {
   const therapeuticClass = drug.therapeuticClass || ''
   const indications = extractPlainText(drug.label?.indicationsAndUsage || drug.indicationsAndUsage || '')
   

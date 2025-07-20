@@ -11,6 +11,14 @@ Preferred communication style: Simple, everyday language.
 ## Recent Changes
 
 ### January 21, 2025
+- **Fixed TypeScript Compilation Error**: Resolved deployment blocker by correcting property name mismatch from 'nonclinicalToxicology' to 'nonClinicalToxicology' across all files:
+  - Updated drug type definitions in both `types/drug.ts` and `client/src/types/drug.ts`
+  - Fixed usage in `app/drugs/[slug]/page.tsx` at line 253
+  - Corrected property reference in `client/src/pages/DrugDetail.tsx`
+  - Updated data file `client/src/data/drug-data.ts`
+  - Fixed function parameters in `lib/content-generation.ts` to use correct `DrugLabel` type instead of non-existent `Drug` type
+  - Ensured consistency with actual JSON data structure that uses `nonClinicalToxicology`
+- **TypeScript Build**: Application now compiles successfully with no errors, ready for deployment
 - Implemented native browser functionality for drug page actions:
   - "Save to Favorites" button now uses browser bookmark APIs with fallbacks to manual bookmark instructions
   - "Share" button utilizes Web Share API for native sharing, with clipboard fallback for unsupported browsers

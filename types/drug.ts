@@ -23,7 +23,7 @@ export interface DrugLabel {
     howSupplied?: string;
     useInSpecificPopulations?: string;
     description?: string;
-    nonclinicalToxicology?: string;
+    nonClinicalToxicology?: string;
     instructionsForUse?: string;
     mechanismOfAction?: string;
     contraindications?: string;

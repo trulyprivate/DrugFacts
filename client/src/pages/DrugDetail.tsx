@@ -398,7 +398,7 @@ export default function DrugDetail() {
               <CollapsibleSection id="nonclinical-toxicology" title="Nonclinical Toxicology">
                 <div className="bg-red-50 border border-red-200 rounded-lg p-4">
                   <h4 className="font-semibold text-red-800 mb-2">Animal Studies</h4>
-                  <p className="text-red-700">{drug.label.nonclinicalToxicology}</p>
+                  <p className="text-red-700">{drug.label.nonClinicalToxicology}</p>
                 </div>
               </CollapsibleSection>
 
