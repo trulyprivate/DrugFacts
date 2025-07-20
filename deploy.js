@@ -1,43 +1,59 @@
 #!/usr/bin/env node
 
-import express from 'express';
-import path from 'path';
+import { spawn } from 'child_process';
 import { fileURLToPath } from 'url';
+import path from 'path';
 import fs from 'fs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const app = express();
-const port = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3000;
 
-// Check if out directory exists
-const outDir = path.join(__dirname, 'out');
-if (!fs.existsSync(outDir)) {
-  console.error('❌ Error: "out" directory not found. Run "npm run build" first.');
+// Check if the build exists
+const buildDir = path.join(__dirname, '.next');
+if (!fs.existsSync(buildDir)) {
+  console.error('❌ Error: Build not found. Run "npm run build" first.');
   process.exit(1);
 }
 
-console.log('🚀 Starting static server for DrugFacts Wiki...');
-console.log(`📁 Serving from: ${outDir}`);
+console.log('🚀 Starting Next.js production server...');
+console.log(`📁 Serving from: ${buildDir}`);
+console.log(`📱 Local access: http://localhost:${PORT}`);
+console.log(`🌐 Network access: http://0.0.0.0:${PORT}`);
 
-// Serve static files from the 'out' directory
-app.use(express.static(outDir, {
-  setHeaders: (res, path) => {
-    // Cache static assets for better performance
-    if (path.endsWith('.js') || path.endsWith('.css') || path.endsWith('.png') || path.endsWith('.jpg') || path.endsWith('.ico')) {
-      res.setHeader('Cache-Control', 'public, max-age=31536000');
-    }
+// Set environment variables for Next.js
+process.env.NODE_ENV = 'production';
+process.env.PORT = PORT;
+process.env.HOSTNAME = '0.0.0.0';
+
+// Start Next.js production server
+const nextServer = spawn('npx', ['next', 'start'], {
+  stdio: 'inherit',
+  env: {
+    ...process.env,
+    PORT: PORT,
+    HOSTNAME: '0.0.0.0'
   }
-}));
-
-// Handle client-side routing - serve index.html for any unknown routes
-app.get('*', (req, res) => {
-  res.sendFile(path.join(outDir, 'index.html'));
 });
 
-app.listen(port, '0.0.0.0', () => {
-  console.log(`✅ Static server running on port ${port}`);
-  console.log(`🌐 Access your app at: http://localhost:${port}`);
-  console.log(`📊 Serving static files from Next.js export`);
+// Handle process termination gracefully
+process.on('SIGTERM', () => {
+  console.log('📦 Shutting down server...');
+  nextServer.kill('SIGTERM');
+});
+
+process.on('SIGINT', () => {
+  console.log('\n📦 Shutting down server...');
+  nextServer.kill('SIGINT');
+});
+
+nextServer.on('close', (code) => {
+  console.log(`📦 Server process exited with code ${code}`);
+  process.exit(code);
+});
+
+nextServer.on('error', (error) => {
+  console.error('❌ Error starting server:', error);
+  process.exit(1);
 });
