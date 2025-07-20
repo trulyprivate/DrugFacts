@@ -1,0 +1,8 @@
+{
+  "/sitemap.xml/route": "/sitemap.xml",
+  "/robots.txt/route": "/robots.txt",
+  "/_not-found/page": "/_not-found",
+  "/page": "/",
+  "/search/page": "/search",
+  "/drugs/[slug]/page": "/drugs/[slug]"
+}

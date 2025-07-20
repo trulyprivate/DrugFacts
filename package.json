@@ -1,14 +1,18 @@
 {
-  "name": "rest-express",
-  "version": "1.0.0",
+  "name": "drugfacts-wiki",
+  "version": "2.0.0",
   "type": "module",
   "license": "MIT",
   "scripts": {
-    "dev": "NODE_ENV=development tsx server/index.ts",
-    "build": "vite build && esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist",
-    "start": "NODE_ENV=production node dist/index.js",
+    "dev": "next dev",
+    "build": "npm run generate-data && next build",
+    "start": "next start",
+    "export": "next export",
+    "generate-data": "node scripts/generate-drug-data.mjs",
     "check": "tsc",
-    "db:push": "drizzle-kit push"
+    "old:dev": "NODE_ENV=development tsx server/index.ts",
+    "old:build": "vite build && esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist",
+    "old:start": "NODE_ENV=production node dist/index.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
@@ -56,6 +60,7 @@
     "input-otp": "^1.4.2",
     "lucide-react": "^0.453.0",
     "memorystore": "^1.6.7",
+    "next": "^15.4.2",
     "next-themes": "^0.4.6",
     "passport": "^0.7.0",
     "passport-local": "^1.0.0",
