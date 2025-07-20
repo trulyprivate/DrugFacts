@@ -11,6 +11,12 @@ Preferred communication style: Simple, everyday language.
 ## Recent Changes
 
 ### January 21, 2025
+- **Deployment Configuration Fixed**: Resolved Next.js static export deployment issues by:
+  - Confirmed `npm run build` works correctly and generates static files in `out/` directory
+  - Created `serve-static.js` for Express-based static file serving when needed
+  - Updated `vercel.json` to remove server-specific functions for static deployment
+  - Created comprehensive `DEPLOYMENT_CONFIG.md` with multiple deployment options
+  - Application is now properly configured for static site deployment on platforms like Vercel, Netlify, or GitHub Pages
 - **Fixed TypeScript Compilation Error**: Resolved deployment blocker by correcting property name mismatch from 'nonclinicalToxicology' to 'nonClinicalToxicology' across all files:
   - Updated drug type definitions in both `types/drug.ts` and `client/src/types/drug.ts`
   - Fixed usage in `app/drugs/[slug]/page.tsx` at line 253

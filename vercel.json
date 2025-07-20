@@ -3,10 +3,5 @@
   "outputDirectory": "out",
   "framework": "nextjs",
   "installCommand": "npm install",
-  "regions": ["iad1"],
-  "functions": {
-    "app/**/*.tsx": {
-      "maxDuration": 10
-    }
-  }
+  "regions": ["iad1"]
 }
