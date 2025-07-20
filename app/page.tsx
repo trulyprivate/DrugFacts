@@ -31,7 +31,7 @@ export default async function HomePage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12" style={{ gap: '1.5rem' }}>
             <Card>
               <CardHeader>
-                <Pill className="h-8 w-8 text-blue-600 mb-2" />
+                <Pill className="h-8 w-8 text-blue-600 mb-2" aria-hidden="true" />
                 <CardTitle>Drug Information</CardTitle>
               </CardHeader>
               <CardContent>
@@ -43,7 +43,7 @@ export default async function HomePage() {
             
             <Card>
               <CardHeader>
-                <FileText className="h-8 w-8 text-blue-600 mb-2" />
+                <FileText className="h-8 w-8 text-blue-600 mb-2" aria-hidden="true" />
                 <CardTitle>FDA Labels</CardTitle>
               </CardHeader>
               <CardContent>
@@ -55,7 +55,7 @@ export default async function HomePage() {
             
             <Card>
               <CardHeader>
-                <Search className="h-8 w-8 text-blue-600 mb-2" />
+                <Search className="h-8 w-8 text-blue-600 mb-2" aria-hidden="true" />
                 <CardTitle>Easy Search</CardTitle>
               </CardHeader>
               <CardContent>
@@ -67,7 +67,7 @@ export default async function HomePage() {
             
             <Card>
               <CardHeader>
-                <Shield className="h-8 w-8 text-blue-600 mb-2" />
+                <Shield className="h-8 w-8 text-blue-600 mb-2" aria-hidden="true" />
                 <CardTitle>Safety Info</CardTitle>
               </CardHeader>
               <CardContent>
@@ -82,7 +82,7 @@ export default async function HomePage() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12" style={{ gap: '1.5rem' }}>
             <Card className="border-green-200 bg-green-50">
               <CardHeader>
-                <Users className="h-8 w-8 text-green-600 mb-2" />
+                <Users className="h-8 w-8 text-green-600 mb-2" aria-hidden="true" />
                 <CardTitle className="text-green-800">Patient-Friendly Explanations</CardTitle>
               </CardHeader>
               <CardContent>
@@ -94,7 +94,7 @@ export default async function HomePage() {
             
             <Card className="border-orange-200 bg-orange-50">
               <CardHeader>
-                <HelpCircle className="h-8 w-8 text-orange-600 mb-2" />
+                <HelpCircle className="h-8 w-8 text-orange-600 mb-2" aria-hidden="true" />
                 <CardTitle className="text-orange-800">FAQ Sections</CardTitle>
               </CardHeader>
               <CardContent>
@@ -106,7 +106,7 @@ export default async function HomePage() {
             
             <Card className="border-purple-200 bg-purple-50">
               <CardHeader>
-                <BookOpen className="h-8 w-8 text-purple-600 mb-2" />
+                <BookOpen className="h-8 w-8 text-purple-600 mb-2" aria-hidden="true" />
                 <CardTitle className="text-purple-800">Related Content</CardTitle>
               </CardHeader>
               <CardContent>
@@ -128,6 +128,7 @@ export default async function HomePage() {
                   key={drug.slug}
                   href={`/drugs/${drug.slug}`}
                   className="block group h-full"
+                  aria-label={`View information for ${drug.drugName}${drug.genericName ? ` (${drug.genericName})` : ''}`}
                 >
                   <Card className="h-full transition-all duration-200 hover:shadow-lg hover:shadow-blue-100 hover:border-blue-200 cursor-pointer transform hover:-translate-y-1">
                     <CardHeader className="pb-3">

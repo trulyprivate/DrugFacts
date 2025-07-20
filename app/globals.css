@@ -2,6 +2,42 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Critical CSS inlined for Core Web Vitals */
+@layer base {
+  :root {
+    --font-inter: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  }
+  
+  /* Preload critical fonts */
+  html {
+    font-family: var(--font-inter);
+    scroll-behavior: smooth;
+  }
+  
+  html[data-scroll-behavior="smooth"] {
+    scroll-behavior: smooth;
+  }
+  
+  /* Screen reader only class */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+  
+  /* Focus styles for accessibility */
+  *:focus-visible {
+    outline: 2px solid #3B82F6;
+    outline-offset: 2px;
+  }
+}
+
 /* Enhanced mobile responsiveness for cards and text */
 @layer utilities {
   .card-title-responsive {

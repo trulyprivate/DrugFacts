@@ -28,19 +28,25 @@ export default function SearchBar({
   };
 
   return (
-    <form onSubmit={handleSubmit} className={`relative ${className}`}>
+    <form onSubmit={handleSubmit} className={`relative ${className}`} role="search">
+      <label htmlFor="drug-search" className="sr-only">
+        Search for drug information
+      </label>
       <Input
+        id="drug-search"
         type="text"
         placeholder={placeholder}
         value={query}
         onChange={(e) => setQuery(e.target.value)}
+        aria-label="Search for drug information"
         className="w-full pl-10 pr-12 py-3 border border-medical-gray-300 rounded-lg focus:ring-2 focus:ring-medical-blue focus:border-transparent"
       />
-      <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-medical-gray-400 h-5 w-5" />
+      <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-medical-gray-400 h-5 w-5" aria-hidden="true" />
       <Button
         type="submit"
         className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-medical-blue hover:bg-blue-700"
         size="sm"
+        aria-label="Search for drugs"
       >
         Search
       </Button>

@@ -63,7 +63,7 @@ export default function Header() {
           <div className="flex items-center space-x-4">
             <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
               <SheetTrigger asChild>
-                <Button variant="ghost" size="sm" className="md:hidden" onClick={handleMobileMenuToggle}>
+                <Button variant="ghost" size="sm" className="md:hidden" onClick={handleMobileMenuToggle} aria-label="Open navigation menu">
                   <Menu className="h-4 w-4" />
                 </Button>
               </SheetTrigger>

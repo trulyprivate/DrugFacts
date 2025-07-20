@@ -1,0 +1,20 @@
+{
+  "name": "drugfacts.wiki - Drug Information Platform",
+  "short_name": "drugfacts.wiki",
+  "description": "Comprehensive drug information resource for healthcare professionals",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#3B82F6",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/og-image.svg",
+      "sizes": "1200x630",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["health", "medical", "reference"],
+  "lang": "en"
+}
