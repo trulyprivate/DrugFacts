@@ -17,6 +17,12 @@ Preferred communication style: Simple, everyday language.
   - **For Replit Deployment**: Use `node deploy.js` as the run command instead of `npm run start`
   - **Manual Deployment**: First run `npm run build` to generate static files, then `node deploy.js` to serve
   - Application configured for static export with `output: 'export'` in `next.config.js`
+- **Docker Configuration Updated**: Updated all Docker files for static deployment:
+  - **Dockerfile**: Now builds static files to `out/` directory and serves with `deploy.js`
+  - **docker-compose.yml**: Updated port mapping to 5000:5000 and health checks
+  - **nginx.conf**: Created optimized configuration for static file serving with caching
+  - **DOCKER_DEPLOYMENT_GUIDE.md**: Comprehensive guide for Docker deployment
+  - All Docker services now use port 5000 consistently
 - **Deployment Configuration Fixed**: Resolved Next.js static export deployment issues by:
   - Confirmed `npm run build` works correctly and generates static files in `out/` directory
   - Created `serve-static.js` for Express-based static file serving when needed
