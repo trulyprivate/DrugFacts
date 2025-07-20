@@ -73,7 +73,7 @@ export default function Header() {
                     <Link
                       key={item.name}
                       href={item.href}
-                      className="text-medical-gray-600 hover:text-medical-blue transition-colors"
+                      className="text-right text-medical-gray-600 hover:text-medical-blue transition-colors font-bold text-lg py-2"
                       onClick={handleLinkClick}
                     >
                       {item.name}
