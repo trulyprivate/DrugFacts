@@ -33,6 +33,11 @@ Preferred communication style: Simple, everyday language.
   - Displays statistics on number of classes and drugs per class
   - Links directly to individual drug pages with hover effects
   - Shows drug details including generic name, manufacturer, and indication summaries
+- Created manufacturers page (/manufacturers):
+  - Groups drugs by pharmaceutical manufacturer pulled from drug data
+  - Displays statistics on number of manufacturers and drugs per manufacturer
+  - Links directly to individual drug pages with manufacturer branding
+  - Shows drug details including generic name, therapeutic class, and indication summaries
 
 ### January 20, 2025
 - Fixed Next.js application startup by installing Next.js dependency
