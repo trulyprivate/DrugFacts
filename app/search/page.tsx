@@ -65,7 +65,7 @@ function SearchContent() {
                 >
                   <Card className="transition-shadow hover:shadow-lg">
                     <CardHeader>
-                      <CardTitle className="group-hover:text-blue-600 transition-colors">
+                      <CardTitle className="group-hover:text-gray-700 transition-colors">
                         {drug.drugName}
                       </CardTitle>
                       {drug.genericName && (
@@ -75,7 +75,7 @@ function SearchContent() {
                     <CardContent>
                       <div className="flex flex-wrap gap-2">
                         {drug.therapeuticClass && (
-                          <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">
+                          <span className="text-xs bg-gray-100 text-gray-700 px-2 py-1 rounded">
                             {drug.therapeuticClass}
                           </span>
                         )}

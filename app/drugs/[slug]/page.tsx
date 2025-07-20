@@ -125,14 +125,14 @@ export default async function DrugDetailPage({ params }: { params: Promise<{ slu
             <TabsContent value="professional" className="space-y-4 sm:space-y-6 mt-4 sm:mt-6">
             {/* Highlights section from schema */}
             {(drug.label?.highlights?.dosageAndAdministration || drug.dosageAndAdministration) && (
-              <div className="bg-blue-50 border border-blue-200 rounded-lg p-1">
+              <div className="bg-gray-50 border border-gray-200 rounded-lg p-1">
                 <CollapsibleSection 
                   id="highlights"
                   title="HIGHLIGHTS" 
                   defaultExpanded={true}
                 >
                   <div className="prose max-w-none">
-                    <h4 className="text-sm font-medium text-blue-900 mb-2">Dosage and Administration Highlights</h4>
+                    <h4 className="text-sm font-medium text-gray-700 mb-2">Dosage and Administration Highlights</h4>
                     <div dangerouslySetInnerHTML={{ 
                       __html: drug.label?.highlights?.dosageAndAdministration || drug.dosageAndAdministration || '' 
                     }} />

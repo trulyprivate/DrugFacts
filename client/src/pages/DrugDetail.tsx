@@ -67,9 +67,9 @@ export default function DrugDetail() {
   }
 
   const dosageSteps = [
-    { step: 1, label: "Starting Dose", description: "2.5 mg once weekly × 4 weeks", color: "bg-medical-blue" },
-    { step: 2, label: "Increase to", description: "5 mg once weekly", color: "bg-medical-green" },
-    { step: 3, label: "Titrate as needed", description: "Up to 15 mg once weekly", color: "bg-warning-orange" },
+    { step: 1, label: "Starting Dose", description: "2.5 mg once weekly × 4 weeks", color: "bg-gray-500" },
+    { step: 2, label: "Increase to", description: "5 mg once weekly", color: "bg-green-600" },
+    { step: 3, label: "Titrate as needed", description: "Up to 15 mg once weekly", color: "bg-orange-500" },
   ];
 
   const administrationDetails = [
@@ -88,9 +88,9 @@ export default function DrugDetail() {
   ];
 
   const clinicalResults = [
-    { value: "-2.4%", label: "Mean HbA1c reduction (15 mg)", color: "text-medical-blue" },
-    { value: "-11.2 kg", label: "Mean weight reduction (15 mg)", color: "text-medical-green" },
-    { value: "86%", label: "Achieved HbA1c <7% (15 mg)", color: "text-warning-orange" },
+    { value: "-2.4%", label: "Mean HbA1c reduction (15 mg)", color: "text-gray-700" },
+    { value: "-11.2 kg", label: "Mean weight reduction (15 mg)", color: "text-green-600" },
+    { value: "86%", label: "Achieved HbA1c <7% (15 mg)", color: "text-orange-600" },
   ];
 
   return (
@@ -101,9 +101,9 @@ export default function DrugDetail() {
       <nav className="bg-medical-gray-100 border-b border-medical-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center space-x-2 py-3 text-sm">
-            <a href="/" className="text-medical-gray-500 hover:text-medical-blue">Home</a>
+            <a href="/" className="text-medical-gray-500 hover:text-gray-700">Home</a>
             <span className="text-medical-gray-400">/</span>
-            <a href="/drugs" className="text-medical-gray-500 hover:text-medical-blue">Drugs</a>
+            <a href="/drugs" className="text-medical-gray-500 hover:text-gray-700">Drugs</a>
             <span className="text-medical-gray-400">/</span>
             <span className="text-medical-gray-700 font-medium">
               {drug.drugName} ({drug.label.genericName})
@@ -356,7 +356,7 @@ export default function DrugDetail() {
               </CollapsibleSection>
 
               <CollapsibleSection id="dosage-forms" title="Dosage Forms and Strengths">
-                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
                   <p className="text-medical-gray-700">{drug.label.dosageFormsAndStrengths}</p>
                 </div>
               </CollapsibleSection>

@@ -50,7 +50,7 @@ export default function DrugHeader({ drug }: DrugHeaderProps) {
                 {drug.drugName}
                 <sup>®</sup>
               </h1>
-              <Badge className="bg-medical-blue text-white self-start">Prescription Only</Badge>
+              <Badge className="bg-gray-600 text-white self-start">Prescription Only</Badge>
             </div>
             <h2 className="text-xl text-medical-gray-600 mb-4">
               {drug.genericName && `(${drug.genericName})`}

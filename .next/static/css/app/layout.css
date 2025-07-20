@@ -1302,10 +1302,10 @@ video {
 /* Add subtle click feedback */
 /* Tab styling enhancements - only target tab triggers */
 [role="tab"][data-state="active"] {
-    --tab-bg: #2563eb !important;
-    background-color: #2563eb !important;
+    --tab-bg: #4b5563 !important;
+    background-color: #4b5563 !important;
     color: white !important;
-    border-color: #2563eb !important;
+    border-color: #4b5563 !important;
   }
 /* Ensure tab content areas stay normal */
 [role="tabpanel"] {
@@ -2294,6 +2294,14 @@ video {
   --tw-bg-opacity: 1;
   background-color: rgb(249 250 251 / var(--tw-bg-opacity, 1));
 }
+.bg-gray-500 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(107 114 128 / var(--tw-bg-opacity, 1));
+}
+.bg-gray-600 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(75 85 99 / var(--tw-bg-opacity, 1));
+}
 .bg-green-100 {
   --tw-bg-opacity: 1;
   background-color: rgb(220 252 231 / var(--tw-bg-opacity, 1));
@@ -2301,6 +2309,10 @@ video {
 .bg-green-50 {
   --tw-bg-opacity: 1;
   background-color: rgb(240 253 244 / var(--tw-bg-opacity, 1));
+}
+.bg-green-600 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(22 163 74 / var(--tw-bg-opacity, 1));
 }
 .bg-medical-blue {
   --tw-bg-opacity: 1;
@@ -2328,6 +2340,10 @@ video {
 .bg-orange-50 {
   --tw-bg-opacity: 1;
   background-color: rgb(255 247 237 / var(--tw-bg-opacity, 1));
+}
+.bg-orange-500 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(249 115 22 / var(--tw-bg-opacity, 1));
 }
 .bg-popover {
   background-color: var(--popover);
@@ -2655,10 +2671,6 @@ video {
 .text-blue-800 {
   --tw-text-opacity: 1;
   color: rgb(30 64 175 / var(--tw-text-opacity, 1));
-}
-.text-blue-900 {
-  --tw-text-opacity: 1;
-  color: rgb(30 58 138 / var(--tw-text-opacity, 1));
 }
 .text-card-foreground {
   color: var(--card-foreground);
@@ -3042,12 +3054,6 @@ video {
 .text-medical-blue {
     color: var(--medical-blue);
   }
-.text-medical-green {
-    color: var(--medical-green);
-  }
-.text-warning-orange {
-    color: var(--warning-orange);
-  }
 .bg-medical-blue {
     background-color: var(--medical-blue);
   }
@@ -3311,6 +3317,10 @@ video {
 .hover\:text-foreground:hover {
   color: var(--foreground);
 }
+.hover\:text-gray-700:hover {
+  --tw-text-opacity: 1;
+  color: rgb(55 65 81 / var(--tw-text-opacity, 1));
+}
 .hover\:text-medical-blue:hover {
   --tw-text-opacity: 1;
   color: rgb(37 99 235 / var(--tw-text-opacity, 1));
@@ -3449,6 +3459,10 @@ video {
 .group:hover .group-hover\:text-blue-700 {
   --tw-text-opacity: 1;
   color: rgb(29 78 216 / var(--tw-text-opacity, 1));
+}
+.group:hover .group-hover\:text-gray-700 {
+  --tw-text-opacity: 1;
+  color: rgb(55 65 81 / var(--tw-text-opacity, 1));
 }
 .group\/menu-item:hover .group-hover\/menu-item\:opacity-100 {
   opacity: 1;

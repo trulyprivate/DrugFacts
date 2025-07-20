@@ -114,16 +114,16 @@
   
   /* Add subtle click feedback */
   .drug-card:focus {
-    outline: 2px solid #3B82F6;
+    outline: 2px solid #4b5563;
     outline-offset: 2px;
   }
   
   /* Tab styling enhancements - only target tab triggers */
   [role="tab"][data-state="active"] {
-    --tab-bg: #2563eb !important;
-    background-color: #2563eb !important;
+    --tab-bg: #4b5563 !important;
+    background-color: #4b5563 !important;
     color: white !important;
-    border-color: #2563eb !important;
+    border-color: #4b5563 !important;
   }
   
   /* Ensure tab content areas stay normal */
