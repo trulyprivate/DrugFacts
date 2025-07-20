@@ -9,6 +9,7 @@ import SearchForm from "./SearchForm";
 
 export default function Header() {
   const [isSearchFocused, setIsSearchFocused] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   
   const navigation = [
     { name: "Home", href: "/" },
@@ -16,6 +17,14 @@ export default function Header() {
     { name: "Therapeutic Classes", href: "/therapeutic-classes" },
     { name: "Manufacturers", href: "/manufacturers" },
   ];
+
+  const handleMobileMenuToggle = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+  const handleLinkClick = () => {
+    setIsMobileMenuOpen(false);
+  };
 
   return (
     <header className="bg-white shadow-sm border-b border-medical-gray-200 sticky top-0 z-50">
@@ -52,9 +61,9 @@ export default function Header() {
           </div>
 
           <div className="flex items-center space-x-4">
-            <Sheet>
+            <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
               <SheetTrigger asChild>
-                <Button variant="ghost" size="sm" className="md:hidden">
+                <Button variant="ghost" size="sm" className="md:hidden" onClick={handleMobileMenuToggle}>
                   <Menu className="h-4 w-4" />
                 </Button>
               </SheetTrigger>
@@ -65,6 +74,7 @@ export default function Header() {
                       key={item.name}
                       href={item.href}
                       className="text-medical-gray-600 hover:text-medical-blue transition-colors"
+                      onClick={handleLinkClick}
                     >
                       {item.name}
                     </Link>
