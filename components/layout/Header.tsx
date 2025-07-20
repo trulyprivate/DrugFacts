@@ -36,7 +36,7 @@ export default function Header() {
             <div className="flex-shrink-0 flex items-center h-16">
               <Link href="/" className="flex items-center space-x-2 h-full">
                 <img 
-                  src="/logo-small.svg" 
+                  src="/og-image.png" 
                   alt="DrugFacts Wiki Logo" 
                   className="h-8 w-8 object-contain"
                 />
