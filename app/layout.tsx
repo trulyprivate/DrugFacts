@@ -23,10 +23,10 @@ export const metadata: Metadata = {
     siteName: 'drugfacts.wiki',
     images: [
       {
-        url: '/og-image.svg',
-        width: 1200,
-        height: 630,
-        alt: 'drugfacts.wiki - Drug Information Platform',
+        url: '/og-image.png',
+        width: 512,
+        height: 512,
+        alt: 'drugfacts.wiki - Comprehensive Drug Information with Medical Pills Logo',
       },
     ],
   },
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'drugfacts.wiki - Comprehensive Drug Information',
     description: 'Quickly search for drug information, interactions, and side effects.',
-    images: ['/og-image.svg'],
+    images: ['/og-image.png'],
   },
 }
 
@@ -53,7 +53,11 @@ export default function RootLayout({
       <head>
         <link rel="dns-prefetch" href="//fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.googleapis.com" crossOrigin="anonymous" />
-        <link rel="preload" href="/og-image.svg" as="image" />
+        <link rel="preload" href="/og-image.png" as="image" />
+        <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/og-image.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/og-image.png" />
+        <link rel="apple-touch-icon" href="/og-image.png" />
         <meta name="theme-color" content="#3B82F6" />
         <link rel="manifest" href="/manifest.json" />
       </head>
