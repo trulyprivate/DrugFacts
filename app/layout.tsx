@@ -57,10 +57,10 @@ export default function RootLayout({
   return (
     <html lang="en" data-scroll-behavior="smooth">
       <head>
-        {/* Critical CSS inline for fastest rendering */}
+        {/* Critical above-the-fold CSS inlined for fastest LCP */}
         <style dangerouslySetInnerHTML={{
           __html: `
-            :root{--font-inter:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;--background:hsl(0,0%,100%);--foreground:hsl(20,14.3%,4.1%);--primary:hsl(0,0%,40%);--border:hsl(20,5.9%,90%)}
+            :root{--font-inter:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;--background:hsl(0,0%,100%);--foreground:hsl(20,14.3%,4.1%);--primary:hsl(0,0%,40%);--border:hsl(20,5.9%,90%);--card:hsl(0,0%,100%)}
             html{font-family:var(--font-inter);scroll-behavior:smooth}
             body{margin:0;padding:0;font-family:var(--font-inter);background-color:var(--background);color:var(--foreground);line-height:1.6;-webkit-font-smoothing:antialiased}
             header{background-color:var(--background);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50}
@@ -69,9 +69,9 @@ export default function RootLayout({
             .grid{display:grid;gap:1.5rem}
             @media(min-width:768px){.grid{grid-template-columns:repeat(2,1fr)}}
             @media(min-width:1024px){.grid{grid-template-columns:repeat(3,1fr)}}
-            .card{background-color:var(--background);border:1px solid var(--border);border-radius:0.5rem;padding:1.5rem;box-shadow:0 1px 3px rgba(0,0,0,0.1)}
+            .card{background-color:var(--card);border:1px solid var(--border);border-radius:0.5rem;padding:1.5rem;box-shadow:0 1px 3px rgba(0,0,0,0.1)}
             h1,h2,h3{margin:0 0 1rem 0;font-weight:600;line-height:1.2}
-            h1{font-size:2.25rem}
+            h1{font-size:2.25rem}h2{font-size:1.875rem}
             button{font-family:inherit;background-color:transparent;color:inherit;border:none;border-radius:0.375rem;padding:0.5rem 1rem;cursor:pointer}
             *:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
             @media(max-width:640px){.container{padding:0.5rem}.grid{grid-template-columns:1fr;gap:1rem}h1{font-size:1.875rem}}
@@ -80,7 +80,19 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="//fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.googleapis.com" crossOrigin="anonymous" />
         <link rel="preload" href="/og-image.png" as="image" />
-        <link rel="preload" href="/_next/static/css/app/layout.css" as="style" />
+        {/* Non-critical CSS deferred for performance optimization */}
+        <script dangerouslySetInnerHTML={{
+          __html: `
+            (function(){
+              var link = document.createElement('link');
+              link.rel = 'stylesheet';
+              link.href = '/_next/static/css/app/layout.css';
+              link.media = 'print';
+              link.onload = function() { this.media = 'all'; };
+              document.head.appendChild(link);
+            })();
+          `
+        }} />
         <link rel="icon" type="image/x-icon" href="/favicon.ico" />
         <link rel="icon" type="image/png" sizes="32x32" href="/og-image.png" />
         <link rel="icon" type="image/png" sizes="16x16" href="/og-image.png" />
