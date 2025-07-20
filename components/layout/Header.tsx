@@ -41,7 +41,7 @@ export default function Header() {
                   className="h-8 w-8 object-contain"
                 />
                 <h1 className="text-xl font-bold text-medical-blue cursor-pointer leading-relaxed mb-0">
-                  drugfacts.wiki
+                  DrugFacts.wiki
                 </h1>
               </Link>
             </div>
