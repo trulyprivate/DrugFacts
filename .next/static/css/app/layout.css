@@ -1531,6 +1531,10 @@ video {
 .fill-current {
   fill: currentColor;
 }
+.object-contain {
+  -o-object-fit: contain;
+     object-fit: contain;
+}
 .p-0 {
   padding: 0px;
 }
@@ -1762,9 +1766,6 @@ video {
 }
 .leading-none {
   line-height: 1;
-}
-.leading-normal {
-  line-height: 1.5;
 }
 .leading-relaxed {
   line-height: 1.625;
