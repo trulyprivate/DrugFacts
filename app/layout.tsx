@@ -58,6 +58,20 @@ export default function RootLayout({
     <html lang="en" data-scroll-behavior="smooth">
       <head>
         {/* Critical above-the-fold CSS inlined for fastest LCP */}
+        {/* Critical CSS for instant LCP */}
+        <style dangerouslySetInnerHTML={{
+          __html: `
+            /* Critical above-the-fold styles for fastest LCP */
+            body{font-family:'Inter',system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;font-display:swap;line-height:1.6;margin:0;padding:0;background:#fff;color:#1f2937}
+            .drug-header{font-size:2rem;font-weight:700;line-height:1.2;color:#1f2937;margin:0 0 1rem 0;contain:layout style paint;font-display:swap;letter-spacing:-0.025em}
+            .container{max-width:1200px;margin:0 auto;padding:0 1rem}
+            .drug-card{background:#fff;border:1px solid #e5e7eb;border-radius:0.5rem;padding:1.5rem;margin-bottom:1.5rem;box-shadow:0 1px 3px rgba(0,0,0,0.1)}
+            .grid{display:grid;gap:1rem}
+            .flex{display:flex}.items-center{align-items:center}.justify-between{justify-content:space-between}.flex-col{flex-direction:column}
+            .mb-4{margin-bottom:1rem}.mb-6{margin-bottom:1.5rem}.p-4{padding:1rem}.p-6{padding:1.5rem}
+            @media(max-width:640px){.container{padding:0.5rem}.drug-header{font-size:1.875rem}.drug-card{padding:1rem;margin-bottom:1rem}.grid{grid-template-columns:1fr;gap:0.75rem}}
+          `
+        }} />
         <style dangerouslySetInnerHTML={{
           __html: `
             :root{--font-inter:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;--background:hsl(0,0%,100%);--foreground:hsl(20,14.3%,4.1%);--primary:hsl(0,0%,40%);--border:hsl(20,5.9%,90%);--card:hsl(0,0%,100%)}
@@ -85,6 +99,12 @@ export default function RootLayout({
         {/* Preload critical resources for faster LCP */}
         <link rel="preload" href="/og-image.png" as="image" />
         <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" />
+        
+        {/* Resource hints for better performance */}
+        
+        {/* Early DNS resolution for faster resource loading */}
+        <link rel="dns-prefetch" href="//cdnjs.cloudflare.com" />
+        <link rel="dns-prefetch" href="//unpkg.com" />
         
         {/* Font optimization for LCP - deferred loading */}
         <script dangerouslySetInnerHTML={{

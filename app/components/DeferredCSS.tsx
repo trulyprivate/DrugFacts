@@ -1,31 +1,32 @@
-"use client"
+'use client'
 
-import { useEffect } from 'react';
+import { useEffect } from 'react'
 
-interface DeferredCSSProps {
-  href: string;
-  media?: string;
-}
-
-export default function DeferredCSS({ href, media = "all" }: DeferredCSSProps) {
+export default function DeferredCSS() {
   useEffect(() => {
-    // Defer non-critical CSS loading after page load
-    const loadCSS = () => {
-      const link = document.createElement('link');
-      link.rel = 'stylesheet';
-      link.href = href;
-      link.media = media;
-      document.head.appendChild(link);
-    };
-
-    // Load after initial render is complete
-    if (document.readyState === 'complete') {
-      loadCSS();
-    } else {
-      window.addEventListener('load', loadCSS);
-      return () => window.removeEventListener('load', loadCSS);
+    // Load non-critical CSS after component mounts to improve LCP
+    const loadDeferredCSS = () => {
+      const cssFiles = [
+        '/globals-deferred.css'
+      ]
+      
+      cssFiles.forEach(href => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = href
+        link.media = 'all'
+        document.head.appendChild(link)
+      })
     }
-  }, [href, media]);
 
-  return null;
+    // Use requestIdleCallback to defer until browser is idle
+    if ('requestIdleCallback' in window) {
+      window.requestIdleCallback(loadDeferredCSS)
+    } else {
+      // Fallback for browsers without requestIdleCallback
+      setTimeout(loadDeferredCSS, 100)
+    }
+  }, [])
+
+  return null
 }

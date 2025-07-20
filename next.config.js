@@ -15,6 +15,9 @@ const nextConfig = {
   compress: true,
   poweredByHeader: false,
   generateEtags: false,
+  
+  // LCP and TTFB optimizations
+  reactStrictMode: false, // Reduce development overhead
   experimental: {
     optimizeCss: true,
     optimizePackageImports: ['lucide-react', '@radix-ui/react-icons', '@radix-ui/react-accordion', '@radix-ui/react-tabs'],
