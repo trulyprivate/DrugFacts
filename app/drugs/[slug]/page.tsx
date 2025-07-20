@@ -161,22 +161,30 @@ export default async function DrugDetailPage({ params }: { params: Promise<{ slu
               </CollapsibleSection>
             )}
 
-            {/* Indications and Usage */}
+            {/* Indications and Usage - Critical Information */}
             {(drug.label?.indicationsAndUsage || drug.indicationsAndUsage) && (
-              <CollapsibleSection id="indications" title="INDICATIONS AND USAGE" defaultExpanded={true}>
-                <div className="prose max-w-none" dangerouslySetInnerHTML={{ 
-                  __html: drug.label?.indicationsAndUsage || drug.indicationsAndUsage || '' 
-                }} />
-              </CollapsibleSection>
+              <div className="border-2 border-blue-300 bg-blue-50 rounded-lg p-1">
+                <CollapsibleSection id="indications" title="INDICATIONS AND USAGE" defaultExpanded={true}>
+                  <div className="bg-white p-4 rounded">
+                    <div className="prose max-w-none" dangerouslySetInnerHTML={{ 
+                      __html: drug.label?.indicationsAndUsage || drug.indicationsAndUsage || '' 
+                    }} />
+                  </div>
+                </CollapsibleSection>
+              </div>
             )}
 
-            {/* Dosage and Administration */}
+            {/* Dosage and Administration - Critical Information */}
             {(drug.label?.dosageAndAdministration || drug.dosageAndAdministration) && (
-              <CollapsibleSection id="dosage" title="DOSAGE AND ADMINISTRATION">
-                <div className="prose max-w-none" dangerouslySetInnerHTML={{ 
-                  __html: drug.label?.dosageAndAdministration || drug.dosageAndAdministration || '' 
-                }} />
-              </CollapsibleSection>
+              <div className="border-2 border-green-300 bg-green-50 rounded-lg p-1">
+                <CollapsibleSection id="dosage" title="DOSAGE AND ADMINISTRATION" defaultExpanded={true}>
+                  <div className="bg-white p-4 rounded">
+                    <div className="prose max-w-none" dangerouslySetInnerHTML={{ 
+                      __html: drug.label?.dosageAndAdministration || drug.dosageAndAdministration || '' 
+                    }} />
+                  </div>
+                </CollapsibleSection>
+              </div>
             )}
 
             {/* Dosage Forms and Strengths (from schema) */}
@@ -188,22 +196,30 @@ export default async function DrugDetailPage({ params }: { params: Promise<{ slu
               </CollapsibleSection>
             )}
 
-            {/* Contraindications */}
+            {/* Contraindications - Critical Information */}
             {(drug.label?.contraindications || drug.contraindications) && (
-              <CollapsibleSection id="contraindications" title="CONTRAINDICATIONS">
-                <div className="prose max-w-none" dangerouslySetInnerHTML={{ 
-                  __html: drug.label?.contraindications || drug.contraindications || '' 
-                }} />
-              </CollapsibleSection>
+              <div className="border-2 border-red-300 bg-red-50 rounded-lg p-1">
+                <CollapsibleSection id="contraindications" title="CONTRAINDICATIONS" defaultExpanded={true}>
+                  <div className="bg-white p-4 rounded">
+                    <div className="prose max-w-none" dangerouslySetInnerHTML={{ 
+                      __html: drug.label?.contraindications || drug.contraindications || '' 
+                    }} />
+                  </div>
+                </CollapsibleSection>
+              </div>
             )}
 
-            {/* Warnings and Precautions */}
+            {/* Warnings and Precautions - Critical Information */}
             {(drug.label?.warningsAndPrecautions || drug.warnings || drug.warningsAndPrecautions) && (
-              <CollapsibleSection id="warnings" title="WARNINGS AND PRECAUTIONS">
-                <div className="prose max-w-none" dangerouslySetInnerHTML={{ 
-                  __html: drug.label?.warningsAndPrecautions || drug.warnings || drug.warningsAndPrecautions || '' 
-                }} />
-              </CollapsibleSection>
+              <div className="border-2 border-orange-300 bg-orange-50 rounded-lg p-1">
+                <CollapsibleSection id="warnings" title="WARNINGS AND PRECAUTIONS" defaultExpanded={true}>
+                  <div className="bg-white p-4 rounded">
+                    <div className="prose max-w-none" dangerouslySetInnerHTML={{ 
+                      __html: drug.label?.warningsAndPrecautions || drug.warnings || drug.warningsAndPrecautions || '' 
+                    }} />
+                  </div>
+                </CollapsibleSection>
+              </div>
             )}
 
             {/* Adverse Reactions */}

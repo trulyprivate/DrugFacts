@@ -94,12 +94,91 @@ export default function DrugHeader({ drug }: DrugHeaderProps) {
               </div>
             </div>
 
-            {/* Key Highlights */}
-            <div className="bg-medical-gray-50 rounded-lg p-4">
-              <h3 className="font-semibold text-medical-gray-800 mb-2">
-                Key Prescribing Highlights
+            {/* Key Drug Information Summary */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+              {/* Critical Information Card */}
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                <h3 className="font-semibold text-blue-800 mb-3 flex items-center">
+                  <span className="inline-block w-2 h-2 bg-blue-600 rounded-full mr-2"></span>
+                  Key Drug Information
+                </h3>
+                <div className="space-y-2 text-sm">
+                  <div>
+                    <span className="font-medium text-blue-700">Drug Name:</span>
+                    <span className="ml-2 text-blue-900">{drug.drugName} ({drug.genericName})</span>
+                  </div>
+                  <div>
+                    <span className="font-medium text-blue-700">Manufacturer:</span>
+                    <span className="ml-2 text-blue-900">{drug.manufacturer}</span>
+                  </div>
+                  <div>
+                    <span className="font-medium text-blue-700">Primary Use:</span>
+                    <span className="ml-2 text-blue-900">
+                      {drug.indicationsAndUsage 
+                        ? drug.indicationsAndUsage.replace(/<[^>]*>/g, '').substring(0, 100) + '...'
+                        : 'See indications section below'
+                      }
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Safety Warnings Card */}
+              <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+                <h3 className="font-semibold text-red-800 mb-3 flex items-center">
+                  <span className="inline-block w-2 h-2 bg-red-600 rounded-full mr-2"></span>
+                  Important Safety Information
+                </h3>
+                <div className="space-y-2 text-sm">
+                  {drug.boxedWarning && (
+                    <div>
+                      <span className="font-medium text-red-700">Boxed Warning:</span>
+                      <span className="ml-2 text-red-900">Present - See details below</span>
+                    </div>
+                  )}
+                  <div>
+                    <span className="font-medium text-red-700">Contraindications:</span>
+                    <span className="ml-2 text-red-900">
+                      {drug.contraindications 
+                        ? drug.contraindications.replace(/<[^>]*>/g, '').substring(0, 80) + '...'
+                        : 'See contraindications section'
+                      }
+                    </span>
+                  </div>
+                  <div>
+                    <span className="font-medium text-red-700">Key Warnings:</span>
+                    <span className="ml-2 text-red-900">
+                      {drug.warnings || drug.warningsAndPrecautions
+                        ? (drug.warnings || drug.warningsAndPrecautions || '').replace(/<[^>]*>/g, '').substring(0, 80) + '...'
+                        : 'See warnings section below'
+                      }
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Dosing Quick Reference */}
+            {drug.dosageAndAdministration && (
+              <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-6">
+                <h3 className="font-semibold text-green-800 mb-3 flex items-center">
+                  <span className="inline-block w-2 h-2 bg-green-600 rounded-full mr-2"></span>
+                  Dosing Quick Reference
+                </h3>
+                <div className="text-sm text-green-900">
+                  {drug.dosageAndAdministration.replace(/<[^>]*>/g, '').substring(0, 200)}
+                  {drug.dosageAndAdministration.length > 200 && '...'}
+                </div>
+                <p className="text-xs text-green-700 mt-2">Complete dosing information available in the detailed sections below</p>
+              </div>
+            )}
+
+            {/* Previous Key Highlights */}
+            <div className="bg-gray-50 rounded-lg p-4">
+              <h3 className="font-semibold text-gray-800 mb-2">
+                Additional Prescribing Highlights
               </h3>
-              <ul className="text-sm text-medical-gray-700 space-y-1">
+              <ul className="text-sm text-gray-700 space-y-1">
                 {highlights.map((highlight, index) => (
                   <li key={index}>• {highlight}</li>
                 ))}
