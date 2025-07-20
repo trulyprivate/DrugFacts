@@ -25,8 +25,14 @@ Preferred communication style: Simple, everyday language.
   - Added smooth transitions for search expansion and element hiding
 - Improved tab interface for drug pages:
   - Changed from vertical grid layout to horizontal flex layout
-  - Added blue bottom border for active tabs instead of background highlighting
+  - Added blue background and border highlighting for active tabs
   - Enhanced button-like appearance with proper hover states and transitions
+  - Fixed CSS specificity issues to ensure styling only applies to tab buttons, not content areas
+- Created therapeutic classes page (/therapeutic-classes):
+  - Groups drugs by therapeutic classification pulled from drug data
+  - Displays statistics on number of classes and drugs per class
+  - Links directly to individual drug pages with hover effects
+  - Shows drug details including generic name, manufacturer, and indication summaries
 
 ### January 20, 2025
 - Fixed Next.js application startup by installing Next.js dependency
