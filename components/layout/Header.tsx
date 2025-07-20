@@ -67,13 +67,13 @@ export default function Header() {
                   <Menu className="h-4 w-4" />
                 </Button>
               </SheetTrigger>
-              <SheetContent>
-                <nav className="flex flex-col space-y-4 mt-8">
+              <SheetContent className="w-[300px] sm:w-[400px]">
+                <nav className="flex flex-col space-y-4 mt-8 items-end">
                   {navigation.map((item) => (
                     <Link
                       key={item.name}
                       href={item.href}
-                      className="text-right text-medical-gray-600 hover:text-medical-blue transition-colors font-bold text-lg py-2"
+                      className="text-medical-gray-600 hover:text-medical-blue transition-colors font-bold text-lg py-2 text-right w-full"
                       onClick={handleLinkClick}
                     >
                       {item.name}

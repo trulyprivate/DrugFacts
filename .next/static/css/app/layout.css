@@ -890,6 +890,9 @@ video {
 .w-px {
   width: 1px;
 }
+.w-\[300px\] {
+  width: 300px;
+}
 .min-w-0 {
   min-width: 0px;
 }
@@ -3057,6 +3060,9 @@ video {
   }
   .sm\:w-auto {
     width: auto;
+  }
+  .sm\:w-\[400px\] {
+    width: 400px;
   }
   .sm\:max-w-sm {
     max-width: 24rem;
