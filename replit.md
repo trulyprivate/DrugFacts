@@ -10,6 +10,15 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
 
+### January 21, 2025 - Additional Package Cleanup
+- **Further Dependency Reduction**: Removed additional unused packages for optimal bundle size:
+  - **Removed @radix-ui/react-collapsible**: Unused in codebase, CollapsibleSection component uses custom implementation
+  - **Removed @radix-ui/react-dropdown-menu**: No dropdown functionality used in current design  
+  - **Removed zod**: Validation library not used in static site architecture
+  - **Deleted UI Component Files**: Removed unused collapsible.tsx and dropdown-menu.tsx from components/ui
+- **Bundle Impact**: Further reduced dependency count and improved build performance
+- **Clean Architecture**: Maintained only actively used dependencies for better maintainability
+
 ### January 21, 2025 - Bundle Optimization & Tree-shaking
 - **Dependency Pruning**: Performed comprehensive tree-shaking and removed 183+ unused npm packages:
   - **Removed Unused Radix UI Components**: Eliminated 22 unused @radix-ui packages (accordion, alert-dialog, aspect-ratio, avatar, checkbox, context-menu, hover-card, menubar, navigation-menu, popover, progress, radio-group, scroll-area, select, slider, switch, toggle, toggle-group, tooltip)
@@ -17,7 +26,7 @@ Preferred communication style: Simple, everyday language.
   - **Removed Unused UI Libraries**: Removed framer-motion, embla-carousel-react, react-resizable-panels, recharts, vaul, cmdk, input-otp, react-day-picker, react-icons, next-themes
   - **Removed Development Tools**: Eliminated @tanstack/react-query, wouter, date-fns, zod-validation-error, tw-animate-css, openai
   - **Bundle Size Reduction**: Reduced from 521 packages to 97 packages (81% reduction)
-  - **Core Dependencies Retained**: Kept only essential packages: Next.js, React, critical Radix UI components (accordion, collapsible, dialog, dropdown-menu, label, separator, slot, tabs, toast), Tailwind utilities, Lucide icons, and Express for static deployment serving
+  - **Core Dependencies Retained**: Kept only essential packages: Next.js, React, critical Radix UI components (accordion, dialog, label, separator, slot, tabs, toast), Tailwind utilities, Lucide icons, and Express for static deployment serving
   - **Express Reinstated**: Added Express back for deploy.js static file serving functionality
 - **Performance Impact**: Significantly reduced bundle size for faster loading and better Core Web Vitals scores
 - **Clean Architecture**: Simplified dependency tree makes the project more maintainable and reduces security vulnerabilities
