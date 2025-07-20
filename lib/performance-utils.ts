@@ -42,7 +42,7 @@ export const criticalCSS = `
   .card{background-color:var(--background);border:1px solid var(--border);border-radius:0.5rem;padding:1.5rem;box-shadow:0 1px 3px rgba(0,0,0,0.1)}
   h1,h2,h3{margin:0 0 1rem 0;font-weight:600;line-height:1.2}
   h1{font-size:2.25rem}
-  button{font-family:inherit;background-color:var(--primary);color:white;border:none;border-radius:0.375rem;padding:0.5rem 1rem;cursor:pointer}
+  button{font-family:inherit;background-color:transparent;color:inherit;border:none;border-radius:0.375rem;padding:0.5rem 1rem;cursor:pointer}
   *:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
   @media(max-width:640px){.container{padding:0.5rem}.grid{grid-template-columns:1fr;gap:1rem}h1{font-size:1.875rem}}
 `
