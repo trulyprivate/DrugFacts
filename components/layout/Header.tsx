@@ -33,9 +33,9 @@ export default function Header() {
           <div className={`flex items-center space-x-4 transition-all duration-300 ease-in-out ${
             isSearchFocused ? 'opacity-0 w-0 overflow-hidden' : 'opacity-100'
           }`}>
-            <div className="flex-shrink-0 flex items-center">
+            <div className="flex-shrink-0 flex items-center py-2">
               <Link href="/" className="flex items-center">
-                <h1 className="text-xl font-bold text-medical-blue cursor-pointer leading-relaxed">
+                <h1 className="text-xl font-bold text-medical-blue cursor-pointer leading-normal py-1">
                   drugfacts.wiki
                 </h1>
               </Link>

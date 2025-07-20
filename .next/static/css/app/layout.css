@@ -1763,6 +1763,9 @@ video {
 .leading-none {
   line-height: 1;
 }
+.leading-normal {
+  line-height: 1.5;
+}
 .leading-relaxed {
   line-height: 1.625;
 }
