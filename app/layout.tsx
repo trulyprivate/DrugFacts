@@ -106,15 +106,45 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="//cdnjs.cloudflare.com" />
         <link rel="dns-prefetch" href="//unpkg.com" />
         
-        {/* Font optimization for LCP - deferred loading */}
-        <script dangerouslySetInnerHTML={{
+        {/* Critical font loading with immediate display */}
+        <link rel="preload" as="font" type="font/woff2" href="https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiA.woff2" crossOrigin="anonymous" />
+        <link rel="preload" as="font" type="font/woff2" href="https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuGKYAZ9hiA.woff2" crossOrigin="anonymous" />
+        
+        {/* Font optimization for LCP - immediate loading with swap */}
+        <style dangerouslySetInnerHTML={{
           __html: `
-            const fontLink = document.createElement('link');
-            fontLink.href = 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap';
-            fontLink.rel = 'stylesheet';
-            fontLink.media = 'print';
-            fontLink.onload = function() { this.media = 'all'; };
-            document.head.appendChild(fontLink);
+            @font-face {
+              font-family: 'Inter';
+              font-style: normal;
+              font-weight: 400;
+              font-display: swap;
+              src: url(https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiA.woff2) format('woff2');
+              unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+            }
+            @font-face {
+              font-family: 'Inter';
+              font-style: normal;
+              font-weight: 500;
+              font-display: swap;
+              src: url(https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuI6fAZ9hiA.woff2) format('woff2');
+              unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+            }
+            @font-face {
+              font-family: 'Inter';
+              font-style: normal;
+              font-weight: 600;
+              font-display: swap;
+              src: url(https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuGKYAZ9hiA.woff2) format('woff2');
+              unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+            }
+            @font-face {
+              font-family: 'Inter';
+              font-style: normal;
+              font-weight: 700;
+              font-display: swap;
+              src: url(https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuFuYAZ9hiA.woff2) format('woff2');
+              unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+            }
           `
         }} />
         {/* LCP Optimization: Prioritize above-the-fold content */}
@@ -135,14 +165,37 @@ export default function RootLayout({
               
               // Defer non-critical resources until after LCP
               window.addEventListener('load', function() {
+                // Track performance metrics
+                const metrics = {
+                  TTFB: performance.timing.responseStart - performance.timing.fetchStart,
+                  DOMContentLoaded: performance.timing.domContentLoadedEventEnd - performance.timing.fetchStart,
+                  LoadComplete: performance.timing.loadEventEnd - performance.timing.fetchStart,
+                  FCP: 0
+                };
+                
+                // Get First Contentful Paint
+                if (performance.getEntriesByType) {
+                  const paintEntries = performance.getEntriesByType('paint');
+                  paintEntries.forEach(entry => {
+                    if (entry.name === 'first-contentful-paint') {
+                      metrics.FCP = entry.startTime;
+                    }
+                  });
+                }
+                
+                console.log('Performance Metrics:', metrics);
+                
+                // Prefetch next pages for better navigation
                 if ('requestIdleCallback' in window) {
                   window.requestIdleCallback(function() {
-                    // Load non-critical CSS after LCP
-                    var link = document.createElement('link');
-                    link.rel = 'stylesheet';
-                    link.href = '/_next/static/css/app/layout.css';
-                    link.media = 'all';
-                    document.head.appendChild(link);
+                    // Prefetch popular drug pages
+                    const links = ['accutane', 'januvia', 'zoloft', 'methotrexate', 'nexium'];
+                    links.forEach(slug => {
+                      const link = document.createElement('link');
+                      link.rel = 'prefetch';
+                      link.href = '/drugs/' + slug + '/';
+                      document.head.appendChild(link);
+                    });
                   });
                 }
               });

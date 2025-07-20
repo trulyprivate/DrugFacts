@@ -3,7 +3,7 @@ import { Metadata } from 'next'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import SearchBar from '@/components/drug/SearchBar'
 import { getAllDrugs } from '@/lib/drugs'
-import { Pill, FileText, Search, Shield, Users, BookOpen, Stethoscope, HelpCircle } from 'lucide-react'
+import { Pill, FileText, Search, Shield, Users, BookOpen, HelpCircle } from 'lucide-react'
 
 export const metadata: Metadata = {
   title: 'drugfacts.wiki - Professional Drug Information Platform',
@@ -26,10 +26,11 @@ export default async function HomePage() {
   
   return (
     <div className="flex flex-col min-h-[calc(100vh-4rem)]">
-      {/* Hero Section */}
+      {/* Hero Section - Optimized for LCP */}
       <section className="bg-gradient-to-b from-blue-50 to-white dark:from-gray-900 dark:to-gray-800 py-16 px-4">
         <div className="container mx-auto max-w-4xl text-center">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6">
+          {/* LCP Element - Prioritized rendering */}
+          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6" style={{ contain: 'layout style paint' }}>
             Professional Drug Information Platform
           </h1>
           <p className="text-xl text-gray-600 dark:text-gray-300 mb-8">
@@ -41,7 +42,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Features Section */}
+      {/* Features Section - Optimized for Performance */}
       <section className="py-8 sm:py-12 px-4">
         <div className="container mx-auto max-w-6xl">
           <h2 className="text-3xl font-bold text-center mb-12">Enhanced Content Features</h2>
@@ -134,13 +135,13 @@ export default async function HomePage() {
             </Card>
           </div>
 
-          {/* Drug List */}
+          {/* Drug List - Only show first 6 drugs initially */}
           <div>
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
               Available Drugs
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {drugs.map((drug) => (
+              {drugs.slice(0, 6).map((drug) => (
                 <Link
                   key={drug.slug}
                   href={`/drugs/${drug.slug}`}
@@ -174,6 +175,13 @@ export default async function HomePage() {
                 </Link>
               ))}
             </div>
+            {drugs.length > 6 && (
+              <div className="mt-8 text-center">
+                <Link href="/drugs" className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 transition-colors">
+                  View All {drugs.length} Drugs
+                </Link>
+              </div>
+            )}
           </div>
         </div>
       </section>

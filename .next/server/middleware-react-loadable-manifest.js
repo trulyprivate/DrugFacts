@@ -1,1 +1,1 @@
-self.__REACT_LOADABLE_MANIFEST="{}"
+self.__REACT_LOADABLE_MANIFEST="{\"components/drug/DrugHeader.tsx -> lucide-react/dist/esm/icons/\":{\"id\":\"components/drug/DrugHeader.tsx -> lucide-react/dist/esm/icons/\",\"files\":[\"static/chunks/_app-pages-browser_node_modules_lucide-react_dist_esm_icons_index_js.js\"]}}"
