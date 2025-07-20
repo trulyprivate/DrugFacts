@@ -1,0 +1,7 @@
+User-Agent: *
+Allow: /
+Disallow: /private/
+Disallow: /admin/
+Disallow: /api/
+
+Sitemap: https://drugfacts.wiki/sitemap.xml

@@ -1,0 +1,17 @@
+{
+  "/robots.txt/route": "/robots.txt",
+  "/sitemap.xml/route": "/sitemap.xml",
+  "/_not-found/page": "/_not-found",
+  "/contact/page": "/contact",
+  "/accessibility/page": "/accessibility",
+  "/disclaimer/page": "/disclaimer",
+  "/faq/page": "/faq",
+  "/drugs/[slug]/page": "/drugs/[slug]",
+  "/page": "/",
+  "/privacy/page": "/privacy",
+  "/terms/page": "/terms",
+  "/performance/page": "/performance",
+  "/search/page": "/search",
+  "/manufacturers/page": "/manufacturers",
+  "/therapeutic-classes/page": "/therapeutic-classes"
+}

@@ -27,9 +27,9 @@ export async function getAllDrugs(): Promise<DrugLabel[]> {
   } catch (error) {
     console.error('Error reading drugs index:', error)
     console.error('Error details:', {
-      name: error.name,
-      message: error.message,
-      stack: error.stack
+      name: error instanceof Error ? error.name : 'Unknown',
+      message: error instanceof Error ? error.message : String(error),
+      stack: error instanceof Error ? error.stack : 'No stack trace'
     })
     return []
   }
