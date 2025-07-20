@@ -10,15 +10,6 @@ Preferred communication style: Simple, everyday language.
 
 ## Recent Changes
 
-### January 21, 2025 - Next.js Production Server & Bundle Optimization
-- **Deployment Script Modernization**: Updated `deploy.js` to use Next.js built-in production server:
-  - Replaced Express.js static file serving with `npx next start`
-  - Removed Express dependency for deployment (already removed from package.json)
-  - Uses Next.js optimized server with built-in caching, compression, and security headers
-  - Maintains proper process management with graceful shutdown handling
-  - Configured for `0.0.0.0` binding for Replit deployment compatibility
-- **Deployment Command**: Use `node deploy.js` after `npm run build` for production serving
-
 ### January 21, 2025 - Bundle Optimization & Tree-shaking
 - **Dependency Pruning**: Performed comprehensive tree-shaking and removed 183+ unused npm packages:
   - **Removed Unused Radix UI Components**: Eliminated 22 unused @radix-ui packages (accordion, alert-dialog, aspect-ratio, avatar, checkbox, context-menu, hover-card, menubar, navigation-menu, popover, progress, radio-group, scroll-area, select, slider, switch, toggle, toggle-group, tooltip)
