@@ -5,6 +5,7 @@ const nextConfig = {
     NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api',
   },
   // Server-side rendering configuration
+  output: 'standalone', // For Docker deployments
   images: {
     unoptimized: true,
     formats: ['image/webp', 'image/avif'],

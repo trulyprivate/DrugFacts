@@ -2,7 +2,6 @@
 
 import { useState, useEffect, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
-import { Metadata } from 'next'
 import Link from 'next/link'
 import SearchBar from '@/components/drug/SearchBar'
 import { searchDrugsClient } from '@/lib/drugs-client'
