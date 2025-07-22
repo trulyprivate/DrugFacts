@@ -1,1 +1,0 @@
-self.__REACT_LOADABLE_MANIFEST='{"components/drug/DrugHeader.tsx -> lucide-react/dist/esm/icons/":{"id":6857,"files":["static/chunks/lucide-090baf57071ff785.js"]}}';
