@@ -14,7 +14,7 @@ echo "⏳ Waiting for services to be ready..."
 sleep 15
 
 echo "✅ Development environment ready!"
-echo "🌐 drugfacts.wiki dev server: http://localhost:5000"
+echo "🌐 drugfacts.wiki dev server: http://localhost:5005"
 echo "🗄️  PostgreSQL database: localhost:5432"
 
 echo ""

@@ -9,18 +9,18 @@ The Docker configuration has been updated to serve the static Next.js export ins
 ### 1. Updated Dockerfile
 - **Build Stage**: Now runs `npm run build` which generates static files in `out/` directory
 - **Runtime Stage**: Copies static files and `deploy.js` script instead of `dist/` directory
-- **Port**: Changed from 3000 to 5000 to match Replit configuration
+- **Port**: Changed from 3000 to 5005 to match Replit configuration
 - **Command**: Now runs `node deploy.js` instead of `node dist/index.js`
 - **Health Check**: Updated to check root endpoint instead of `/api/health`
 
 ### 2. Updated docker-compose.yml
-- **Port Mapping**: Changed from `3000:3000` to `5000:5000`
-- **Environment**: Updated PORT environment variable to 5000
-- **Health Check**: Updated to check root endpoint on port 5000
+- **Port Mapping**: Changed from `3000:3000` to `5005:5005`
+- **Environment**: Updated PORT environment variable to 5005
+- **Health Check**: Updated to check root endpoint on port 5005
 
 ### 3. Nginx Configuration
 - **Created**: `nginx/nginx.conf` optimized for static file serving
-- **Proxy**: Configured to proxy requests to the static server on port 5000
+- **Proxy**: Configured to proxy requests to the static server on port 5005
 - **Caching**: Optimized static file caching for better performance
 - **Security**: Added security headers and rate limiting
 
@@ -47,13 +47,13 @@ docker-compose down
 docker build -t drugfacts-wiki .
 
 # Run the container
-docker run -p 5000:5000 drugfacts-wiki
+docker run -p 5005:5005 drugfacts-wiki
 ```
 
 ## Architecture
 
 ```
-[Nginx:80] -> [Static Server:5000] -> [Static Files in /out]
+[Nginx:80] -> [Static Server:5005] -> [Static Files in /out]
 ```
 
 ### Services:
@@ -74,14 +74,14 @@ docker-compose -f docker-compose.dev.yml up
 
 After deployment, verify the application is working:
 
-1. **Direct Access**: `http://localhost:5000`
+1. **Direct Access**: `http://localhost:5005`
 2. **Through Nginx**: `http://localhost:80`
-3. **Health Check**: `curl http://localhost:5000`
+3. **Health Check**: `curl http://localhost:5005`
 
 ## Environment Variables
 
 - `NODE_ENV=production`
-- `PORT=5000`
+- `PORT=5005`
 - Database variables (for future use)
 
 ## File Structure

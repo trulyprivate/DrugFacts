@@ -162,7 +162,7 @@ npm run db:push
 DATABASE_URL=          # PostgreSQL connection string
 SESSION_SECRET=        # Express session secret
 NODE_ENV=             # development | production
-PORT=                 # Server port (default: 5000)
+PORT=                 # Server port (default: 5005)
 ```
 
 ## Deployment

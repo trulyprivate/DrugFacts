@@ -18,10 +18,40 @@ import {
 } from '@/lib/content-generation'
 
 export async function generateStaticParams() {
-  const drugs = await getAllDrugs()
-  return drugs.map((drug) => ({
-    slug: drug.slug,
-  }))
+  try {
+    // Try to get drugs from the main service (MongoDB or JSON fallback)
+    const drugs = await getAllDrugs()
+    
+    if (drugs && drugs.length > 0) {
+      return drugs.map((drug) => ({
+        slug: drug.slug,
+      }))
+    }
+  } catch (error) {
+    console.warn('Failed to get drugs from main service, falling back to JSON:', error)
+  }
+
+  // Fallback to reading JSON files directly for static generation
+  try {
+    const fs = await import('fs/promises')
+    const path = await import('path')
+    
+    const drugsDir = path.join(process.cwd(), 'data', 'drugs')
+    const indexPath = path.join(drugsDir, 'index.json')
+    
+    const data = await fs.readFile(indexPath, 'utf-8')
+    const drugs = JSON.parse(data)
+    
+    return drugs.map((drug: any) => ({
+      slug: drug.slug,
+    }))
+  } catch (fallbackError) {
+    console.error('Failed to read drugs from JSON fallback:', fallbackError)
+    
+    // Return empty array as last resort - this will cause build to fail for missing params
+    // but won't crash the build process
+    return []
+  }
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
@@ -64,7 +94,24 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function DrugDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
-  const drug = await getDrugBySlug(slug)
+  
+  let drug
+  try {
+    drug = await getDrugBySlug(slug)
+  } catch (error) {
+    console.error(`Error fetching drug with slug ${slug}:`, error)
+    // Try fallback to JSON file directly
+    try {
+      const fs = await import('fs/promises')
+      const path = await import('path')
+      const filePath = path.join(process.cwd(), 'data', 'drugs', `${slug}.json`)
+      const data = await fs.readFile(filePath, 'utf-8')
+      drug = JSON.parse(data)
+    } catch (fallbackError) {
+      console.error(`Fallback also failed for ${slug}:`, fallbackError)
+      drug = null
+    }
+  }
   
   if (!drug) {
     notFound()

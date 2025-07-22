@@ -27,7 +27,7 @@ docker-compose up -d
 ## Services
 
 ### drugfacts-app
-- **Port**: 3000 (production), 5000 (development)
+- **Port**: 3000 (production), 5005 (development)
 - **Health Check**: `/api/health`
 - **Dependencies**: PostgreSQL, Redis
 
