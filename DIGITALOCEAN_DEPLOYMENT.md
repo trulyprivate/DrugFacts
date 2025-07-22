@@ -11,17 +11,18 @@ The application consists of two separate deployments:
 ## Prerequisites
 
 1. DigitalOcean account with App Platform access
-2. MongoDB database (can use DigitalOcean Managed Database)
+2. MongoDB Atlas account with a configured cluster
 3. GitHub repository connected to DigitalOcean
+4. Node.js v23 support (configured in app specs)
 
 ## Deployment Steps
 
 ### 1. Deploy the Backend API
 
 1. Create a new app in DigitalOcean App Platform
-2. Use the configuration from `.do/app-backend.yaml`
+2. Use the configuration from `.do/app-backend.yaml` or `digitalocean-combined-app-spec.yaml`
 3. Set the following environment variables:
-   - `MONGODB_URL` - Your MongoDB connection string (e.g., `mongodb+srv://user:pass@cluster.mongodb.net/drug_facts?retryWrites=true&w=majority`)
+   - `MONGODB_ATLAS_URL` - Your MongoDB Atlas connection string (e.g., `mongodb+srv://user:pass@cluster.mongodb.net/drug_facts?retryWrites=true&w=majority`)
    
 4. Deploy and wait for the health check to pass at `/health`
 
@@ -48,9 +49,10 @@ docker-compose up -d
 ```
 
 ### Production
-- Frontend: Static site on DigitalOcean App Platform
-- Backend: Node.js service on DigitalOcean App Platform
-- Database: DigitalOcean Managed MongoDB or external MongoDB
+- Frontend: Static site on DigitalOcean App Platform (Node.js v23)
+- Backend: Node.js service on DigitalOcean App Platform (Node.js v23)
+- Database: MongoDB Atlas (external)
+- Cache: DigitalOcean Managed Redis
 
 ## Troubleshooting
 
@@ -100,22 +102,30 @@ envs:
 ### Backend (.do/app-backend.yaml)
 ```yaml
 envs:
-  - key: MONGODB_URL
-    value: ${MONGODB_URL}
+  - key: MONGODB_ATLAS_URL
+    value: ${MONGODB_ATLAS_URL}
     scope: RUN_TIME
     type: SECRET
   - key: CORS_ORIGINS
     value: "https://your-frontend-app.ondigitalocean.app"
     scope: RUN_TIME
+  - key: REDIS_HOST
+    value: ${redis.HOSTNAME}
+    scope: RUN_TIME
+  - key: REDIS_PASSWORD
+    value: ${redis.PASSWORD}
+    scope: RUN_TIME
+    type: SECRET
 ```
 
 ## Cost Optimization
 
 - Frontend: Use Basic ($5/mo) static site
 - Backend: Use Basic XXS ($5/mo) for API
-- Database: Consider external MongoDB Atlas free tier
+- Database: MongoDB Atlas free tier (512MB)
+- Redis: Basic ($15/mo) or skip for development
 
-Total minimum cost: ~$10/month
+Total minimum cost: ~$10/month (without Redis) or ~$25/month (with Redis)
 
 ## Monitoring
 
