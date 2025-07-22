@@ -1,8 +1,9 @@
 import type { Metadata } from 'next';
+import { staticPageDescriptions } from '@/lib/seo-utils';
 
 export const metadata: Metadata = {
   title: 'Accessibility | drugfacts.wiki',
-  description: 'Accessibility features and commitment of drugfacts.wiki to ensure equal access to drug information.',
+  description: staticPageDescriptions.accessibility,
 };
 
 export default function AccessibilityPage() {

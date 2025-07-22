@@ -1,8 +1,9 @@
 import type { Metadata } from 'next';
+import { staticPageDescriptions } from '@/lib/seo-utils';
 
 export const metadata: Metadata = {
   title: 'Medical Disclaimer | drugfacts.wiki',
-  description: 'Important medical disclaimer for drugfacts.wiki drug information platform.',
+  description: staticPageDescriptions.disclaimer,
 };
 
 export default function DisclaimerPage() {

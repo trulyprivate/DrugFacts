@@ -15,7 +15,7 @@ Next.js applications configured with `output: 'export'` generate static files th
 
 ### 1. Updated Static Server (serve-static.js)
 - Converted to ES modules to match project configuration
-- Updated default port to 5000 to match Replit configuration
+- Updated default port to 5005 to match Replit configuration
 - Added proper `__dirname` handling for ES modules
 
 ### 2. Created Enhanced Deploy Script (deploy.js)
@@ -50,7 +50,7 @@ npm run build
 node deploy.js
 ```
 
-The application will be available at `http://localhost:5000`
+The application will be available at `http://localhost:5005`
 
 ## Files Modified
 - `serve-static.js` - Updated to ES modules with proper port configuration

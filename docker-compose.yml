@@ -1,30 +1,132 @@
 version: '3.8'
 
 services:
-  drugfacts-app:
-    build: .
-    container_name: drugfacts-wiki
+  # Next.js Frontend Service
+  frontend:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.frontend
+      target: production
+    container_name: drugfacts-frontend
     ports:
-      - "5000:5000"
+      - "3000:3000"
     environment:
       - NODE_ENV=production
-      - PORT=5000
-      # Database configuration (if using PostgreSQL in the future)
-      # - DATABASE_URL=postgresql://username:password@db:5432/drugfacts
+      - PORT=3000
+      - NEXT_PUBLIC_API_URL=http://backend:3001/api
     volumes:
-      # Optional: Mount logs directory
       - ./logs:/app/logs
     restart: unless-stopped
     depends_on:
-      - db
+      backend:
+        condition: service_healthy
     networks:
       - drugfacts-network
     healthcheck:
-      test: ["CMD", "node", "-e", "require('http').get('http://localhost:5000', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })"]
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3000', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })"]
       interval: 30s
       timeout: 10s
       retries: 3
       start_period: 40s
+
+  # NestJS Backend Service
+  backend:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.backend
+      target: production
+    container_name: drugfacts-backend
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=production
+      - PORT=3001
+      - MONGODB_URL=mongodb://drugfacts_user:drugfacts_password@mongodb:27017/drug_facts
+      - MONGODB_DB_NAME=drug_facts
+      - FRONTEND_URL=http://frontend:3000
+    volumes:
+      - ./logs:/app/logs
+    restart: unless-stopped
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    networks:
+      - drugfacts-network
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3001/health', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # MongoDB Database
+  mongodb:
+    image: mongo:7.0
+    container_name: drugfacts-mongodb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: drugfacts_admin_password
+      MONGO_INITDB_DATABASE: drug_facts
+    volumes:
+      - mongodb_data:/data/db
+      - ./database/init:/docker-entrypoint-initdb.d
+    ports:
+      - "27018:27017"
+    restart: unless-stopped
+    networks:
+      - drugfacts-network
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+
+  # Database seeder service (basic)
+  db-seeder:
+    build:
+      context: .
+      dockerfile: Dockerfile.seeder
+    container_name: drugfacts-seeder
+    environment:
+      - MONGODB_URL=mongodb://drugfacts_user:drugfacts_password@mongodb:27017/drug_facts
+      - MONGODB_DB_NAME=drug_facts
+    volumes:
+      - ./data/drugs:/app/data
+      - ./hardened_mongo_import.py:/app/hardened_mongo_import.py
+      - ./drug_label_schema.yaml:/app/drug_label_schema.yaml
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    networks:
+      - drugfacts-network
+    restart: "no"
+    profiles: ["basic-seeder"]
+
+  # AI-enhanced database seeder service
+  ai-seeder:
+    build:
+      context: .
+      dockerfile: Dockerfile.ai-seeder
+    container_name: drugfacts-ai-seeder
+    environment:
+      - MONGODB_URL=mongodb://drugfacts_user:drugfacts_password@mongodb:27017/drug_facts
+      - MONGODB_DB_NAME=drug_facts
+      - ENABLE_AI_CLASSIFICATION=true
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - OPENPIPE_API_KEY=${OPENPIPE_API_KEY}
+      - AI_LOG_LEVEL=INFO
+    volumes:
+      - ./data/drugs:/app/data
+      - ./logs:/app/logs
+      - ./.env:/app/.env:ro
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    networks:
+      - drugfacts-network
+    restart: "no"
+    profiles: ["ai-seeder"]
 
   # PostgreSQL Database (optional, for future database integration)
   db:
@@ -77,14 +179,21 @@ services:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./nginx/ssl:/etc/nginx/ssl
     depends_on:
-      - drugfacts-app
+      - frontend
+      - backend
     restart: unless-stopped
     networks:
       - drugfacts-network
 
 volumes:
+  # Database persistence
+  mongodb_data:
   postgres_data:
   redis_data:
+  
+  # Node modules caching
+  frontend_node_modules:
+  backend_node_modules:
 
 networks:
   drugfacts-network:

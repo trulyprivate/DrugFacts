@@ -1,8 +1,9 @@
 import type { Metadata } from 'next';
+import { staticPageDescriptions } from '@/lib/seo-utils';
 
 export const metadata: Metadata = {
   title: 'Privacy Policy | drugfacts.wiki',
-  description: 'Privacy policy for drugfacts.wiki - we do not collect any personally identifying information.',
+  description: staticPageDescriptions.privacy,
 };
 
 export default function PrivacyPage() {

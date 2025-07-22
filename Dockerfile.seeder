@@ -1,0 +1,41 @@
+# Dockerfile for database seeding service
+FROM python:3.11-slim
+
+# Set working directory
+WORKDIR /app
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    gcc \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Python dependencies
+RUN pip install --no-cache-dir \
+    pymongo==4.6.0 \
+    jsonschema==4.20.0 \
+    pyyaml==6.0.1 \
+    requests==2.31.0
+
+# Copy the seeding script and schema
+COPY hardened_mongo_import.py /app/
+COPY drug_label_schema.yaml /app/
+
+# Create data directory
+RUN mkdir -p /app/data
+
+# Set environment variables with defaults
+ENV MONGODB_URL=mongodb://mongodb:27017
+ENV MONGODB_DB_NAME=drug_facts
+ENV MONGODB_COLLECTION_NAME=drugs
+
+# Create a non-root user
+RUN useradd --create-home --shell /bin/bash seeder
+RUN chown -R seeder:seeder /app
+USER seeder
+
+# Health check script
+RUN echo '#!/bin/bash\npython -c "from pymongo import MongoClient; client = MongoClient(\"$MONGODB_URL\"); client.admin.command(\"ping\")"' > /app/healthcheck.sh
+RUN chmod +x /app/healthcheck.sh
+
+# Default command to run the seeder
+CMD sh -c 'python hardened_mongo_import.py -j /app/data/Labels.json -s /app/drug_label_schema.yaml --mongo-uri "${MONGODB_URL}" --db-name "${MONGODB_DB_NAME}" --collection-name "${MONGODB_COLLECTION_NAME:-drugs}"'

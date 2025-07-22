@@ -1,4 +1,4 @@
-# Use Node.js 20 LTS as the base image
+# Use Node.js 23 LTS as the base image
 FROM node:20-alpine AS base
 
 # Install dependencies only when needed
@@ -25,7 +25,7 @@ FROM base AS runner
 WORKDIR /app
 
 ENV NODE_ENV=production
-ENV PORT=5000
+ENV PORT=5005
 
 # Create a non-root user to run the application
 RUN addgroup --system --gid 1001 nodejs
@@ -41,10 +41,10 @@ COPY --from=deps /app/node_modules ./node_modules
 RUN chown -R drugfacts:nodejs /app
 USER drugfacts
 
-EXPOSE 5000
+EXPOSE 5005
 
 # Health check for static server
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-  CMD node -e "require('http').get('http://localhost:5000', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })"
+  CMD node -e "require('http').get('http://localhost:5005', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })"
 
 CMD ["node", "deploy.js"]

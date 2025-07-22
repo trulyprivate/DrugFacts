@@ -98,8 +98,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         
         {/* Preload critical resources for faster LCP */}
-        <link rel="preload" href="/og-image.png" as="image" />
-        <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" />
+        <link rel="preload" href="/og-image.png" as="image" fetchPriority="high" />
         
         {/* Resource hints for better performance */}
         
@@ -107,9 +106,7 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="//cdnjs.cloudflare.com" />
         <link rel="dns-prefetch" href="//unpkg.com" />
         
-        {/* Critical font loading with immediate display */}
-        <link rel="preload" as="font" type="font/woff2" href="https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiA.woff2" crossOrigin="anonymous" />
-        <link rel="preload" as="font" type="font/woff2" href="https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuGKYAZ9hiA.woff2" crossOrigin="anonymous" />
+        {/* Font optimization handled by @font-face below */}
         
         {/* Font optimization for LCP - immediate loading with swap */}
         <style dangerouslySetInnerHTML={{
@@ -156,7 +153,7 @@ export default function RootLayout({
               const observer = new PerformanceObserver((list) => {
                 for (const entry of list.getEntries()) {
                   if (entry.entryType === 'largest-contentful-paint') {
-                    console.log('LCP time:', entry.startTime);
+                    // LCP tracked silently
                   }
                 }
               });
@@ -184,17 +181,19 @@ export default function RootLayout({
                   });
                 }
                 
-                console.log('Performance Metrics:', metrics);
+                // Performance metrics tracked silently
                 
-                // Prefetch next pages for better navigation
+                // Prefetch data for popular drug pages
                 if ('requestIdleCallback' in window) {
                   window.requestIdleCallback(function() {
-                    // Prefetch popular drug pages
-                    const links = ['accutane', 'januvia', 'zoloft', 'methotrexate', 'nexium'];
-                    links.forEach(slug => {
+                    // Prefetch drug data JSON files for faster loading
+                    const slugs = ['mounjaro-d2d7da5', 'emgality-33a147b', 'olumiant-866e9f3'];
+                    slugs.forEach(slug => {
                       const link = document.createElement('link');
                       link.rel = 'prefetch';
-                      link.href = '/drugs/' + slug + '/';
+                      link.href = '/data/drugs/' + slug + '.json';
+                      link.as = 'fetch';
+                      link.crossOrigin = 'anonymous';
                       document.head.appendChild(link);
                     });
                   });

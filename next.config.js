@@ -1,6 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export',
+  // Environment variables that should be available to the client
+  env: {
+    NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api',
+  },
+  // Remove static export to enable API routes and server-side rendering
   images: {
     unoptimized: true,
     formats: ['image/webp', 'image/avif'],
@@ -9,7 +13,6 @@ const nextConfig = {
     minimumCacheTTL: 60,
     dangerouslyAllowSVG: true,
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
-
   },
   trailingSlash: true,
   compress: true,

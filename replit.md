@@ -159,17 +159,17 @@ Preferred communication style: Simple, everyday language.
 
 ### January 21, 2025
 - **Static Deployment Configuration**: Updated deployment to use static file serving for Next.js export:
-  - Updated `serve-static.js` to use ES modules and proper port configuration (5000)
+  - Updated `serve-static.js` to use ES modules and proper port configuration (5005)
   - Created `deploy.js` as an enhanced static server with caching headers and better error handling
   - **For Replit Deployment**: Use `node deploy.js` as the run command instead of `npm run start`
   - **Manual Deployment**: First run `npm run build` to generate static files, then `node deploy.js` to serve
   - Application configured for static export with `output: 'export'` in `next.config.js`
 - **Docker Configuration Updated**: Updated all Docker files for static deployment:
   - **Dockerfile**: Now builds static files to `out/` directory and serves with `deploy.js`
-  - **docker-compose.yml**: Updated port mapping to 5000:5000 and health checks
+  - **docker-compose.yml**: Updated port mapping to 5005:5005 and health checks
   - **nginx.conf**: Created optimized configuration for static file serving with caching
   - **DOCKER_DEPLOYMENT_GUIDE.md**: Comprehensive guide for Docker deployment
-  - All Docker services now use port 5000 consistently
+  - All Docker services now use port 5005 consistently
 - **Deployment Configuration Fixed**: Resolved Next.js static export deployment issues by:
   - Confirmed `npm run build` works correctly and generates static files in `out/` directory
   - Created `serve-static.js` for Express-based static file serving when needed
@@ -308,7 +308,7 @@ The application follows a modern full-stack architecture with clear separation b
 - **Environment**: Node.js production server serving static files and API routes
 
 ### Docker Deployment
-- **Multi-stage Dockerfile**: Optimized production image with Node.js 20 Alpine
+- **Multi-stage Dockerfile**: Optimized production image with Node.js 23 Alpine
 - **Docker Compose**: Full-stack deployment with PostgreSQL, Redis, and Nginx
 - **Health Checks**: Built-in health monitoring for all services
 - **Security**: Non-root user, security headers, rate limiting

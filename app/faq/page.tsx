@@ -1,8 +1,9 @@
 import type { Metadata } from 'next';
+import { staticPageDescriptions } from '@/lib/seo-utils';
 
 export const metadata: Metadata = {
   title: 'FAQ | drugfacts.wiki',
-  description: 'Frequently asked questions about drugfacts.wiki, including how to use the platform and understand drug information.',
+  description: staticPageDescriptions.faq,
 };
 
 export default function FAQPage() {

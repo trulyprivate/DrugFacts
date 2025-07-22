@@ -1,0 +1,248 @@
+# MongoDB Drug Label Schema Validation
+# This schema validates drug label documents for the drug_facts database
+
+type: array
+items:
+  type: object
+  required:
+    - drugName
+    - setId
+    - slug
+  properties:
+    drugName:
+      type: string
+      description: "Name of the drug"
+      minLength: 1
+    
+    setId:
+      type: string
+      description: "Unique identifier for the drug label set"
+      pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$"
+    
+    slug:
+      type: string
+      description: "URL-friendly identifier for the drug"
+      pattern: "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+      minLength: 1
+    
+    labeler:
+      type: string
+      description: "Company or organization that labeled the drug"
+    
+    label:
+      type: object
+      description: "Structured drug label information"
+      properties:
+        boxedWarning:
+          type: string
+          description: "FDA boxed warning text"
+        
+        genericName:
+          type: string
+          description: "Generic name of the drug"
+        
+        labelerName:
+          type: string
+          description: "Name of the labeling company"
+        
+        productType:
+          type: string
+          description: "Type of pharmaceutical product"
+        
+        effectiveTime:
+          type: string
+          description: "Effective date of the label"
+        
+        title:
+          type: string
+          description: "Title of the drug label"
+        
+        indicationsAndUsage:
+          type: string
+          description: "Medical indications and usage instructions"
+        
+        dosageAndAdministration:
+          type: string
+          description: "Dosage and administration guidelines"
+        
+        dosageFormsAndStrengths:
+          type: string
+          description: "Available dosage forms and strengths"
+        
+        warningsAndPrecautions:
+          type: string
+          description: "Warnings and precautions for use"
+        
+        adverseReactions:
+          type: string
+          description: "Known adverse reactions"
+        
+        clinicalPharmacology:
+          type: string
+          description: "Clinical pharmacology information"
+        
+        clinicalStudies:
+          type: string
+          description: "Clinical studies data"
+        
+        howSupplied:
+          type: string
+          description: "How the drug is supplied/packaged"
+        
+        useInSpecificPopulations:
+          type: string
+          description: "Usage guidelines for specific populations"
+        
+        description:
+          type: string
+          description: "General description of the drug"
+        
+        nonClinicalToxicology:
+          type: string
+          description: "Non-clinical toxicology data"
+        
+        instructionsForUse:
+          type: string
+          description: "Instructions for proper use"
+        
+        mechanismOfAction:
+          type: string
+          description: "How the drug works"
+        
+        contraindications:
+          type: string
+          description: "Contraindications for use"
+        
+        highlights:
+          type: object
+          description: "Key highlights from the label"
+          properties:
+            dosageAndAdministration:
+              type: string
+              description: "Highlighted dosage and administration info"
+    
+    # Legacy fields for backwards compatibility
+    genericName:
+      type: string
+      description: "Generic name (legacy field)"
+    
+    activeIngredient:
+      type: string
+      description: "Active ingredient (legacy field)"
+    
+    boxedWarning:
+      type: string
+      description: "Boxed warning (legacy field)"
+    
+    warnings:
+      type: string
+      description: "Warnings (legacy field)"
+    
+    precautions:
+      type: string
+      description: "Precautions (legacy field)"
+    
+    adverseReactions:
+      type: string
+      description: "Adverse reactions (legacy field)"
+    
+    drugInteractions:
+      type: string
+      description: "Drug interactions (legacy field)"
+    
+    contraindications:
+      type: string
+      description: "Contraindications (legacy field)"
+    
+    indicationsAndUsage:
+      type: string
+      description: "Indications and usage (legacy field)"
+    
+    dosageAndAdministration:
+      type: string
+      description: "Dosage and administration (legacy field)"
+    
+    overdosage:
+      type: string
+      description: "Overdosage information (legacy field)"
+    
+    description:
+      type: string
+      description: "Description (legacy field)"
+    
+    clinicalPharmacology:
+      type: string
+      description: "Clinical pharmacology (legacy field)"
+    
+    nonClinicalToxicology:
+      type: string
+      description: "Non-clinical toxicology (legacy field)"
+    
+    clinicalStudies:
+      type: string
+      description: "Clinical studies (legacy field)"
+    
+    howSupplied:
+      type: string
+      description: "How supplied (legacy field)"
+    
+    patientCounseling:
+      type: string
+      description: "Patient counseling information (legacy field)"
+    
+    principalDisplayPanel:
+      type: string
+      description: "Principal display panel (legacy field)"
+    
+    spl:
+      type: string
+      description: "SPL document reference (legacy field)"
+    
+    therapeuticClass:
+      type: string
+      description: "Therapeutic classification"
+    
+    dea:
+      type: string
+      description: "DEA schedule information"
+    
+    manufacturer:
+      type: string
+      description: "Manufacturing company"
+    
+    dosageFormsAndStrengths:
+      type: string
+      description: "Dosage forms and strengths (legacy field)"
+    
+    warningsAndPrecautions:
+      type: string
+      description: "Warnings and precautions (legacy field)"
+    
+    useInSpecificPopulations:
+      type: string
+      description: "Use in specific populations (legacy field)"
+    
+    instructionsForUse:
+      type: string
+      description: "Instructions for use (legacy field)"
+    
+    mechanismOfAction:
+      type: string
+      description: "Mechanism of action (legacy field)"
+    
+    # Metadata fields added by the import process
+    _hash:
+      type: string
+      description: "SHA-256 hash of document content for change detection"
+    
+    _created_at:
+      type: string
+      format: date-time
+      description: "Timestamp when document was first created"
+    
+    _updated_at:
+      type: string
+      format: date-time
+      description: "Timestamp when document was last updated"
+
+  additionalProperties: true  # Allow additional fields for flexibility

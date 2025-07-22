@@ -1,0 +1,60 @@
+name: drugfacts
+region: nyc
+features:
+  - buildpack-stack=ubuntu-22
+
+services:
+  - name: web
+    environment_slug: node-js
+    github:
+      repo: trulyprivate/DrugFacts
+      branch: main
+      deploy_on_push: true
+    build_command: npm run build
+    run_command: npm start
+    source_dir: /
+    http_port: 3000
+    instance_count: 1
+    instance_size_slug: basic-xxs
+    health_check:
+      http_path: /api/health
+      initial_delay_seconds: 30
+      period_seconds: 30
+      timeout_seconds: 5
+      success_threshold: 1
+      failure_threshold: 3
+    envs:
+      - key: NODE_ENV
+        value: production
+        scope: RUN_TIME
+      - key: USE_MONGODB
+        value: "true"
+        scope: RUN_TIME
+      - key: MONGODB_URL
+        value: ${MONGODB_URL}
+        scope: RUN_TIME
+        type: SECRET
+      - key: MONGODB_DB_NAME
+        value: ${MONGODB_DB_NAME}
+        scope: RUN_TIME
+        type: SECRET
+      - key: MONGODB_COLLECTION_NAME
+        value: ${MONGODB_COLLECTION_NAME}
+        scope: RUN_TIME
+        type: SECRET
+      - key: OPENAI_API_KEY
+        value: ${OPENAI_API_KEY}
+        scope: RUN_TIME
+        type: SECRET
+      - key: OPENPIPE_API_KEY
+        value: ${OPENPIPE_API_KEY}
+        scope: RUN_TIME
+        type: SECRET
+      - key: NEXT_PUBLIC_API_URL
+        value: ${_self.PUBLIC_URL}/api
+        scope: BUILD_TIME
+
+databases:
+  - name: mongodb
+    engine: MONGODB
+    production: true

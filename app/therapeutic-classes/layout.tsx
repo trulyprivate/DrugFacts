@@ -1,8 +1,9 @@
 import { Metadata } from 'next'
+import { staticPageDescriptions } from '@/lib/seo-utils'
 
 export const metadata: Metadata = {
   title: 'Therapeutic Classes - drugfacts.wiki',
-  description: 'Browse medications by therapeutic class including cardiovascular, respiratory, endocrine, and neurological drugs. Comprehensive drug categorization for medical professionals.',
+  description: staticPageDescriptions.therapeuticClasses,
   keywords: 'therapeutic classes, drug categories, medication classification, pharmacological groups, medical categories',
   openGraph: {
     title: 'Therapeutic Classes - drugfacts.wiki',

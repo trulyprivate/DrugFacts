@@ -64,11 +64,11 @@ export default function DrugHeader({ drug }: DrugHeaderProps) {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
               <div>
                 <p className="text-sm font-medium text-medical-gray-500">Manufacturer</p>
-                <p className="text-medical-gray-800">{drug.manufacturer || 'N/A'}</p>
+                <p className="text-medical-gray-800">{drug.label?.labelerName || 'N/A'}</p>
               </div>
               <div>
                 <p className="text-sm font-medium text-medical-gray-500">Generic Name</p>
-                <p className="text-medical-gray-800">{drug.genericName || 'N/A'}</p>
+                <p className="text-medical-gray-800">{drug.label?.genericName || 'N/A'}</p>
               </div>
               <div>
                 <p className="text-sm font-medium text-medical-gray-500">Therapeutic Class</p>
@@ -90,7 +90,7 @@ export default function DrugHeader({ drug }: DrugHeaderProps) {
               </div>
               <div>
                 <p className="text-sm font-medium text-medical-gray-500">Full Title</p>
-                <p className="text-medical-gray-800">{drug.drugName} - {drug.manufacturer || 'N/A'}</p>
+                <p className="text-medical-gray-800">{drug.drugName} - {drug.label?.labelerName || 'N/A'}</p>
               </div>
             </div>
 

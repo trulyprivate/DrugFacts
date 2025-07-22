@@ -16,12 +16,43 @@ import {
   generateFAQSections, 
   generateRelatedContent 
 } from '@/lib/content-generation'
+import { generateDrugDescription } from '@/lib/seo-utils'
 
 export async function generateStaticParams() {
-  const drugs = await getAllDrugs()
-  return drugs.map((drug) => ({
-    slug: drug.slug,
-  }))
+  try {
+    // Try to get drugs from the main service (MongoDB or JSON fallback)
+    const drugs = await getAllDrugs()
+    
+    if (drugs && drugs.length > 0) {
+      return drugs.map((drug) => ({
+        slug: drug.slug,
+      }))
+    }
+  } catch (error) {
+    console.warn('Failed to get drugs from main service, falling back to JSON:', error)
+  }
+
+  // Fallback to reading JSON files directly for static generation
+  try {
+    const fs = await import('fs/promises')
+    const path = await import('path')
+    
+    const drugsDir = path.join(process.cwd(), 'data', 'drugs')
+    const indexPath = path.join(drugsDir, 'index.json')
+    
+    const data = await fs.readFile(indexPath, 'utf-8')
+    const drugs = JSON.parse(data)
+    
+    return drugs.map((drug: any) => ({
+      slug: drug.slug,
+    }))
+  } catch (fallbackError) {
+    console.error('Failed to read drugs from JSON fallback:', fallbackError)
+    
+    // Return empty array as last resort - this will cause build to fail for missing params
+    // but won't crash the build process
+    return []
+  }
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
@@ -32,21 +63,48 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   // Generate enhanced SEO content
   const seoContent = generateSEOContent(drug)
 
+  const title = `${drug.drugName} (${drug.genericName || drug.label?.genericName || 'Rx'}) - Prescribing Information | drugfacts.wiki`
+  const description = generateDrugDescription(drug)
+
   return {
-    title: seoContent.title,
-    description: seoContent.metaDescription,
-    keywords: seoContent.keywords.join(', '),
+    title,
+    description,
+    keywords: [
+      drug.drugName,
+      drug.genericName || drug.label?.genericName,
+      drug.therapeuticClass,
+      'prescribing information',
+      'FDA label',
+      'drug information',
+      ...seoContent.keywords
+    ].filter(Boolean).join(', '),
     authors: [{ name: 'drugfacts.wiki' }],
+    alternates: {
+      canonical: `https://drugfacts.wiki/drugs/${drug.slug}/`,
+    },
     openGraph: {
-      title: seoContent.openGraphTitle,
-      description: seoContent.openGraphDescription,
+      title,
+      description,
       type: 'article',
       siteName: 'drugfacts.wiki',
+      url: `https://drugfacts.wiki/drugs/${drug.slug}/`,
+      locale: 'en_US',
+      images: [
+        {
+          url: '/og-image.png',
+          width: 512,
+          height: 512,
+          alt: `${drug.drugName} - Comprehensive Drug Information`,
+        },
+      ],
     },
     twitter: {
       card: 'summary_large_image',
-      title: seoContent.openGraphTitle,
-      description: seoContent.openGraphDescription,
+      title,
+      description,
+      site: '@drugfactswiki',
+      creator: '@drugfactswiki',
+      images: ['/og-image.png'],
     },
     robots: {
       index: true,
@@ -59,12 +117,35 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
         'max-snippet': -1,
       },
     },
+    other: {
+      'og:drug:generic_name': drug.genericName || drug.label?.genericName || '',
+      'og:drug:therapeutic_class': drug.therapeuticClass || '',
+      'og:drug:manufacturer': drug.manufacturer || drug.labeler || drug.label?.labelerName || '',
+      'og:drug:dea_schedule': drug.dea || '',
+    },
   }
 }
 
 export default async function DrugDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
-  const drug = await getDrugBySlug(slug)
+  
+  let drug
+  try {
+    drug = await getDrugBySlug(slug)
+  } catch (error) {
+    console.error(`Error fetching drug with slug ${slug}:`, error)
+    // Try fallback to JSON file directly
+    try {
+      const fs = await import('fs/promises')
+      const path = await import('path')
+      const filePath = path.join(process.cwd(), 'data', 'drugs', `${slug}.json`)
+      const data = await fs.readFile(filePath, 'utf-8')
+      drug = JSON.parse(data)
+    } catch (fallbackError) {
+      console.error(`Fallback also failed for ${slug}:`, fallbackError)
+      drug = null
+    }
+  }
   
   if (!drug) {
     notFound()
@@ -81,11 +162,131 @@ export default async function DrugDetailPage({ params }: { params: Promise<{ slu
   const faqSections = generateFAQSections(drug)
   const relatedContent = generateRelatedContent(drug, allDrugs)
 
+  // Generate structured data for SEO
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "Drug",
+    name: drug.drugName,
+    nonProprietaryName: drug.genericName || drug.label?.genericName,
+    activeIngredient: drug.activeIngredient,
+    manufacturer: {
+      "@type": "Organization",
+      name: drug.manufacturer || drug.labeler || drug.label?.labelerName
+    },
+    description: drug.description || drug.label?.description || `Comprehensive prescribing information for ${drug.drugName}`,
+    prescribingInfo: drug.label?.indicationsAndUsage || drug.indicationsAndUsage,
+    warning: drug.boxedWarning || drug.label?.boxedWarning,
+    contraindication: drug.contraindications || drug.label?.contraindications,
+    dosageForm: drug.label?.dosageFormsAndStrengths || drug.dosageFormsAndStrengths,
+    administrationRoute: drug.label?.dosageAndAdministration || drug.dosageAndAdministration,
+    adverseEffect: drug.adverseReactions || drug.label?.adverseReactions,
+    clinicalPharmacology: drug.clinicalPharmacology || drug.label?.clinicalPharmacology,
+    mechanismOfAction: drug.label?.mechanismOfAction || drug.mechanismOfAction,
+    drugClass: drug.therapeuticClass,
+    medicineSystem: "https://www.fda.gov",
+    url: `https://drugfacts.wiki/drugs/${drug.slug}/`,
+    identifier: drug.setId,
+    ...(drug.dea && { legalStatus: `DEA Schedule ${drug.dea}` })
+  }
+
+  // Generate FAQ structured data
+  const faqStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqSections.map(faq => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: faq.answer
+      }
+    }))
+  }
+
+  // Generate BreadcrumbList structured data
+  const breadcrumbStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://drugfacts.wiki"
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Drugs",
+        item: "https://drugfacts.wiki/drugs"
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: drug.drugName,
+        item: `https://drugfacts.wiki/drugs/${drug.slug}/`
+      }
+    ]
+  }
+
+  // Generate MedicalWebPage structured data
+  const medicalWebPageData = {
+    "@context": "https://schema.org",
+    "@type": "MedicalWebPage",
+    name: `${drug.drugName} - Prescribing Information`,
+    description: `Comprehensive FDA-approved prescribing information for ${drug.drugName}${drug.genericName ? ` (${drug.genericName})` : ''}`,
+    url: `https://drugfacts.wiki/drugs/${drug.slug}/`,
+    about: {
+      "@type": "Drug",
+      name: drug.drugName
+    },
+    medicalAudience: {
+      "@type": "MedicalAudience",
+      audienceType: "Healthcare professionals"
+    },
+    lastReviewed: drug.label?.effectiveTime && !isNaN(Date.parse(drug.label.effectiveTime)) 
+      ? new Date(drug.label.effectiveTime).toISOString() 
+      : new Date().toISOString(),
+    specialty: drug.therapeuticClass,
+    publisher: {
+      "@type": "Organization",
+      name: "drugfacts.wiki",
+      url: "https://drugfacts.wiki"
+    }
+  }
+
   return (
-    <div className="container mx-auto px-2 sm:px-4 py-4 sm:py-8">
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 lg:gap-8">
-        {/* Main Content */}
-        <div className="lg:col-span-3">
+    <>
+      {/* Structured Data Scripts for SEO - Using inline script tags for better SSR */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(structuredData)
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(faqStructuredData)
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(breadcrumbStructuredData)
+        }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(medicalWebPageData)
+        }}
+      />
+      
+      <div className="container mx-auto px-2 sm:px-4 py-4 sm:py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 lg:gap-8">
+          {/* Main Content */}
+          <div className="lg:col-span-3">
           <DrugHeader drug={drug} />
           
           <Tabs defaultValue="professional" className="mt-4 sm:mt-6">
@@ -381,7 +582,7 @@ export default async function DrugDetailPage({ params }: { params: Promise<{ slu
               )}
 
               {/* Effective Time (schema field) */}
-              {drug.label?.effectiveTime && (
+              {drug.label?.effectiveTime && !isNaN(Date.parse(drug.label.effectiveTime)) && (
                 <>
                   <dt className="text-gray-600 mt-3">Effective Time</dt>
                   <dd className="font-medium">{new Date(drug.label.effectiveTime).toLocaleDateString()}</dd>
@@ -445,5 +646,6 @@ export default async function DrugDetailPage({ params }: { params: Promise<{ slu
         </div>
       </div>
     </div>
+    </>
   )
 }
