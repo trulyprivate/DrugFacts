@@ -1,0 +1,86 @@
+name: DigitalOcean App Platform Deployment
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to deploy'
+        required: true
+        default: 'production'
+        type: choice
+        options:
+          - production
+          - staging
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.environment }}
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Install doctl
+        uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
+      
+      - name: Configure app spec for environment
+        run: |
+          # Copy base app spec
+          cp .do/app.yaml .do/app-${{ github.event.inputs.environment }}.yaml
+          
+          # Update app name for staging
+          if [ "${{ github.event.inputs.environment }}" = "staging" ]; then
+            sed -i "s/name: drugfacts/name: drugfacts-staging/g" .do/app-${{ github.event.inputs.environment }}.yaml
+            sed -i "s/branch: main/branch: staging/g" .do/app-${{ github.event.inputs.environment }}.yaml
+          fi
+          
+          # Update GitHub username
+          sed -i "s|trulyprivate|${{ github.repository_owner }}|g" .do/app-${{ github.event.inputs.environment }}.yaml
+      
+      - name: Check if app exists
+        id: app_check
+        run: |
+          APP_NAME="drugfacts"
+          if [ "${{ github.event.inputs.environment }}" = "staging" ]; then
+            APP_NAME="drugfacts-staging"
+          fi
+          
+          if doctl apps list --format ID,Spec.Name | grep -q "$APP_NAME"; then
+            echo "APP_EXISTS=true" >> $GITHUB_OUTPUT
+            echo "APP_ID=$(doctl apps list --format ID,Spec.Name | grep "$APP_NAME" | awk '{print $1}')" >> $GITHUB_OUTPUT
+          else
+            echo "APP_EXISTS=false" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Create or Update App
+        run: |
+          if [ "${{ steps.app_check.outputs.APP_EXISTS }}" = "true" ]; then
+            echo "Updating existing app..."
+            doctl apps update ${{ steps.app_check.outputs.APP_ID }} --spec .do/app-${{ github.event.inputs.environment }}.yaml
+          else
+            echo "Creating new app..."
+            doctl apps create --spec .do/app-${{ github.event.inputs.environment }}.yaml --wait
+          fi
+      
+      - name: Get deployment info
+        run: |
+          APP_NAME="drugfacts"
+          if [ "${{ github.event.inputs.environment }}" = "staging" ]; then
+            APP_NAME="drugfacts-staging"
+          fi
+          
+          APP_ID=$(doctl apps list --format ID,Spec.Name | grep "$APP_NAME" | awk '{print $1}')
+          
+          echo "## Deployment Information" >> $GITHUB_STEP_SUMMARY
+          echo "- **Environment**: ${{ github.event.inputs.environment }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **App ID**: $APP_ID" >> $GITHUB_STEP_SUMMARY
+          
+          # Get app URL
+          APP_URL=$(doctl apps get $APP_ID --format DefaultIngress --no-header)
+          echo "- **App URL**: https://$APP_URL" >> $GITHUB_STEP_SUMMARY
+          
+          # Get deployment status
+          DEPLOYMENT_ID=$(doctl apps list-deployments $APP_ID --format ID --no-header | head -1)
+          echo "- **Deployment ID**: $DEPLOYMENT_ID" >> $GITHUB_STEP_SUMMARY

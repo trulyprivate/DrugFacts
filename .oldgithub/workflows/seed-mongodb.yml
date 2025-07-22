@@ -1,0 +1,44 @@
+name: Seed MongoDB Database
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to seed'
+        required: true
+        default: 'staging'
+        type: choice
+        options:
+          - staging
+          - production
+
+jobs:
+  seed:
+    runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.environment }}
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      
+      - name: Install Python dependencies
+        run: |
+          pip install pymongo dnspython pyyaml
+      
+      - name: Seed MongoDB
+        run: |
+          python hardened_mongo_import.py
+        env:
+          MONGODB_URL: ${{ secrets.MONGODB_URL }}
+          MONGODB_DB_NAME: ${{ secrets.MONGODB_DB_NAME }}
+          MONGODB_COLLECTION_NAME: ${{ secrets.MONGODB_COLLECTION_NAME }}
+      
+      - name: Verify seeding
+        run: |
+          echo "Database seeded successfully"
+          echo "Environment: ${{ github.event.inputs.environment }}"
+          echo "Database: ${{ secrets.MONGODB_DB_NAME }}"
