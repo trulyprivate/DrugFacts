@@ -82,7 +82,7 @@ services:
       retries: 5
       start_period: 30s
 
-  # Database seeder service (basic)
+  # Database seeder service (basic) - runs automatically
   db-seeder:
     build:
       context: .
@@ -101,7 +101,6 @@ services:
     networks:
       - drugfacts-network
     restart: "no"
-    profiles: ["basic-seeder"]
 
   # AI-enhanced database seeder service
   ai-seeder:
