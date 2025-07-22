@@ -17,7 +17,7 @@ def test_fda_api():
     drug_name = "Mounjaro"
     print(f"Fetching SPL link ID for: {drug_name}")
     
-    spl_link_id = importer._fetch_spl_link_id(drug_name)
+    spl_link_id = importer.fetch_spl_link_id(drug_name)
     
     if spl_link_id:
         print(f"✅ Success! SPL Link ID: {spl_link_id}")
