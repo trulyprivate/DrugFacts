@@ -4,7 +4,8 @@ const nextConfig = {
   env: {
     NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api',
   },
-  // Remove static export to enable API routes and server-side rendering
+  // Enable static export for DigitalOcean deployment
+  output: 'export',
   images: {
     unoptimized: true,
     formats: ['image/webp', 'image/avif'],

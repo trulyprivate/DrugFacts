@@ -1,0 +1,50 @@
+name: drugfacts-backend
+region: nyc
+features:
+  - buildpack-stack=ubuntu-22
+
+services:
+  - name: api
+    environment_slug: node-js
+    github:
+      repo: trulyprivate/DrugFacts
+      branch: main
+      deploy_on_push: true
+    build_command: cd backend/drugfacts-api && npm ci --legacy-peer-deps && npm run build
+    run_command: cd backend/drugfacts-api && npm run start:prod
+    source_dir: /
+    http_port: 3001
+    instance_count: 1
+    instance_size_slug: basic-xxs
+    health_check:
+      http_path: /health
+      initial_delay_seconds: 30
+      period_seconds: 30
+      timeout_seconds: 5
+      success_threshold: 1
+      failure_threshold: 3
+    envs:
+      - key: NODE_ENV
+        value: production
+        scope: RUN_TIME
+      - key: PORT
+        value: "3001"
+        scope: RUN_TIME
+      - key: MONGODB_URL
+        value: ${MONGODB_URL}
+        scope: RUN_TIME
+        type: SECRET
+      - key: MONGODB_DB_NAME
+        value: drug_facts
+        scope: RUN_TIME
+      - key: FRONTEND_URL
+        value: https://drugfacts-frontend.ondigitalocean.app
+        scope: RUN_TIME
+      - key: CORS_ORIGINS
+        value: "https://drugfacts-frontend.ondigitalocean.app,https://drugfacts.wiki"
+        scope: RUN_TIME
+
+databases:
+  - name: mongodb
+    engine: MONGODB
+    production: true
