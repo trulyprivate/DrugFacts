@@ -517,8 +517,8 @@ Files:
     
     parser.add_argument(
         '--collection-name',
-        default='label',
-        help='Collection name (default: label)'
+        default='drugs',
+        help='Collection name (default: drugs)'
     )
     
     # Options
