@@ -16,9 +16,10 @@ RUN pip install --no-cache-dir \
     pyyaml==6.0.1 \
     requests==2.31.0
 
-# Copy the seeding script and schema
+# Copy the seeding scripts and schema
 COPY hardened_mongo_import.py /app/
 COPY drug_label_schema.yaml /app/
+COPY check_and_seed.sh /app/
 
 # Create data directory
 RUN mkdir -p /app/data
@@ -27,6 +28,9 @@ RUN mkdir -p /app/data
 ENV MONGODB_URL=mongodb://mongodb:27017
 ENV MONGODB_DB_NAME=drug_facts
 ENV MONGODB_COLLECTION_NAME=drugs
+
+# Make scripts executable
+RUN chmod +x /app/check_and_seed.sh
 
 # Create a non-root user
 RUN useradd --create-home --shell /bin/bash seeder
@@ -37,5 +41,5 @@ USER seeder
 RUN echo '#!/bin/bash\npython -c "from pymongo import MongoClient; client = MongoClient(\"$MONGODB_URL\"); client.admin.command(\"ping\")"' > /app/healthcheck.sh
 RUN chmod +x /app/healthcheck.sh
 
-# Default command to run the seeder
-CMD sh -c 'python hardened_mongo_import.py -j /app/data/Labels.json -s /app/drug_label_schema.yaml --mongo-uri "${MONGODB_URL}" --db-name "${MONGODB_DB_NAME}" --collection-name "${MONGODB_COLLECTION_NAME:-drugs}"'
+# Default command to check and run the seeder if needed
+CMD ["/bin/bash", "/app/check_and_seed.sh"]
