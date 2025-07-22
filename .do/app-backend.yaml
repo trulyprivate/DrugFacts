@@ -44,7 +44,5 @@ services:
         value: "https://drugfacts-frontend.ondigitalocean.app,https://drugfacts.wiki"
         scope: RUN_TIME
 
-databases:
-  - name: mongodb
-    engine: MONGODB
-    production: true
+# Note: MongoDB is hosted on MongoDB Atlas, not DigitalOcean
+# Set MONGODB_ATLAS_URL environment variable in DigitalOcean dashboard

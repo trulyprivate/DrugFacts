@@ -10,7 +10,6 @@
     "build:backend": "cd backend/drugfacts-api && npm run build",
     "start": "next start",
     "start:backend": "cd backend/drugfacts-api && npm run start:prod",
-    "export": "next export",
     "generate-data": "node scripts/generate-drug-data.mjs",
     "prepare-build-data": "node scripts/prepare-build-data.js",
     "check": "tsc",
