@@ -1,8 +1,9 @@
 import { Metadata } from 'next'
+import { staticPageDescriptions } from '@/lib/seo-utils'
 
 export const metadata: Metadata = {
   title: 'Drug Manufacturers - drugfacts.wiki',
-  description: 'Browse medications by pharmaceutical manufacturer. Find drugs from major companies like Pfizer, Johnson & Johnson, Merck, and other FDA-approved manufacturers.',
+  description: staticPageDescriptions.manufacturers,
   keywords: 'pharmaceutical manufacturers, drug companies, medication brands, pharmaceutical industry, FDA approved manufacturers',
   openGraph: {
     title: 'Drug Manufacturers - drugfacts.wiki',

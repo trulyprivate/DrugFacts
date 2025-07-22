@@ -1,18 +1,18 @@
 import { DrugsService } from './drugs.service';
+import { DrugsCacheService } from './services/drugs-cache.service';
+import { CachedDrugsService } from './cached-drugs.service';
 import { SearchDrugsDto } from './dto/search-drugs.dto';
 export declare class DrugsController {
     private readonly drugsService;
-    constructor(drugsService: DrugsService);
+    private readonly drugsCacheService;
+    private readonly cachedDrugsService;
+    constructor(drugsService: DrugsService, drugsCacheService: DrugsCacheService, cachedDrugsService: CachedDrugsService);
     findAll(searchDto: SearchDrugsDto): Promise<{
-        data: (import("mongoose").FlattenMaps<import("./schemas/drug.schema").DrugDocument> & Required<{
-            _id: import("mongoose").FlattenMaps<unknown>;
-        }> & {
-            __v: number;
-        })[];
+        data: any;
         pagination: {
             page: number;
             limit: number;
-            total: number;
+            total: any;
             totalPages: number;
             hasNext: boolean;
             hasPrev: boolean;
@@ -27,6 +27,19 @@ export declare class DrugsController {
     }>;
     count(): Promise<{
         count: number;
+    }>;
+    getCacheStats(): Promise<{
+        data: {
+            healthy: boolean;
+            keys: number;
+            memory?: string;
+        };
+    }>;
+    warmupCache(): Promise<{
+        message: string;
+    }>;
+    invalidateDrug(slug: string): Promise<{
+        message: string;
     }>;
     findBySlug(slug: string): Promise<{
         data: import("./schemas/drug.schema").Drug;

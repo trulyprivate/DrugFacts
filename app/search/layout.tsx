@@ -1,8 +1,9 @@
 import { Metadata } from 'next'
+import { staticPageDescriptions } from '@/lib/seo-utils'
 
 export const metadata: Metadata = {
   title: 'Search Drugs - drugfacts.wiki',
-  description: 'Search our comprehensive database of FDA-approved medications. Find detailed drug information, prescribing guidelines, side effects, and drug interactions.',
+  description: staticPageDescriptions.search,
   keywords: 'drug search, medication lookup, pharmaceutical database, prescription drugs, FDA approved medications',
   openGraph: {
     title: 'Search Drugs - drugfacts.wiki',

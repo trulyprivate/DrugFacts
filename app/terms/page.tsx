@@ -1,8 +1,9 @@
 import type { Metadata } from 'next';
+import { staticPageDescriptions } from '@/lib/seo-utils';
 
 export const metadata: Metadata = {
   title: 'Terms of Service | drugfacts.wiki',
-  description: 'Terms of service and conditions for using drugfacts.wiki drug information platform.',
+  description: staticPageDescriptions.terms,
 };
 
 export default function TermsPage() {

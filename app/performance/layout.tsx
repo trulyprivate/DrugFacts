@@ -1,8 +1,9 @@
 import { Metadata } from 'next'
+import { staticPageDescriptions } from '@/lib/seo-utils'
 
 export const metadata: Metadata = {
   title: 'Performance Optimization | drugfacts.wiki',
-  description: 'Performance analysis and optimization results for drugfacts.wiki drug information platform.',
+  description: staticPageDescriptions.performance,
   robots: 'noindex, nofollow',
 }
 

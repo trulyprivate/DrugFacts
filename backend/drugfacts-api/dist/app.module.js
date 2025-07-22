@@ -10,9 +10,14 @@ exports.AppModule = void 0;
 const common_1 = require("@nestjs/common");
 const config_1 = require("@nestjs/config");
 const mongoose_1 = require("@nestjs/mongoose");
-const app_controller_1 = require("./app.controller");
-const app_service_1 = require("./app.service");
+const terminus_1 = require("@nestjs/terminus");
 const drugs_module_1 = require("./drugs/drugs.module");
+const health_module_1 = require("./health/health.module");
+const mcp_module_1 = require("./mcp/mcp.module");
+const common_module_1 = require("./common/common.module");
+const app_config_1 = require("./config/app.config");
+const cache_config_1 = require("./config/cache.config");
+const database_config_1 = require("./config/database.config");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -21,20 +26,25 @@ exports.AppModule = AppModule = __decorate([
         imports: [
             config_1.ConfigModule.forRoot({
                 isGlobal: true,
-                envFilePath: ['.env', '../.env', '../../.env'],
+                envFilePath: ['.env', '.env.docker', '.env.docker.local', '../.env', '../../.env'],
+                load: [app_config_1.default, cache_config_1.default, database_config_1.default],
             }),
             mongoose_1.MongooseModule.forRootAsync({
                 imports: [config_1.ConfigModule],
                 useFactory: async (configService) => ({
-                    uri: configService.get('MONGODB_URL') || 'mongodb://localhost:27017',
-                    dbName: configService.get('MONGODB_DB_NAME') || 'drug_facts',
+                    uri: configService.get('database.uri'),
+                    dbName: configService.get('database.name'),
                 }),
                 inject: [config_1.ConfigService],
             }),
+            terminus_1.TerminusModule,
+            common_module_1.CommonModule,
             drugs_module_1.DrugsModule,
+            health_module_1.HealthModule,
+            mcp_module_1.McpModule,
         ],
-        controllers: [app_controller_1.AppController],
-        providers: [app_service_1.AppService],
+        controllers: [],
+        providers: [],
     })
 ], AppModule);
 //# sourceMappingURL=app.module.js.map

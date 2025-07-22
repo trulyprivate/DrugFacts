@@ -32,7 +32,40 @@ export class Drug {
   @Prop()
   dea?: string;
 
-  // Label content fields
+  // Label object containing all drug label information
+  @Prop({ type: Object })
+  label?: {
+    boxedWarning?: string;
+    warnings?: string;
+    warningsAndPrecautions?: string;
+    precautions?: string;
+    adverseReactions?: string;
+    drugInteractions?: string;
+    contraindications?: string;
+    indicationsAndUsage?: string;
+    dosageAndAdministration?: string;
+    dosageFormsAndStrengths?: string;
+    overdosage?: string;
+    description?: string;
+    clinicalPharmacology?: string;
+    clinicalStudies?: string;
+    nonclinicalToxicology?: string;
+    nonClinicalToxicology?: string;
+    howSupplied?: string;
+    useInSpecificPopulations?: string;
+    patientCounseling?: string;
+    principalDisplayPanel?: string;
+    spl?: string;
+    mechanismOfAction?: string;
+    genericName?: string;
+    labelerName?: string;
+    productType?: string;
+    effectiveTime?: string;
+    title?: string;
+    highlights?: any;
+  };
+
+  // Legacy fields (kept for backward compatibility)
   @Prop()
   boxedWarning?: string;
 

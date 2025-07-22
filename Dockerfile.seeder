@@ -38,4 +38,4 @@ RUN echo '#!/bin/bash\npython -c "from pymongo import MongoClient; client = Mong
 RUN chmod +x /app/healthcheck.sh
 
 # Default command to run the seeder
-CMD sh -c 'python hardened_mongo_import.py -j /app/data/Labels.json -s /app/drug_label_schema.yaml --mongo-uri "${MONGODB_URL}/" --db-name "${MONGODB_DB_NAME}" --collection-name "${MONGODB_COLLECTION_NAME:-drugs}"'
+CMD sh -c 'python hardened_mongo_import.py -j /app/data/Labels.json -s /app/drug_label_schema.yaml --mongo-uri "${MONGODB_URL}" --db-name "${MONGODB_DB_NAME}" --collection-name "${MONGODB_COLLECTION_NAME:-drugs}"'

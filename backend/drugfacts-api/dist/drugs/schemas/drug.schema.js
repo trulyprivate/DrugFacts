@@ -21,6 +21,7 @@ let Drug = class Drug {
     manufacturer;
     therapeuticClass;
     dea;
+    label;
     boxedWarning;
     warnings;
     precautions;
@@ -81,6 +82,10 @@ __decorate([
     (0, mongoose_1.Prop)(),
     __metadata("design:type", String)
 ], Drug.prototype, "dea", void 0);
+__decorate([
+    (0, mongoose_1.Prop)({ type: Object }),
+    __metadata("design:type", Object)
+], Drug.prototype, "label", void 0);
 __decorate([
     (0, mongoose_1.Prop)(),
     __metadata("design:type", String)

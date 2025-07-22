@@ -12,13 +12,15 @@ export default function PerformanceScript() {
           const navigation = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming
           const paint = performance.getEntriesByType('paint')
           
-          console.log('Performance Metrics:', {
+          // Performance metrics tracked silently
+          const metrics = {
             TTFB: navigation.responseStart - navigation.requestStart,
             DOMContentLoaded: navigation.domContentLoadedEventEnd - navigation.fetchStart,
             LoadComplete: navigation.loadEventEnd - navigation.fetchStart,
             FCP: paint.find(p => p.name === 'first-contentful-paint')?.startTime,
             LCP: paint.find(p => p.name === 'largest-contentful-paint')?.startTime,
-          })
+          }
+          // Could send to analytics service here if needed
         })
       }
     }

@@ -1,6 +1,72 @@
 version: '3.8'
 
 services:
+  # Next.js Frontend Service for development
+  frontend:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.frontend
+      target: development
+    container_name: drugfacts-frontend-dev
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - PORT=3000
+      - NEXT_PUBLIC_API_URL=http://backend:3001/api
+    volumes:
+      - ./:/app
+      - /app/node_modules
+      - /app/.next
+      - ./logs:/app/logs
+    restart: unless-stopped
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - drugfacts-dev-network
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3000', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+    command: npm run dev
+
+  # NestJS Backend Service for development
+  backend:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.backend
+      target: development
+    container_name: drugfacts-backend-dev
+    ports:
+      - "3001:3001"
+      - "9229:9229" # Debug port
+    environment:
+      - NODE_ENV=development
+      - PORT=3001
+      - MONGODB_URL=mongodb://mongodb:27017
+      - MONGODB_DB_NAME=drug_facts
+      - FRONTEND_URL=http://frontend:3000
+    volumes:
+      - ./backend/drugfacts-api:/app
+      - /app/node_modules
+      - ./logs:/app/logs
+    restart: unless-stopped
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    networks:
+      - drugfacts-dev-network
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3001/health', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+    command: npm run start:dev
+
   # MongoDB Database for development
   mongodb:
     image: mongo:7.0

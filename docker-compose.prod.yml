@@ -4,22 +4,66 @@ version: '3.8'
 # This configuration is designed to work with external MongoDB (Atlas or self-hosted)
 
 services:
-  drugfacts-app:
-    build: .
-    container_name: drugfacts-wiki
+  # Next.js Frontend Service for production
+  frontend:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.frontend
+      target: production
+    container_name: drugfacts-frontend-prod
     ports:
-      - "${PORT:-5005}:5005"
+      - "${FRONTEND_PORT:-3000}:3000"
     environment:
       # Application settings
       - NODE_ENV=production
-      - PORT=${PORT:-5005}
+      - PORT=3000
+      
+      # API URL for frontend to connect to backend
+      - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL:-https://api.drugfacts.wiki/api}
+      
+      # Telemetry and optimization
+      - NEXT_TELEMETRY_DISABLED=1
+    volumes:
+      # Mount logs directory for persistence
+      - ./logs:/app/logs
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '0.75'
+          memory: 1G
+        reservations:
+          cpus: '0.25'
+          memory: 512M
+    networks:
+      - drugfacts-network
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3000', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # NestJS Backend Service for production
+  backend:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.backend
+      target: production
+    container_name: drugfacts-backend-prod
+    ports:
+      - "${BACKEND_PORT:-3001}:3001"
+    environment:
+      # Application settings
+      - NODE_ENV=production
+      - PORT=3001
       
       # MongoDB configuration (from environment/secrets)
-      - MONGODB_URL=${MONGODB_URL}
+      - MONGODB_URL=${MONGODB_URL:-mongodb://mongodb:27017}
       - MONGODB_DB_NAME=${MONGODB_DB_NAME:-drug_facts}
       
-      # Public API URL
-      - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL:-https://drugfacts.wiki/api}
+      # Frontend URL for CORS
+      - FRONTEND_URL=${FRONTEND_URL:-https://drugfacts.wiki}
       
       # Optional AI features
       - ENABLE_AI_CLASSIFICATION=${ENABLE_AI_CLASSIFICATION:-false}
@@ -29,10 +73,18 @@ services:
       # Mount logs directory for persistence
       - ./logs:/app/logs
     restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: '0.75'
+          memory: 1G
+        reservations:
+          cpus: '0.25'
+          memory: 512M
     networks:
       - drugfacts-network
     healthcheck:
-      test: ["CMD", "node", "-e", "require('http').get('http://localhost:5005', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })"]
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3001/health', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -50,7 +102,8 @@ services:
       - ./nginx/ssl:/etc/nginx/ssl
       - ./nginx/conf.d:/etc/nginx/conf.d
     depends_on:
-      - drugfacts-app
+      - frontend
+      - backend
     restart: unless-stopped
     networks:
       - drugfacts-network

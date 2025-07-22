@@ -1,48 +1,114 @@
 /**
- * Drug Service - MongoDB Implementation
- * Main drug service interface using MongoDB backend
+ * Drug Service - Main interface with automatic server/client detection
+ * Uses server-side data fetching during SSR/SSG for better SEO
+ * Falls back to client-side API calls with static JSON fallback
  */
 
 import { DrugLabel } from '@/types/drug'
-import {
-  getAllDrugs as getAllDrugsMongo,
-  getDrugBySlug as getDrugBySlugMongo,
-  searchDrugs as searchDrugsMongo,
-  getDrugsByTherapeuticClass as getDrugsByTherapeuticClassMongo,
-  getDrugsByManufacturer as getDrugsByManufacturerMongo
-} from './drugs-mongodb'
+
+// Detect if we're running on the server
+const isServer = typeof window === 'undefined'
+
+// Lazy load the appropriate implementation
+async function getImplementation() {
+  if (isServer) {
+    // Use server-side implementation for SSR/SSG
+    const { 
+      getAllDrugsServer,
+      getDrugBySlugServer,
+      searchDrugsServer,
+      getDrugsByTherapeuticClassServer,
+      getDrugsByManufacturerServer
+    } = await import('./drugs-server')
+    
+    return {
+      getAllDrugs: getAllDrugsServer,
+      getDrugBySlug: getDrugBySlugServer,
+      searchDrugs: searchDrugsServer,
+      getDrugsByTherapeuticClass: getDrugsByTherapeuticClassServer,
+      getDrugsByManufacturer: getDrugsByManufacturerServer
+    }
+  } else {
+    // Use client-side implementation for browser
+    const {
+      getAllDrugsClient,
+      getDrugBySlugClient,
+      searchDrugsClient,
+      getDrugsByTherapeuticClassClient,
+      getDrugsByManufacturerClient
+    } = await import('./drugs-client')
+    
+    return {
+      getAllDrugs: getAllDrugsClient,
+      getDrugBySlug: getDrugBySlugClient,
+      searchDrugs: searchDrugsClient,
+      getDrugsByTherapeuticClass: getDrugsByTherapeuticClassClient,
+      getDrugsByManufacturer: getDrugsByManufacturerClient
+    }
+  }
+}
 
 /**
- * Get all drugs from MongoDB
+ * Get all drugs - automatically uses server or client implementation
  */
 export async function getAllDrugs(): Promise<DrugLabel[]> {
-  return await getAllDrugsMongo()
+  try {
+    const impl = await getImplementation()
+    return await impl.getAllDrugs()
+  } catch (error) {
+    console.error('Error in getAllDrugs:', error)
+    return []
+  }
 }
 
 /**
- * Get drug by slug from MongoDB
+ * Get drug by slug - automatically uses server or client implementation
  */
 export async function getDrugBySlug(slug: string): Promise<DrugLabel | null> {
-  return await getDrugBySlugMongo(slug)
+  try {
+    const impl = await getImplementation()
+    return await impl.getDrugBySlug(slug)
+  } catch (error) {
+    console.error(`Error in getDrugBySlug for ${slug}:`, error)
+    return null
+  }
 }
 
 /**
- * Search drugs using MongoDB
+ * Search drugs - automatically uses server or client implementation
  */
 export async function searchDrugs(query: string): Promise<DrugLabel[]> {
-  return await searchDrugsMongo(query)
+  try {
+    const impl = await getImplementation()
+    return await impl.searchDrugs(query)
+  } catch (error) {
+    console.error(`Error in searchDrugs for query "${query}":`, error)
+    return []
+  }
 }
 
 /**
- * Get drugs by therapeutic class from MongoDB
+ * Get drugs by therapeutic class - automatically uses server or client implementation
  */
 export async function getDrugsByTherapeuticClass(therapeuticClass: string): Promise<DrugLabel[]> {
-  return await getDrugsByTherapeuticClassMongo(therapeuticClass)
+  try {
+    const impl = await getImplementation()
+    return await impl.getDrugsByTherapeuticClass(therapeuticClass)
+  } catch (error) {
+    console.error(`Error in getDrugsByTherapeuticClass for "${therapeuticClass}":`, error)
+    return []
+  }
 }
 
 /**
- * Get drugs by manufacturer from MongoDB
+ * Get drugs by manufacturer - automatically uses server or client implementation
  */
 export async function getDrugsByManufacturer(manufacturer: string): Promise<DrugLabel[]> {
-  return await getDrugsByManufacturerMongo(manufacturer)
+  try {
+    const impl = await getImplementation()
+    return await impl.getDrugsByManufacturer(manufacturer)
+  } catch (error) {
+    console.error(`Error in getDrugsByManufacturer for "${manufacturer}":`, error)
+    return []
+  }
 }
