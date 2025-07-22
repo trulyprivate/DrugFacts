@@ -175,8 +175,9 @@ class DrugLabelImporter:
         
         try:
             url = "https://api.fda.gov/drug/labelsearch.json"
+            encoded_drug_name = quote(drug_name)
             querystring = {
-                "search": f"product_name:{drug_name}",
+                "search": f"product_name:{encoded_drug_name}",
                 "limit": "1000"
             }
             headers = {
