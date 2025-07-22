@@ -32,6 +32,9 @@ class EnhancedDrugLabelImporter(DrugLabelImporter):
         # Initialize base class
         super().__init__(mongo_uri, db_name, collection_name)
         
+        # Set up module logger as self.logger to ensure parent class methods work
+        self.logger = logger
+        
         # Initialize drug classifier
         self.drug_classifier = DrugClassifier()
         
@@ -148,10 +151,10 @@ class EnhancedDrugLabelImporter(DrugLabelImporter):
         # Extract drug name and fetch SPL link ID
         drug_name = document.get('drugName')
         if drug_name:
-            spl_link_id = self._fetch_spl_link_id(drug_name)
+            spl_link_id = self.fetch_spl_link_id(drug_name)
             if spl_link_id:
                 # Transform image URLs in the document
-                document = self._transform_image_urls(document, spl_link_id)
+                document = self.transform_image_urls(document, spl_link_id)
         else:
             logger.warning(f"Document {index+1} missing 'drugName' field, skipping FDA image URL transformation")
         
@@ -160,9 +163,9 @@ class EnhancedDrugLabelImporter(DrugLabelImporter):
         
         if existing_doc:
             # Document exists, check if update is needed
-            if self._document_needs_update(document, existing_doc):
+            if self.document_needs_update(document, existing_doc):
                 # Update the document
-                prepared_doc = self._prepare_document_for_upsert(document, is_update=True)
+                prepared_doc = self.prepare_document_for_upsert(document, is_update=True)
                 
                 result = self.collection.update_one(
                     {'slug': slug},
@@ -181,7 +184,7 @@ class EnhancedDrugLabelImporter(DrugLabelImporter):
                 return 'skipped'
         else:
             # New document, insert it
-            prepared_doc = self._prepare_document_for_upsert(document, is_update=False)
+            prepared_doc = self.prepare_document_for_upsert(document, is_update=False)
             
             try:
                 self.collection.insert_one(prepared_doc)
@@ -206,14 +209,20 @@ class EnhancedDrugLabelImporter(DrugLabelImporter):
         # Create a copy of the document
         enhanced_doc = document.copy()
         
-        # Add therapeutic classification
-        enhanced_doc['therapeuticClass'] = classification_result['classification']
+        # Extract classification data
+        classification = classification_result['classification']
+        
+        # Add therapeutic classification as a string (primary_therapeutic_class)
+        enhanced_doc['therapeuticClass'] = classification.get('primary_therapeutic_class', 'Not specified')
+        
+        # Add full AI classification data as a separate field
+        enhanced_doc['aiClassification'] = classification
         
         # Add AI processing metadata
         enhanced_doc['aiProcessingMetadata'] = {
             'processedAt': datetime.utcnow(),
             'modelUsed': classification_result.get('metadata', {}).get('model', 'unknown'),
-            'confidence': classification_result['classification']['confidence_level'],
+            'confidence': classification.get('confidence_level', 'Low'),
             'tokensUsed': classification_result.get('metadata', {}).get('tokens_used', 0),
             'processingTimeMs': classification_result.get('metadata', {}).get('processing_time', 0) * 1000,
             'cached': classification_result.get('cached', False)

@@ -11,6 +11,7 @@ from pymongo.errors import DuplicateKeyError, BulkWriteError
 from jsonschema import validate, ValidationError
 import logging
 from datetime import datetime
+from urllib.parse import quote
 
 class DrugLabelImporter:
     def __init__(self, mongo_uri: str = 'mongodb://localhost:27017/', 
@@ -27,15 +28,15 @@ class DrugLabelImporter:
         self.db = self.client[db_name]
         self.collection = self.db[collection_name]
         self.schema = None
-        self.logger = self._setup_logging()
+        self.logger = self.setup_logging()
         
         # Cache for SPL link IDs to avoid repeated API calls
         self.spl_link_cache = {}
         
         # Create unique index on slug field if it doesn't exist
-        self._ensure_indexes()
+        self.ensure_indexes()
     
-    def _setup_logging(self) -> logging.Logger:
+    def setup_logging(self) -> logging.Logger:
         """Setup logging configuration."""
         logging.basicConfig(
             level=logging.INFO,
@@ -43,7 +44,7 @@ class DrugLabelImporter:
         )
         return logging.getLogger(__name__)
     
-    def _ensure_indexes(self):
+    def ensure_indexes(self):
         """Ensure required indexes exist on the collection."""
         try:
             # Create unique index on slug field
@@ -97,7 +98,7 @@ class DrugLabelImporter:
         except ValidationError as e:
             return False, f"Validation error: {e.message}"
     
-    def _calculate_document_hash(self, document: Dict[str, Any]) -> str:
+    def calculate_document_hash(self, document: Dict[str, Any]) -> str:
         """
         Calculate a hash of the document content for comparison.
         
@@ -118,7 +119,7 @@ class DrugLabelImporter:
         doc_json = json.dumps(doc_copy, sort_keys=True, default=str)
         return hashlib.sha256(doc_json.encode()).hexdigest()
     
-    def _document_needs_update(self, new_doc: Dict[str, Any], existing_doc: Dict[str, Any]) -> bool:
+    def document_needs_update(self, new_doc: Dict[str, Any], existing_doc: Dict[str, Any]) -> bool:
         """
         Check if a document needs to be updated by comparing hashes.
         
@@ -129,12 +130,12 @@ class DrugLabelImporter:
         Returns:
             bool: True if update is needed, False otherwise
         """
-        new_hash = self._calculate_document_hash(new_doc)
+        new_hash = self.calculate_document_hash(new_doc)
         existing_hash = existing_doc.get('_hash', '')
         
         return new_hash != existing_hash
     
-    def _prepare_document_for_upsert(self, document: Dict[str, Any], is_update: bool = False) -> Dict[str, Any]:
+    def prepare_document_for_upsert(self, document: Dict[str, Any], is_update: bool = False) -> Dict[str, Any]:
         """
         Prepare document with metadata for upsert operation.
         
@@ -149,7 +150,7 @@ class DrugLabelImporter:
         current_time = datetime.utcnow()
         
         # Add hash for change detection
-        prepared_doc['_hash'] = self._calculate_document_hash(document)
+        prepared_doc['_hash'] = self.calculate_document_hash(document)
         
         if is_update:
             prepared_doc['_updated_at'] = current_time
@@ -159,7 +160,7 @@ class DrugLabelImporter:
         
         return prepared_doc
     
-    def _fetch_spl_link_id(self, drug_name: str) -> Optional[str]:
+    def fetch_spl_link_id(self, drug_name: str) -> Optional[str]:
         """
         Fetch SPL link ID from FDA API for a given drug name.
         
@@ -216,7 +217,7 @@ class DrugLabelImporter:
         self.spl_link_cache[drug_name] = None
         return None
     
-    def _update_img_tags(self, html_content: str, spl_link_id: str) -> str:
+    def update_img_tags(self, html_content: str, spl_link_id: str) -> str:
         """
         Update img tags in HTML content to use FDA URLs.
         
@@ -257,7 +258,7 @@ class DrugLabelImporter:
         
         return updated_content
     
-    def _transform_image_urls(self, document: Dict[str, Any], spl_link_id: str) -> Dict[str, Any]:
+    def transform_image_urls(self, document: Dict[str, Any], spl_link_id: str) -> Dict[str, Any]:
         """
         Recursively transform image URLs in all string fields of a document.
         
@@ -275,7 +276,7 @@ class DrugLabelImporter:
             if isinstance(value, str):
                 # Check if the string contains img tags
                 if '<img' in value.lower():
-                    return self._update_img_tags(value, spl_link_id)
+                    return self.update_img_tags(value, spl_link_id)
                 return value
             elif isinstance(value, dict):
                 return {k: transform_value(v) for k, v in value.items()}
@@ -311,10 +312,10 @@ class DrugLabelImporter:
                 # Extract drug name and fetch SPL link ID
                 drug_name = document.get('drugName')
                 if drug_name:
-                    spl_link_id = self._fetch_spl_link_id(drug_name)
+                    spl_link_id = self.fetch_spl_link_id(drug_name)
                     if spl_link_id:
                         # Transform image URLs in the document
-                        document = self._transform_image_urls(document, spl_link_id)
+                        document = self.transform_image_urls(document, spl_link_id)
                 else:
                     self.logger.warning(f"Document {i+1} missing 'drugName' field, skipping FDA image URL transformation")
                 
@@ -339,9 +340,9 @@ class DrugLabelImporter:
                 
                 if existing_doc:
                     # Document exists, check if update is needed
-                    if self._document_needs_update(document, existing_doc):
+                    if self.document_needs_update(document, existing_doc):
                         # Update the document
-                        prepared_doc = self._prepare_document_for_upsert(document, is_update=True)
+                        prepared_doc = self.prepare_document_for_upsert(document, is_update=True)
                         
                         result = self.collection.update_one(
                             {'slug': slug},
@@ -360,7 +361,7 @@ class DrugLabelImporter:
                         stats['skipped'] += 1
                 else:
                     # New document, insert it
-                    prepared_doc = self._prepare_document_for_upsert(document, is_update=False)
+                    prepared_doc = self.prepare_document_for_upsert(document, is_update=False)
                     
                     try:
                         self.collection.insert_one(prepared_doc)
@@ -370,8 +371,8 @@ class DrugLabelImporter:
                         # Handle race condition where document was inserted between check and insert
                         self.logger.warning(f"Duplicate key error for slug: {slug}, attempting update")
                         existing_doc = self.collection.find_one({'slug': slug})
-                        if existing_doc and self._document_needs_update(document, existing_doc):
-                            prepared_doc = self._prepare_document_for_upsert(document, is_update=True)
+                        if existing_doc and self.document_needs_update(document, existing_doc):
+                            prepared_doc = self.prepare_document_for_upsert(document, is_update=True)
                             self.collection.update_one({'slug': slug}, {'$set': prepared_doc})
                             stats['updated'] += 1
                         else:

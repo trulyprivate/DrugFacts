@@ -41,6 +41,22 @@ docker-compose -f docker-compose.dev.yml up -d mongodb
 
 ### 2. Seed Database Manually
 
+#### Using Enhanced Import Script (Recommended)
+
+For AI-powered classification and enhanced import features:
+
+```bash
+# Basic import with AI classification
+python run_enhanced_import.py
+
+# Import without AI classification
+python run_enhanced_import.py --disable-ai
+
+# See IMPORT_GUIDE.md for detailed usage
+```
+
+#### Using Basic Import Script
+
 ```bash
 # Using Python script directly
 python hardened_mongo_import.py \
@@ -54,6 +70,8 @@ python hardened_mongo_import.py \
 # Or using Docker
 docker-compose -f docker-compose.dev.yml up --build db-seeder
 ```
+
+**Note**: For comprehensive import options and AI classification features, see [IMPORT_GUIDE.md](./IMPORT_GUIDE.md).
 
 ## Production Setup
 
