@@ -1,0 +1,45 @@
+# Dockerfile for AI-enhanced database seeding service
+FROM python:3.11-slim
+
+# Set working directory
+WORKDIR /app
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    gcc \
+    g++ \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy requirements file
+COPY requirements.txt /app/
+
+# Install Python dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy the AI classification module and dependencies
+COPY ai_classification/ /app/ai_classification/
+COPY drug_label_extracation_system_prompt.md /app/
+
+# Copy the seeding scripts and schema
+COPY hardened_mongo_import.py /app/
+COPY enhanced_drug_importer.py /app/
+COPY run_enhanced_import.py /app/
+COPY drug_label_schema.yaml /app/
+
+# Create data directory
+RUN mkdir -p /app/data /app/logs
+
+# Set environment variables with defaults
+ENV MONGODB_URL=mongodb://mongodb:27017
+ENV MONGODB_DB_NAME=drug_facts
+ENV MONGODB_COLLECTION_NAME=drugs
+ENV ENABLE_AI_CLASSIFICATION=true
+ENV AI_LOG_LEVEL=INFO
+
+# Create a non-root user
+RUN useradd --create-home --shell /bin/bash seeder
+RUN chown -R seeder:seeder /app
+USER seeder
+
+# Default command to run the enhanced seeder
+CMD ["python", "run_enhanced_import.py", "--mongo-uri", "${MONGODB_URL}/", "--db-name", "${MONGODB_DB_NAME}", "--collection-name", "${MONGODB_COLLECTION_NAME}"]

@@ -1,0 +1,89 @@
+version: '3.8'
+
+# Production Docker Compose Configuration
+# This configuration is designed to work with external MongoDB (Atlas or self-hosted)
+
+services:
+  drugfacts-app:
+    build: .
+    container_name: drugfacts-wiki
+    ports:
+      - "${PORT:-5005}:5005"
+    environment:
+      # Application settings
+      - NODE_ENV=production
+      - PORT=${PORT:-5005}
+      
+      # MongoDB configuration (from environment/secrets)
+      - MONGODB_URL=${MONGODB_URL}
+      - MONGODB_DB_NAME=${MONGODB_DB_NAME:-drug_facts}
+      
+      # Public API URL
+      - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL:-https://drugfacts.wiki/api}
+      
+      # Optional AI features
+      - ENABLE_AI_CLASSIFICATION=${ENABLE_AI_CLASSIFICATION:-false}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - OPENPIPE_API_KEY=${OPENPIPE_API_KEY}
+    volumes:
+      # Mount logs directory for persistence
+      - ./logs:/app/logs
+    restart: unless-stopped
+    networks:
+      - drugfacts-network
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:5005', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Nginx reverse proxy for SSL termination (optional)
+  nginx:
+    image: nginx:alpine
+    container_name: drugfacts-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/ssl:/etc/nginx/ssl
+      - ./nginx/conf.d:/etc/nginx/conf.d
+    depends_on:
+      - drugfacts-app
+    restart: unless-stopped
+    networks:
+      - drugfacts-network
+    profiles: ["with-nginx"]
+
+  # Redis for caching (optional)
+  redis:
+    image: redis:7-alpine
+    container_name: drugfacts-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+    networks:
+      - drugfacts-network
+    command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD:-drugfacts_redis_2024}
+    healthcheck:
+      test: ["CMD", "redis-cli", "--auth", "${REDIS_PASSWORD:-drugfacts_redis_2024}", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    profiles: ["with-redis"]
+
+volumes:
+  redis_data:
+
+networks:
+  drugfacts-network:
+    driver: bridge
+
+# Usage:
+# Basic: docker-compose -f docker-compose.prod.yml up -d
+# With Nginx: docker-compose -f docker-compose.prod.yml --profile with-nginx up -d
+# With Redis: docker-compose -f docker-compose.prod.yml --profile with-redis up -d
+# All features: docker-compose -f docker-compose.prod.yml --profile with-nginx --profile with-redis up -d

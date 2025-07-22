@@ -22,7 +22,7 @@ services:
       retries: 5
       start_period: 10s
 
-  # Database seeder service for development
+  # Database seeder service for development (basic)
   db-seeder:
     build:
       context: .
@@ -50,6 +50,47 @@ services:
         python hardened_mongo_import.py -j /app/data/Labels.json -s /app/drug_label_schema.yaml --mongo-uri mongodb://mongodb:27017/ --db-name drug_facts --collection-name drugs -v &&
         echo 'Database seeding completed!'
       "
+    profiles: ["basic-seeder"]
+
+  # AI-enhanced database seeder service for development
+  ai-seeder:
+    build:
+      context: .
+      dockerfile: Dockerfile.ai-seeder
+    container_name: drugfacts-ai-seeder-dev
+    environment:
+      - MONGODB_URL=mongodb://mongodb:27017
+      - MONGODB_DB_NAME=drug_facts
+      - MONGODB_COLLECTION_NAME=drugs
+      - ENABLE_AI_CLASSIFICATION=true
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - OPENPIPE_API_KEY=${OPENPIPE_API_KEY}
+      - AI_LOG_LEVEL=DEBUG
+    volumes:
+      - ./data/drugs:/app/data
+      - ./logs:/app/logs
+      - ./ai_classification:/app/ai_classification
+      - ./hardened_mongo_import.py:/app/hardened_mongo_import.py
+      - ./enhanced_drug_importer.py:/app/enhanced_drug_importer.py
+      - ./run_enhanced_import.py:/app/run_enhanced_import.py
+      - ./drug_label_schema.yaml:/app/drug_label_schema.yaml
+      - ./drug_label_extracation_system_prompt.md:/app/drug_label_extracation_system_prompt.md
+      - ./.env:/app/.env:ro
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    networks:
+      - drugfacts-dev-network
+    restart: "no"
+    command: >
+      sh -c "
+        echo 'Waiting for MongoDB to be ready...' &&
+        sleep 10 &&
+        echo 'Starting AI-enhanced database seeding...' &&
+        python run_enhanced_import.py -v &&
+        echo 'AI-enhanced database seeding completed!'
+      "
+    profiles: ["ai-seeder"]
 
   # MongoDB Express for database management (development only)
   mongo-express:

@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export',
+  // Remove static export to enable API routes and server-side rendering
   images: {
     unoptimized: true,
     formats: ['image/webp', 'image/avif'],

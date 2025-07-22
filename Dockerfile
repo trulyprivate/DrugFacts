@@ -1,4 +1,4 @@
-# Use Node.js 20 LTS as the base image
+# Use Node.js 23 LTS as the base image
 FROM node:20-alpine AS base
 
 # Install dependencies only when needed

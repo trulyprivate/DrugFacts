@@ -1,29 +1,40 @@
 # GitHub Secrets Setup Guide
 
-This document lists all the GitHub secrets required for the CI/CD pipeline.
+This document lists all the GitHub secrets required for the CI/CD pipeline and deployment.
 
-## Required Secrets
+## Required Secrets for Production
 
-### MongoDB Secrets
-- `MONGODB_URL`: MongoDB connection string (e.g., `mongodb+srv://username:password@cluster.mongodb.net/`)
-- `MONGODB_DB_NAME`: Database name (e.g., `drug_facts`)
-- `MONGODB_COLLECTION_NAME`: Collection name (e.g., `drugs`)
+### 🔐 MongoDB Secrets (REQUIRED)
+- `MONGODB_URL`: Production MongoDB connection string
+  - MongoDB Atlas format: `mongodb+srv://username:password@cluster.mongodb.net/drug_facts?retryWrites=true&w=majority`
+  - Self-hosted format: `mongodb://username:password@host:27017/drug_facts?authSource=admin`
+- `MONGODB_DB_NAME`: Database name (default: `drug_facts`)
+- `MONGODB_COLLECTION_NAME`: Collection name (default: `drugs`)
 
-### API Keys
-- `OPENAI_API_KEY`: OpenAI API key for AI features
-- `OPENPIPE_API_KEY`: OpenPipe API key
+### 🤖 AI Enhancement Secrets (OPTIONAL but recommended)
+- `OPENAI_API_KEY`: OpenAI API key for AI therapeutic classification
+  - Get from: https://platform.openai.com/api-keys
+  - Required for: AI-enhanced drug classification features
+- `OPENPIPE_API_KEY`: OpenPipe API key (optional optimization)
+  - Get from: https://openpipe.ai/
+  - Used for: Cost optimization and monitoring
 
-### Application Configuration
+### 🌐 Application Configuration
 - `NEXT_PUBLIC_API_URL`: Public API URL (e.g., `https://drugfacts.wiki/api`)
+- `NODE_ENV`: Set to `production`
+- `PORT`: Application port (default: `5005`)
 
-### DigitalOcean Deployment (Primary)
+### 🚀 DigitalOcean Deployment (PRIMARY METHOD)
 - `DIGITALOCEAN_ACCESS_TOKEN`: DigitalOcean API token for App Platform deployment
+  - Required for automatic deployment
+  - Create at: https://cloud.digitalocean.com/account/api/tokens
 
-### Docker Hub (Optional - if using Docker deployment)
+### 🐳 Docker Hub (Optional - for Docker registry)
 - `DOCKER_USERNAME`: Docker Hub username
 - `DOCKER_PASSWORD`: Docker Hub access token
+  - Create at: https://hub.docker.com/settings/security
 
-### Deployment Server (Optional - if using SSH deployment)
+### 🔧 Direct Server Deployment (Alternative)
 - `DEPLOY_HOST`: Server hostname or IP
 - `DEPLOY_USER`: SSH username
 - `DEPLOY_SSH_KEY`: Private SSH key for deployment
@@ -47,15 +58,38 @@ For multiple environments, create environments in GitHub:
 
 ```bash
 # MongoDB Atlas connection string format
-MONGODB_URL=mongodb+srv://drugfacts_user:YOUR_PASSWORD@cluster0.xxxxx.mongodb.net/?retryWrites=true&w=majority
+MONGODB_URL=mongodb+srv://drugfacts_user:YOUR_PASSWORD@cluster0.xxxxx.mongodb.net/drug_facts?retryWrites=true&w=majority
 
 # Database configuration
 MONGODB_DB_NAME=drug_facts
 MONGODB_COLLECTION_NAME=drugs
 
-# API URL
+# Application settings
+NODE_ENV=production
+PORT=5005
 NEXT_PUBLIC_API_URL=https://drugfacts.wiki/api
+
+# AI Features (if enabled)
+OPENAI_API_KEY=sk-proj-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+OPENPIPE_API_KEY=opk_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+ENABLE_AI_CLASSIFICATION=true
 ```
+
+## Priority Order for Setup
+
+1. **Essential (Must have for basic operation):**
+   - `MONGODB_URL`
+   - `MONGODB_DB_NAME`
+   - `DIGITALOCEAN_ACCESS_TOKEN` (for deployment)
+
+2. **Recommended (For full features):**
+   - `OPENAI_API_KEY` (for AI classification)
+   - `NEXT_PUBLIC_API_URL`
+
+3. **Optional (Based on deployment method):**
+   - Docker Hub credentials
+   - SSH deployment credentials
+   - `OPENPIPE_API_KEY`
 
 ## DigitalOcean Setup
 

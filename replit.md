@@ -308,7 +308,7 @@ The application follows a modern full-stack architecture with clear separation b
 - **Environment**: Node.js production server serving static files and API routes
 
 ### Docker Deployment
-- **Multi-stage Dockerfile**: Optimized production image with Node.js 20 Alpine
+- **Multi-stage Dockerfile**: Optimized production image with Node.js 23 Alpine
 - **Docker Compose**: Full-stack deployment with PostgreSQL, Redis, and Nginx
 - **Health Checks**: Built-in health monitoring for all services
 - **Security**: Non-root user, security headers, rate limiting
