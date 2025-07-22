@@ -1,13 +1,12 @@
-# Use Node.js 23 LTS as the base image
-FROM node:20-alpine AS base
+# Use Node.js 23 as the base image
+FROM node:23-alpine AS base
 
 # Install dependencies only when needed
 FROM base AS deps
-# Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
-# Install dependencies based on the preferred package manager
+# Install dependencies
 COPY package.json package-lock.json* ./
 RUN npm ci
 
@@ -17,34 +16,35 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# Build the static application
+# Build the Next.js application
 RUN npm run build
 
-# Production image, copy all the files and run the static server
+# Production image
 FROM base AS runner
 WORKDIR /app
 
 ENV NODE_ENV=production
-ENV PORT=5005
+ENV PORT=3000
 
-# Create a non-root user to run the application
+# Create a non-root user
 RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 drugfacts
+RUN adduser --system --uid 1001 nextjs
 
-# Copy the built static files and deployment script
-COPY --from=builder /app/out ./out
-COPY --from=builder /app/deploy.js ./deploy.js
-COPY --from=builder /app/package.json ./package.json
-COPY --from=deps /app/node_modules ./node_modules
+# Copy the standalone build
+COPY --from=builder /app/.next/standalone ./
+COPY --from=builder /app/.next/static ./.next/static
+COPY --from=builder /app/public ./public
 
-# Set the correct permissions
-RUN chown -R drugfacts:nodejs /app
-USER drugfacts
+# Set permissions
+RUN chown -R nextjs:nodejs /app
 
-EXPOSE 5005
+USER nextjs
 
-# Health check for static server
+EXPOSE 3000
+
+# Health check
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-  CMD node -e "require('http').get('http://localhost:5005', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })"
+  CMD node -e "require('http').get('http://localhost:3000', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })"
 
-CMD ["node", "deploy.js"]
+# Start Next.js server
+CMD ["node", "server.js"]
