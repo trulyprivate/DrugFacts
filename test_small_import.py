@@ -1,77 +1,61 @@
-#!/usr/bin/env python3
 """
-Test the enhanced MongoDB import with a small subset of data.
+Test enhanced drug label import with a small sample.
 """
 
 import json
-from hardened_mongo_import import DrugLabelImporter
+from enhanced_drug_importer import EnhancedDrugLabelImporter
+
 
 def main():
-    """Test import with first 3 documents."""
+    """Run a small test import."""
+    # Create a sample drug document
+    sample_drug = {
+        'drugName': 'Test Drug',
+        'setId': 'test-123',
+        'slug': 'test-drug-123',
+        'label': {
+            'genericName': 'test-generic',
+            'indicationsAndUsage': 'This drug is indicated for testing purposes.',
+            'mechanismOfAction': 'This drug works by testing mechanisms.',
+            'description': 'Test drug description.'
+        }
+    }
     
-    print("🧪 Testing enhanced MongoDB import with small dataset...")
+    # Initialize importer
+    importer = EnhancedDrugLabelImporter(
+        mongo_uri='mongodb://localhost:27017/',
+        db_name='drug_facts_test',
+        collection_name='drugs_test'
+    )
     
-    # Load first 3 documents from Labels.json
-    with open("data/drugs/Labels.json", 'r', encoding='utf-8') as f:
-        all_data = json.load(f)
+    # Load schema
+    schema_file = 'drug_label_schema.yaml'
+    if not importer.load_schema(schema_file):
+        print(f"Failed to load schema from {schema_file}")
+        return
     
-    # Take first 3 documents for testing
-    test_data = all_data[:3]
+    # Process document
+    print("Processing sample drug document...")
+    stats = importer.process_documents([sample_drug])
     
-    print(f"📄 Testing with {len(test_data)} documents:")
-    for i, doc in enumerate(test_data, 1):
-        print(f"   {i}. {doc.get('drugName', 'Unknown')} (slug: {doc.get('slug', 'N/A')})")
+    # Print summary
+    print("\nIMPORT SUMMARY")
+    print("="*50)
+    print(f"Documents inserted: {stats['inserted']}")
+    print(f"Documents updated: {stats['updated']}")
+    print(f"Documents skipped (no changes): {stats['skipped']}")
+    print(f"Documents failed: {stats['failed']}")
+    print(f"Documents AI enhanced: {stats.get('ai_enhanced', 0)}")
+    print(f"Documents AI failed: {stats.get('ai_failed', 0)}")
     
-    print("-" * 60)
+    if stats.get('validation_errors'):
+        print(f"\nValidation errors ({len(stats['validation_errors'])}):")
+        for error in stats['validation_errors']:
+            print(f"  - {error}")
     
-    try:
-        # Create importer instance
-        importer = DrugLabelImporter(
-            mongo_uri='mongodb://localhost:27017/',
-            db_name='drug_facts_test',  # Use test database
-            collection_name='drugs'
-        )
-        
-        # Load schema
-        if not importer.load_schema("drug_label_schema.yaml"):
-            print("❌ Failed to load schema")
-            return 1
-        
-        # Process the test documents
-        stats = importer.process_documents(test_data)
-        
-        # Print results
-        print("\n" + "="*50)
-        print("📊 TEST RESULTS")
-        print("="*50)
-        print(f"✅ Inserted: {stats['inserted']}")
-        print(f"🔄 Updated: {stats['updated']}")
-        print(f"⏭️  Skipped: {stats['skipped']}")
-        print(f"❌ Failed: {stats['failed']}")
-        
-        if stats['validation_errors']:
-            print(f"\n⚠️  Validation Errors:")
-            for error in stats['validation_errors']:
-                print(f"   - {error}")
-        
-        # Show FDA API results
-        print(f"\n🔗 FDA API Results:")
-        for drug_name, spl_id in importer.spl_link_cache.items():
-            status = "✅ Found" if spl_id else "❌ Not found"
-            print(f"   - {drug_name}: {status}")
-            if spl_id:
-                print(f"     SPL ID: {spl_id}")
-        
-        importer.close()
-        
-        print(f"\n🎉 Test completed successfully!")
-        return 0
-        
-    except Exception as e:
-        print(f"\n❌ Test failed with error: {e}")
-        import traceback
-        traceback.print_exc()
-        return 1
+    # Close connections
+    importer.close()
+
 
 if __name__ == "__main__":
     main()

@@ -9,9 +9,14 @@ node_modules/
 /.nyc_output
 
 # Next.js
+.next/
 /.next/
+out/
 /out/
+build/
 /build
+.next/*
+!.next/.gitkeep
 
 # Production
 /dist
@@ -26,12 +31,13 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# Local env files
-.env*.local
+# Environment variables
+.env
+.env.*
 .env.local
-.env.development.local
-.env.test.local
-.env.production.local
+.env.*.local
+!.env.example
+!.env.*.example
 
 # Vercel
 .vercel
