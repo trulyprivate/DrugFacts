@@ -5,26 +5,72 @@ services:
     build: .
     container_name: drugfacts-wiki
     ports:
-      - "5000:5000"
+      - "5005:5005"
     environment:
       - NODE_ENV=production
-      - PORT=5000
-      # Database configuration (if using PostgreSQL in the future)
-      # - DATABASE_URL=postgresql://username:password@db:5432/drugfacts
+      - PORT=5005
+      - MONGODB_URL=mongodb://mongodb:27017
+      - MONGODB_DB_NAME=drug_facts
     volumes:
       # Optional: Mount logs directory
       - ./logs:/app/logs
     restart: unless-stopped
     depends_on:
-      - db
+      mongodb:
+        condition: service_healthy
+      db-seeder:
+        condition: service_completed_successfully
     networks:
       - drugfacts-network
     healthcheck:
-      test: ["CMD", "node", "-e", "require('http').get('http://localhost:5000', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })"]
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:5005', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })"]
       interval: 30s
       timeout: 10s
       retries: 3
       start_period: 40s
+
+  # MongoDB Database
+  mongodb:
+    image: mongo:7.0
+    container_name: drugfacts-mongodb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: drugfacts_admin_password
+      MONGO_INITDB_DATABASE: drug_facts
+    volumes:
+      - mongodb_data:/data/db
+      - ./database/init:/docker-entrypoint-initdb.d
+    ports:
+      - "27017:27017"
+    restart: unless-stopped
+    networks:
+      - drugfacts-network
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+
+  # Database seeder service
+  db-seeder:
+    build:
+      context: .
+      dockerfile: Dockerfile.seeder
+    container_name: drugfacts-seeder
+    environment:
+      - MONGODB_URL=mongodb://mongodb:27017
+      - MONGODB_DB_NAME=drug_facts
+    volumes:
+      - ./data/drugs:/app/data
+      - ./hardened_mongo_import.py:/app/hardened_mongo_import.py
+      - ./drug_label_schema.yaml:/app/drug_label_schema.yaml
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    networks:
+      - drugfacts-network
+    restart: "no"
 
   # PostgreSQL Database (optional, for future database integration)
   db:
@@ -83,6 +129,7 @@ services:
       - drugfacts-network
 
 volumes:
+  mongodb_data:
   postgres_data:
   redis_data:
 
