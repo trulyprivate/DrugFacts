@@ -127,6 +127,38 @@ services:
     restart: "no"
     profiles: ["ai-seeder"]
 
+  # DDI (Drug-Drug Interaction) Service
+  ddi-service:
+    build:
+      context: ./services/ddi
+      dockerfile: Dockerfile
+    container_name: drugfacts-ddi-service
+    ports:
+      - "3002:3001"
+    environment:
+      - NODE_ENV=production
+      - PORT=3001
+      - MONGODB_URI=mongodb://drugfacts_user:drugfacts_password@mongodb:27017/ddi-service
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - ALLOWED_ORIGINS=http://localhost:3000,http://frontend:3000
+    volumes:
+      - ./logs:/app/logs
+    restart: unless-stopped
+    depends_on:
+      mongodb:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - drugfacts-network
+    healthcheck:
+      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3001/health', (res) => { process.exit(res.statusCode === 200 ? 0 : 1) })"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
   # PostgreSQL Database (optional, for future database integration)
   db:
     image: postgres:15-alpine
