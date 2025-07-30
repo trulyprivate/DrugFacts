@@ -290,33 +290,33 @@ export default async function DrugDetailPage({ params }: { params: Promise<{ slu
           <DrugHeader drug={drug} />
           
           <Tabs defaultValue="professional" className="mt-4 sm:mt-6">
-            <TabsList className="flex w-full h-auto p-1 bg-gray-100 border border-gray-200 rounded-lg">
+            <TabsList className="flex w-full h-auto p-1 bg-gray-100 border border-gray-200 rounded-lg overflow-x-auto overflow-y-hidden">
               <TabsTrigger 
                 value="professional" 
-                className="text-xs sm:text-sm px-4 sm:px-6 py-3 text-center font-medium transition-all duration-200 
+                className="text-xs sm:text-sm px-2 sm:px-4 lg:px-6 py-3 text-center font-medium transition-all duration-200 
                           data-[state=active]:!bg-gray-600 data-[state=active]:!text-white data-[state=active]:!border-gray-600 data-[state=active]:shadow-md
                           data-[state=inactive]:bg-transparent data-[state=inactive]:text-gray-600 data-[state=inactive]:hover:text-gray-700 data-[state=inactive]:hover:bg-gray-50
-                          rounded-lg border border-transparent flex-1 relative"
+                          rounded-lg border border-transparent flex-1 relative min-w-0"
               >
                 <span className="block sm:hidden">Professional</span>
                 <span className="hidden sm:block">Professional Info</span>
               </TabsTrigger>
               <TabsTrigger 
                 value="patient" 
-                className="text-xs sm:text-sm px-4 sm:px-6 py-3 text-center font-medium transition-all duration-200
+                className="text-xs sm:text-sm px-2 sm:px-4 lg:px-6 py-3 text-center font-medium transition-all duration-200
                           data-[state=active]:!bg-gray-600 data-[state=active]:!text-white data-[state=active]:!border-gray-600 data-[state=active]:shadow-md
                           data-[state=inactive]:bg-transparent data-[state=inactive]:text-gray-600 data-[state=inactive]:hover:text-gray-700 data-[state=inactive]:hover:bg-gray-50
-                          rounded-lg border border-transparent flex-1 relative"
+                          rounded-lg border border-transparent flex-1 relative min-w-0"
               >
                 <span className="block sm:hidden">Patient</span>
                 <span className="hidden sm:block">Patient-Friendly</span>
               </TabsTrigger>
               <TabsTrigger 
                 value="faq" 
-                className="text-xs sm:text-sm px-4 sm:px-6 py-3 text-center font-medium transition-all duration-200
+                className="text-xs sm:text-sm px-2 sm:px-4 lg:px-6 py-3 text-center font-medium transition-all duration-200
                           data-[state=active]:!bg-gray-600 data-[state=active]:!text-white data-[state=active]:!border-gray-600 data-[state=active]:shadow-md
                           data-[state=inactive]:bg-transparent data-[state=inactive]:text-gray-600 data-[state=inactive]:hover:text-gray-700 data-[state=inactive]:hover:bg-gray-50
-                          rounded-lg border border-transparent flex-1 relative"
+                          rounded-lg border border-transparent flex-1 relative min-w-0"
               >
                 <span className="block sm:hidden">FAQ</span>
                 <span className="hidden sm:block">FAQ & Related</span>
